@@ -13,10 +13,12 @@
     "inversify": "^6.0.2",
     "mobx": "^6.12.0",
     "mobx-react": "^9.1.0",
+    "navigo": "^8.11.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "reflect-metadata": "^0.1.13",
-    "tree-model": "^1.0.7"
+    "tree-model": "^1.0.7",
+    "vitest": "^0.34.6"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
