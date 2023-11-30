@@ -58,6 +58,7 @@ export class Router {
   }
 
   goToId = async (routeId, params, query) => {
+    console.log("@ Router Presenter", routeId)
     this.routerRepository.goToId(routeId)
   }
 }

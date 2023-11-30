@@ -4,17 +4,16 @@ import IRouterGateway from "./IRouterGateway"
 
 @injectable()
 export class RouterGateway implements IRouterGateway {
-    private router: Navigo
-    private routesSet: boolean = false
+    private navigo: Navigo
     
     constructor() {
-        this.router = new Navigo("/")
+        this.navigo = new Navigo("/")
     }
     
     async registerRoutes(routeConfig: object): Promise<void> {
-        // this is a hack to prevent the router from being initialized twice
-        if (this.routesSet) return new Promise( resolve => setTimeout(resolve, 0))
-        this.router.on(routeConfig)
+        // this is a hack to prevent the navigo from being initialized twice
+        if (this.navigo.routes.length) return new Promise( resolve => setTimeout(resolve, 0))
+        this.navigo.on(routeConfig)
         .notFound(() => {})
         .resolve()
 
@@ -22,11 +21,13 @@ export class RouterGateway implements IRouterGateway {
     }
     
     unload(): void {
-        this.router.destroy()
+        this.navigo.destroy()
     }
     
     // the query object can be used to pass data to the route
     async goToId(routeId: string, queryObject?: object): Promise<void> {
-        this.router.navigateByName(routeId, queryObject)
+        console.log("@ navigoGateway", routeId, queryObject)
+        this.navigo.navigateByName(routeId, queryObject)
+        console.log(this.navigo)
     }
 }

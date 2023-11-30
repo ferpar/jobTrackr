@@ -8,6 +8,7 @@ type Route = {
   routeDef: {
     path: string;
     uses?: string;
+    isSecure: boolean;
   };
 };
 
@@ -27,9 +28,38 @@ export class RouterRepository {
   @inject(Types.IRouterGateway)
   routerGateway: IRouterGateway;
 
-  onRouteChanged : (() => Promise<void>) | null = null;
+  onRouteChanged: (() => Promise<void>) | null = null;
 
-  routes: Route[] = [];
+  routes: Route[] = [
+    {
+      routeId: "homeLink",
+      routeDef: {
+        path: "/",
+        isSecure: false,
+      },
+    },
+    {
+      routeId: "aboutLink",
+      routeDef: {
+        path: "/about",
+        isSecure: false,
+      },
+    },
+    {
+      routeId: "contactLink",
+      routeDef: {
+        path: "/contact",
+        isSecure: false,
+      },
+    },
+    {
+        routeId: 'default',
+        routeDef: {
+          path: '*',
+          isSecure: false
+        },
+      }
+  ];
 
   constructor() {
     makeObservable(this, {
@@ -39,7 +69,7 @@ export class RouterRepository {
 
   async registerRoutes(
     updateCurrentRoute: (routeId: string) => Promise<void>,
-    onRouteChanged: () => Promise<void> 
+    onRouteChanged: () => Promise<void>
   ): Promise<void> {
     this.onRouteChanged = onRouteChanged;
     const routeConfig: RouteConfig = {};
@@ -48,10 +78,12 @@ export class RouterRepository {
       routeConfig[route.routeDef.path] = {
         as: route.routeId,
         hooks: {
-          before: (done) => {
+          before: () => {
+            console.log(this.currentRoute.routeId, route.routeId)
             this.currentRoute.routeId = route.routeId;
-            updateCurrentRoute(route.routeId);
-            done();
+            console.log(this.routerGateway)
+            // updateCurrentRoute(route.routeId);
+            // done();
           },
         },
       };
@@ -66,8 +98,13 @@ export class RouterRepository {
     return (
       route || {
         routeId: "loadingSpinner",
-        routeDef: { path: "", uses: undefined },
+        routeDef: { path: "", uses: undefined, isSecure: false },
       }
     );
+  }
+
+  async goToId(routeId: string): Promise<void> {
+    console.log("at Repository", routeId)
+    this.routerGateway.goToId(routeId);
   }
 }
