@@ -81,9 +81,7 @@ export class RouterRepository {
         uses: () => {},
         hooks: {
           before: (done) => {
-            console.log(this.currentRoute.routeId, route.routeId)
             this.currentRoute.routeId = route.routeId;
-            console.log(this.routerGateway)
             updateCurrentRoute(route.routeId);
             done();
           },
@@ -106,7 +104,6 @@ export class RouterRepository {
   }
 
   async goToId(routeId: string): Promise<void> {
-    console.log("at Repository", routeId)
     this.routerGateway.goToId(routeId);
   }
   

@@ -25,14 +25,11 @@ export class RouterGateway implements IRouterGateway {
     }
     
     // the query object can be used to pass data to the route
-    async goToId(routeId: string, queryObject?: object): Promise<void> {
-        console.log("@ navigoGateway", routeId, queryObject)
-        this.navigo.navigateByName(routeId, queryObject)
-        console.log(this.navigo)
+    async goToId(routeId: string, queryObject?: object): Promise<boolean> {
+        return this.navigo.navigateByName(routeId, queryObject)
     }
     
     async goToPath(path: string): Promise<void> {
-        console.log("@ navigoGateway path", path)
-        this.navigo.navigate(path)
+        return this.navigo.navigate(path)
     }
 }

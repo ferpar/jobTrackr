@@ -6,7 +6,7 @@ import { Router } from "../Routing/Router";
 const NavigationComp = observer(({ router }) => {
   return (
     <div>
-      <button onClick={() => router.goToPath("/")}>Home</button>
+      <button onClick={() => router.goToId("homeLink")}>Home</button>
       <button onClick={() => router.goToPath("/about")}>About</button>
       <button onClick={() => router.goToPath("/contact")}>Contact</button>
     </div>

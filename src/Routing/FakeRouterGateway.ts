@@ -7,5 +7,9 @@ export class FakeRouterGateway implements IRouterGateway {
 
   unload(): void {}
 
-  async goToId(): Promise<void> {}
+  async goToId(): Promise<boolean> {
+    return true
+  }
+
+  async goToPath(): Promise<void> {}
 }
