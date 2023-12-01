@@ -30,4 +30,9 @@ export class RouterGateway implements IRouterGateway {
         this.navigo.navigateByName(routeId, queryObject)
         console.log(this.navigo)
     }
+    
+    async goToPath(path: string): Promise<void> {
+        console.log("@ navigoGateway path", path)
+        this.navigo.navigate(path)
+    }
 }

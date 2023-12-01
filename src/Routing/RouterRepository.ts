@@ -15,6 +15,7 @@ type Route = {
 type RouteConfig = {
   [key: string]: {
     as: string;
+    uses?: () => void;
     hooks: {
       before: (done: () => void) => void;
     };
@@ -77,13 +78,14 @@ export class RouterRepository {
       const route: Route = this.findRoute(routeArg.routeId);
       routeConfig[route.routeDef.path] = {
         as: route.routeId,
+        uses: () => {},
         hooks: {
-          before: () => {
+          before: (done) => {
             console.log(this.currentRoute.routeId, route.routeId)
             this.currentRoute.routeId = route.routeId;
             console.log(this.routerGateway)
-            // updateCurrentRoute(route.routeId);
-            // done();
+            updateCurrentRoute(route.routeId);
+            done();
           },
         },
       };
@@ -106,5 +108,9 @@ export class RouterRepository {
   async goToId(routeId: string): Promise<void> {
     console.log("at Repository", routeId)
     this.routerGateway.goToId(routeId);
+  }
+  
+  async goToPath(path: string): Promise<void> {
+    this.routerGateway.goToPath(path);
   }
 }
