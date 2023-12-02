@@ -14,6 +14,7 @@ let routerRepository;
 
 // we are also testing that the IOC container is wired up correctly
 // and that the RouterGateway is working as expected (w/ navigo)
+// there currently is a dependency on navigo executing a callback to update router state
 describe("routing", () => {
   beforeEach(() => {
     // instantiate IOC container w/ common bindings
