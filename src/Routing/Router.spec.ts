@@ -3,14 +3,12 @@ import { expect, describe, it, beforeEach } from "vitest";
 import { Types } from "../Core/Types";
 import { BaseIOC } from "../BaseIOC";
 import { AppPresenter } from "../AppPresenter";
-import { RouterRepository } from "./RouterRepository";
 import { Router } from "./Router";
 import { RouterGateway } from "./RouterGateway";
 
 let container;
 let appPresenter;
 let router;
-let routerRepository;
 
 // we are also testing that the IOC container is wired up correctly
 // and that the RouterGateway is working as expected (w/ navigo)
@@ -24,7 +22,6 @@ describe("routing", () => {
 
     // get dependencies
     appPresenter = container.get(AppPresenter);
-    routerRepository = container.get(RouterRepository);
     router = container.get(Router);
 
     // load app reactive core
@@ -46,7 +43,7 @@ describe("routing", () => {
   it("should programmatically change route", () => {
     router.registerRoutes(() => {});
     router.goToId("aboutLink");
-    expect(routerRepository.currentRoute).toEqual({
+    expect(router.currentRoute).toEqual({
       routeId: "aboutLink",
     });
   })
