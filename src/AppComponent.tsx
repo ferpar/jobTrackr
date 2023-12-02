@@ -44,7 +44,7 @@ export const AppComp = observer(({ presenter }) => {
         <div className="w3-col s8 w3-left">
           {renderedComponents.map((current) => {
             return (
-              presenter.currentRoute.routeId === current.id && current.component
+              presenter.currentRoute === current.id && current.component
             );
           })}
         </div>

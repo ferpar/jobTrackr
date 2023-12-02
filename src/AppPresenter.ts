@@ -12,7 +12,7 @@ export class AppPresenter {
 //   messagesRepository
 
   get currentRoute() {
-    return this.router.currentRoute
+    return this.router.currentRoute.routeId
   }
 
   constructor() {

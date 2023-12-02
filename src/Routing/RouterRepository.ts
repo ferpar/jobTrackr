@@ -33,6 +33,13 @@ export class RouterRepository {
 
   routes: Route[] = [
     {
+      routeId: "loginLink",
+      routeDef: {
+        path: "/login",
+        isSecure: false,
+      },
+    },
+    {
       routeId: "homeLink",
       routeDef: {
         path: "/",
@@ -81,7 +88,6 @@ export class RouterRepository {
         uses: () => {},
         hooks: {
           before: (done) => {
-            this.currentRoute.routeId = route.routeId;
             updateCurrentRoute(route.routeId);
             done();
           },
