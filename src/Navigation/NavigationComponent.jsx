@@ -2,17 +2,22 @@ import React from "react";
 import { observer } from "mobx-react";
 import { withInjection } from "../Core/Providers/Injection";
 import { Router } from "../Routing/Router";
+import { NavigationPresenter } from "./NavigationPresenter";
 
-const NavigationComp = observer(({ router }) => {
+const NavigationComp = observer(({ router, presenter }) => {
   return (
     <div>
-      <button onClick={() => router.goToId("homeLink")}>Home</button>
-      <button onClick={() => router.goToPath("/about")}>About</button>
-      <button onClick={() => router.goToPath("/contact")}>Contact</button>
+      {presenter.viewModel.menuItems.map( item => {
+        return (
+          <button key={item.id} onClick={() => router.goToId(item.id)}>{item.visibleName}</button>
+        );
+      })}
+      {presenter.viewModel.showBack && <button onClick={() => presenter.back()}>Back</button>}
     </div>
   );
 });
 
 export const NavigationComponent = withInjection({
+  presenter: NavigationPresenter,
   router: Router,
 })(NavigationComp);
