@@ -11,35 +11,58 @@ let router;
 let navigationPresenter;
 
 describe("navigation", () => {
-  beforeEach(() => {
+  beforeEach( async () => {
 		// instantiate IOC container w/ common bindings
 		const testHarness = new AppTestHarness();
 		testHarness.init();
+		await testHarness.setupLogin(GetSuccessfulUserLoginStub);
 		testHarness.bootstrap();
-		testHarness.setupLogin(GetSuccessfulUserLoginStub);
     // load the navigation presenter via ioc container (transient dependency)
 		router = testHarness.container.get(Router);
     navigationPresenter = testHarness.container.get(NavigationPresenter);
   });
-  it.only("has a default view model", () => {
+  it("has a default view model", () => {
     expect(navigationPresenter.viewModel).toEqual({
-      showBack: false,
-      currentSelectedVisibleName: "",
-      currentSelectedBackTarget: { visible: false, id: null },
-      menuItems: [],
-    });
+      "currentSelectedBackTarget": {
+        "id": null,
+        "visible": false,
+      },
+      "currentSelectedVisibleName": "Home > homeLink",
+      "menuItems":[
+        {
+          "id": "aboutLink",
+          "visibleName": "About",
+        },
+        {
+          "id": "contactLink",
+          "visibleName": "Contact",
+        },
+      ],
+      "showBack": false,
+    }
+    );
   });
   it("updates the view model when the route changes", async () => {
     await router.goToId("homeLink");
     expect(navigationPresenter.viewModel).toEqual({
-      showBack: false,
-      currentSelectedVisibleName: "Home > homeLink",
-      currentSelectedBackTarget: { visible: false, id: null },
-      menuItems: [
-        { id: "aboutLink", visibleName: "About" },
-        { id: "contactLink", visibleName: "Contact" },
+      "currentSelectedBackTarget": {
+        "id": null,
+        "visible": false,
+      },
+      "currentSelectedVisibleName": "Home > homeLink",
+      "menuItems": [
+        {
+          "id": "aboutLink",
+          "visibleName": "About",
+        },
+        {
+          "id": "contactLink",
+          "visibleName": "Contact",
+        },
       ],
-    });
+      "showBack": false,
+    }
+    );
     await router.goToId("aboutLink");
     expect(navigationPresenter.viewModel).toEqual({
       showBack: true,

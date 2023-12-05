@@ -45,7 +45,6 @@ export class Router {
       }
 
       if (protectedOrUnauthenticatedRoute) {
-        console.log("protectedOrUnauthenticatedRoute")
         this.routerRepository.goToId("loginLink");
       } else if (publicOrAuthenticatedRoute) {
         if (oldRoute.onLeave) oldRoute.onLeave();
