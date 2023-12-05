@@ -5,6 +5,7 @@ import { AppPresenter } from "../AppPresenter";
 import { Router } from "../Routing/Router";
 import { FakeRouterGateway } from "../Routing/FakeRouterGateway";
 import { RouterGateway } from "../Routing/RouterGateway";
+import { HttpGateway } from '../Core/HttpGateway'
 // import { NavigationPresenter } from "./NavigationPresenter";
 import { vi } from "vitest";
 
@@ -24,6 +25,8 @@ export class AppTestHarness {
     } else { // integration test
     this.container.bind(Types.IRouterGateway).to(RouterGateway);
     }
+
+    this.container.bind(Types.IDataGateway).to(HttpGateway).inSingletonScope()
 
     this.appPresenter = this.container.get(AppPresenter);
     this.router = this.container.get(Router);
