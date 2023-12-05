@@ -39,8 +39,8 @@ export class AppTestHarness {
     }
 
     // 2. bootstrap the app
-    bootstrap = () => {
-        this.appPresenter.load(() => {});
+    bootstrap = (callback = () => {}) => {
+        this.appPresenter.load(callback);
     }
 
     // 3. login or register to the app
