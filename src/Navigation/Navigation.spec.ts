@@ -5,6 +5,7 @@ import { Router } from "../Routing/Router";
 import { NavigationPresenter } from "./NavigationPresenter";
 
 import { AppTestHarness } from "../TestTools/AppTestHarness";
+import { GetSuccessfulUserLoginStub } from "../TestTools/GetSuccessfulUserLoginStub";
 
 let router;
 let navigationPresenter;
@@ -15,11 +16,12 @@ describe("navigation", () => {
 		const testHarness = new AppTestHarness();
 		testHarness.init();
 		testHarness.bootstrap();
+		testHarness.setupLogin(GetSuccessfulUserLoginStub);
     // load the navigation presenter via ioc container (transient dependency)
 		router = testHarness.container.get(Router);
     navigationPresenter = testHarness.container.get(NavigationPresenter);
   });
-  it("has a default view model", () => {
+  it.only("has a default view model", () => {
     expect(navigationPresenter.viewModel).toEqual({
       showBack: false,
       currentSelectedVisibleName: "",

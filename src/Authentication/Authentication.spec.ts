@@ -25,6 +25,7 @@ describe('init', () => {
   beforeEach(() => {
     testHarness = new AppTestHarness()
     testHarness.init()
+    testHarness.setupLogin(GetSuccessfulUserLoginStub)
     router = testHarness.container.get(Router)
     routerRepository = testHarness.container.get(RouterRepository)
     dataGateway = testHarness.container.get(Types.IDataGateway)

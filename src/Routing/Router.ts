@@ -1,19 +1,19 @@
 import { inject, injectable } from "inversify";
 import { makeObservable, computed, action } from "mobx";
-import { MessagesRepository } from '../Core/Messages/MessagesRepository'
+import { MessagesRepository } from "../Core/Messages/MessagesRepository";
 import { RouterRepository } from "./RouterRepository";
-import { UserModel } from '../Authentication/UserModel'
+import { UserModel } from "../Authentication/UserModel";
 
 @injectable()
 export class Router {
   @inject(RouterRepository)
   routerRepository;
 
-    @inject(UserModel)
-    userModel
+  @inject(UserModel)
+  userModel;
 
-    @inject(MessagesRepository)
-    messagesRepository
+  @inject(MessagesRepository)
+  messagesRepository;
 
   get currentRoute() {
     return this.routerRepository.currentRoute;
@@ -29,7 +29,7 @@ export class Router {
   updateCurrentRoute = async (newRouteId, params, query) => {
     const oldRoute = this.routerRepository.findRoute(this.currentRoute.routeId);
     const newRoute = this.routerRepository.findRoute(newRouteId);
-    const hasToken = !!this.userModel.token
+    const hasToken = !!this.userModel.token;
     // const hasToken = true;
     const routeChanged = oldRoute.routeId !== newRoute.routeId;
     const protectedOrUnauthenticatedRoute =
@@ -40,9 +40,12 @@ export class Router {
       newRoute.routeDef.isSecure === false;
 
     if (routeChanged) {
-      this.routerRepository.onRouteChanged();
+      if (this.routerRepository.onRouteChanged) {
+        this.routerRepository.onRouteChanged();
+      }
 
       if (protectedOrUnauthenticatedRoute) {
+        console.log("protectedOrUnauthenticatedRoute")
         this.routerRepository.goToId("loginLink");
       } else if (publicOrAuthenticatedRoute) {
         if (oldRoute.onLeave) oldRoute.onLeave();
@@ -63,7 +66,7 @@ export class Router {
   };
 
   goToId: (routeId: string, params?: object, query?: object) => Promise<void> =
-    async (routeId, params, query) => {
+    async (routeId) => {
       this.routerRepository.goToId(routeId);
     };
 

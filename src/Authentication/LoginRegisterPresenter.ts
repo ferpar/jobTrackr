@@ -1,23 +1,23 @@
-import { injectable, inject } from 'inversify'
-import { makeObservable, observable, action } from 'mobx'
-import { AuthenticationRepository } from './AuthenticationRepository'
-import { MessagesPresenter } from '../Core/Messages/MessagesPresenter'
-import { Router } from '../Routing/Router'
+import { injectable, inject } from "inversify";
+import { makeObservable, observable, action } from "mobx";
+import { AuthenticationRepository } from "./AuthenticationRepository";
+import { MessagesPresenter } from "../Core/Messages/MessagesPresenter";
+import { Router } from "../Routing/Router";
 
 @injectable()
 export class LoginRegisterPresenter extends MessagesPresenter {
   @inject(AuthenticationRepository)
-  authenticationRepository
+  authenticationRepository;
 
   @inject(Router)
-  router
+  router;
 
-  email: string | null = null
-  password: string | null = null
-  option: string | null = null
+  email: string | null = null;
+  password: string | null = null;
+  option: string | null = null;
 
   constructor() {
-    super()
+    super();
     makeObservable(this, {
       email: observable,
       password: observable,
@@ -25,35 +25,42 @@ export class LoginRegisterPresenter extends MessagesPresenter {
       reset: action,
       login: action,
       register: action,
-      logOut: action
-    })
-    this.init()
+      logOut: action,
+    });
+    this.init();
   }
 
   reset = () => {
-    this.email = ''
-    this.password = ''
-    this.option = 'login'
-  }
+    this.email = "";
+    this.password = "";
+    this.option = "login";
+  };
 
   login = async () => {
-    const loginPm = await this.authenticationRepository.login(this.email, this.password)
+    
+    const loginPm = await this.authenticationRepository.login(
+      this.email,
+      this.password
+    );
 
-    this.unpackRepositoryPmToVm(loginPm, 'User logged in')
+    this.unpackRepositoryPmToVm(loginPm, "User logged in");
 
     if (loginPm.success) {
-      this.router.goToId('homeLink')
+      this.router.goToId("homeLink");
     }
-  }
+  };
 
   register = async () => {
-    const registerPm = await this.authenticationRepository.register(this.email, this.password)
+    const registerPm = await this.authenticationRepository.register(
+      this.email,
+      this.password
+    );
 
-    this.unpackRepositoryPmToVm(registerPm, 'User registered')
-  }
+    this.unpackRepositoryPmToVm(registerPm, "User registered");
+  };
 
   logOut = async () => {
-    this.authenticationRepository.logOut()
-    this.router.goToId('loginLink')
-  }
+    this.authenticationRepository.logOut();
+    this.router.goToId("loginLink");
+  };
 }

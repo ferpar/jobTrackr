@@ -23,7 +23,7 @@ export class MessagesPresenter {
 
   init = () => {
     this.showValidationWarning = false
-    this.messagesRepository.reset()
+    // this.messagesRepository.reset()
   }
 
   unpackRepositoryPmToVm = (pm, userMessage) => {

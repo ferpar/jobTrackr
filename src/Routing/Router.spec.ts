@@ -1,27 +1,28 @@
 import "reflect-metadata";
 import { expect, describe, it, beforeEach } from "vitest";
-
 import { AppPresenter } from "../AppPresenter";
 import { Router } from "./Router";
 import { AppTestHarness } from "../TestTools/AppTestHarness";
+import { GetSuccessfulUserLoginStub } from "../TestTools/GetSuccessfulUserLoginStub";
 
 let appPresenter;
 let router;
 
 describe("routing in isolation", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     // instantiate IOC container w/ common bindings
 		const testHarness = new AppTestHarness();
 		testHarness.init();
+    await testHarness.setupLogin(GetSuccessfulUserLoginStub);
 		testHarness.bootstrap();
     router = testHarness.container.get(Router);
     appPresenter = testHarness.container.get(AppPresenter);
   });
   it("should have a current route", () => {
-    expect(appPresenter.currentRoute).toEqual(null);
+    expect(appPresenter.currentRoute).toEqual("homeLink");
   });
   it("should programmatically change route", () => {
-    expect(appPresenter.currentRoute).toEqual(null);
+    expect(appPresenter.currentRoute).toEqual("homeLink");
     router.goToId("aboutLink");
     expect(appPresenter.currentRoute).toEqual("aboutLink");
   });
@@ -32,10 +33,11 @@ describe("routing in isolation", () => {
 // there currently is a dependency on navigo executing a callback to update router state
 // as well as navigo storing the registered routes (when appPresenter.load() is called)
 describe("routing - integrated with navigo", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     // instantiate IOC container w/ common bindings
 		const testHarness = new AppTestHarness();
 		testHarness.init("integration-test");
+    await testHarness.setupLogin(GetSuccessfulUserLoginStub);
 		testHarness.bootstrap();
     router = testHarness.container.get(Router);
     appPresenter = testHarness.container.get(AppPresenter);

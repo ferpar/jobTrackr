@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify'
 import { makeObservable, computed } from 'mobx'
-// import { MessagesRepository } from './Core/Messages/MessagesRepository'
+import { MessagesRepository } from './Core/Messages/MessagesRepository'
 import { Router } from './Routing/Router'
 
 @injectable()
@@ -8,8 +8,8 @@ export class AppPresenter {
   @inject(Router)
   router
 
-//   @inject(MessagesRepository)
-//   messagesRepository
+  @inject(MessagesRepository)
+  messagesRepository
 
   get currentRoute() {
     return this.router.currentRoute.routeId
@@ -23,7 +23,7 @@ export class AppPresenter {
 
   load = (onRouteChange) => {
     const onRouteChangeWrapper = () => {
-    //   this.messagesRepository.appMessages = []
+      this.messagesRepository.appMessages = []
       onRouteChange()
     }
     this.router.registerRoutes(onRouteChangeWrapper)
