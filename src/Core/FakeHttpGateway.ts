@@ -1,4 +1,5 @@
 import { injectable } from "inversify";
+import IDataGateway from "./IDataGateway";
 
 @injectable()
 export class FakeHttpGateway {

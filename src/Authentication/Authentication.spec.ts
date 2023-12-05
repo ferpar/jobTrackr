@@ -6,7 +6,6 @@ import { Router } from '../Routing/Router'
 import { RouterRepository } from '../Routing/RouterRepository'
 import { RouterGateway } from "../Routing/RouterGateway"
 import { LoginRegisterPresenter } from './LoginRegisterPresenter'
-import { UserModel } from "./UserModel"
 import { GetSuccessfulUserLoginStub } from '../TestTools/GetSuccessfulUserLoginStub'
 import { GetFailedUserLoginStub } from '../TestTools/GetFailedUserLoginStub'
 import { GetSuccessfulRegistrationStub } from '../TestTools/GetSuccessfulRegistrationStub'
@@ -17,19 +16,14 @@ let loginRegisterPresenter: LoginRegisterPresenter | null = null
 let router: Router | null = null
 let routerRepository: RouterRepository | null= null
 let routerGateway: RouterGateway | null = null
-let dataGateway = null
-let userModel: UserModel | null = null
 let onRouteChange: (() => void) | null = null
 
 describe('init', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     testHarness = new AppTestHarness()
     testHarness.init()
-    testHarness.setupLogin(GetSuccessfulUserLoginStub)
     router = testHarness.container.get(Router)
     routerRepository = testHarness.container.get(RouterRepository)
-    dataGateway = testHarness.container.get(Types.IDataGateway)
-    userModel = testHarness.container.get(UserModel)
     routerGateway = router?.routerRepository.routerGateway
     loginRegisterPresenter = testHarness.container.get(LoginRegisterPresenter)
     onRouteChange = () => {}
@@ -45,7 +39,8 @@ describe('init', () => {
     })
 
     // would start at null route, but not logged in
-    it('should start at home route, when authenticated', () => {
+    it('should start at home route, when authenticated', async () => {
+      await testHarness?.setupLogin(GetSuccessfulUserLoginStub)
       expect(routerRepository?.currentRoute.routeId).toBe("homeLink")
     })
 

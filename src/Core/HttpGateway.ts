@@ -1,9 +1,10 @@
 import { injectable, inject } from 'inversify'
 import { Config } from './Config'
 import { UserModel } from '../Authentication/UserModel'
+import IDataGateway from './IDataGateway'
 
 @injectable()
-export class HttpGateway {
+export class HttpGateway implements IDataGateway{
   @inject(Config)
   config
 
