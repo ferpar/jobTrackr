@@ -31,6 +31,7 @@ describe('init', () => {
     dataGateway = testHarness.container.get(Types.IDataGateway)
     userModel = testHarness.container.get(UserModel)
     routerGateway = router?.routerRepository.routerGateway
+    loginRegisterPresenter = testHarness.container.get(LoginRegisterPresenter)
     onRouteChange = () => {}
   })
 
@@ -43,8 +44,9 @@ describe('init', () => {
       testHarness?.bootstrap(onRouteChange)
     })
 
-    it('should start at null route', () => {
-      expect(routerRepository?.currentRoute.routeId).toBe(null)
+    // would start at null route, but not logged in
+    it('should start at home route, when authenticated', () => {
+      expect(routerRepository?.currentRoute.routeId).toBe("homeLink")
     })
 
     describe('routing', () => {
@@ -54,7 +56,8 @@ describe('init', () => {
         expect(routerGateway?.goToId).toHaveBeenLastCalledWith('loginLink')
       })
 
-      it('should block secure routes when not logged in', () => {
+      it('should block secure routes when not logged in', async () => {
+        await loginRegisterPresenter?.logOut() 
         router?.goToId('homeLink')
 
         expect(routerGateway?.goToId).toHaveBeenLastCalledWith('loginLink')
