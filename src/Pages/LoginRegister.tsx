@@ -10,7 +10,7 @@ const LoginRegisterComp = observer(({ presenter }): React.ReactElement => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    presenter.submit();
+    presenter.option === "register" ? presenter.register() : presenter.login();
   };
 
   // initially clearing the form, setting option to login
@@ -26,6 +26,7 @@ const LoginRegisterComp = observer(({ presenter }): React.ReactElement => {
           <div className="form-group">
             <label htmlFor="email-input">Email address</label>
             <input
+              required={true}
               type="email"
               className="form-control"
               id="email-input"
@@ -37,6 +38,7 @@ const LoginRegisterComp = observer(({ presenter }): React.ReactElement => {
           <div className="form-group">
             <label htmlFor="password-input">Password</label>
             <input
+              required={true}
               type="password"
               className="form-control"
               id="password-input"

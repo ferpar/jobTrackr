@@ -9,6 +9,7 @@ import Home from "./Pages/Home.tsx";
 import About from "./Pages/About.tsx";
 import Contact from "./Pages/Contact.tsx";
 import NotFound from "./Pages/NotFound.tsx";
+import Logout from "./Components/Logout.tsx";
 
 export const AppComp = observer(({ presenter }) => {
   React.useEffect(() => {
@@ -48,6 +49,7 @@ export const AppComp = observer(({ presenter }) => {
               return presenter.currentRoute === current.id && current.component;
             })}
           </div>
+          <Logout />
         </div>
       )}
     </div>
