@@ -72,7 +72,7 @@ export class LoginRegisterPresenter extends MessagesPresenter {
     if (!this.option) {
       return "uninitialized";
     }
-    return this.option === "login" ? "Welcome" : "Register new User";
+    return this.option === "login" ? "Welcome" : "Create new Account";
   }
 
   get switchButtonTitle () {

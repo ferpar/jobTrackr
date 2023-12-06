@@ -22,28 +22,30 @@ const LoginRegisterComp = observer(({ presenter }): React.ReactElement => {
     <div>
       <h2>{presenter.title}</h2>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Email address</label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            placeholder="Enter email"
-            value={presenter.email}
-            onChange={(e) => (presenter.email = e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            placeholder="Password"
-            value={presenter.password}
-            onChange={(e) => (presenter.password = e.target.value)}
-          />
-        </div>
+        <fieldset>
+          <div className="form-group">
+            <label htmlFor="email-input">Email address</label>
+            <input
+              type="email"
+              className="form-control"
+              id="email-input"
+              placeholder="Enter email"
+              value={presenter.email}
+              onChange={(e) => (presenter.email = e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password-input">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="password-input"
+              placeholder="Password"
+              value={presenter.password}
+              onChange={(e) => (presenter.password = e.target.value)}
+            />
+          </div>
+        </fieldset>
         <button type="submit" className="btn btn-primary">
           {presenter.submitButtonTitle}
         </button>
