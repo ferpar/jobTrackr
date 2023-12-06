@@ -10,6 +10,7 @@ export class MessagesPresenter {
   showValidationWarning: boolean | null = null
 
   get messages() {
+
     return this.messagesRepository.appMessages
   }
 
@@ -23,7 +24,6 @@ export class MessagesPresenter {
 
   init = () => {
     this.showValidationWarning = false
-    // this.messagesRepository.reset()
   }
 
   unpackRepositoryPmToVm = (pm, userMessage) => {
