@@ -1,5 +1,5 @@
 import { injectable, inject } from "inversify";
-import { makeObservable, observable, action } from "mobx";
+import { makeObservable, observable, action, computed } from "mobx";
 import { AuthenticationRepository } from "./AuthenticationRepository";
 import { MessagesPresenter } from "../Core/Messages/MessagesPresenter";
 import { Router } from "../Routing/Router";
@@ -26,6 +26,9 @@ export class LoginRegisterPresenter extends MessagesPresenter {
       login: action,
       register: action,
       logOut: action,
+      title: computed,
+      switchButtonTitle: computed,
+      submitButtonTitle: computed,
     });
     this.init();
   }
@@ -35,6 +38,7 @@ export class LoginRegisterPresenter extends MessagesPresenter {
     this.password = "";
     this.option = "login";
   };
+
 
   login = async () => {
     
@@ -63,4 +67,19 @@ export class LoginRegisterPresenter extends MessagesPresenter {
     this.authenticationRepository.logOut();
     this.router.goToId("loginLink");
   };
+
+  get title () {
+    if (!this.option) {
+      return "uninitialized";
+    }
+    return this.option === "login" ? "Welcome" : "Register new User";
+  }
+
+  get switchButtonTitle () {
+    return this.option === "login" ? "Have no Account?" : "Already have an Account?";
+  }
+
+  get submitButtonTitle () {
+    return this.option === "login" ? "Login" : "Register";
+  }
 }
