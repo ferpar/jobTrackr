@@ -3,8 +3,6 @@ import { observer } from "mobx-react";
 import { withInjection } from "./Core/Providers/Injection";
 import { AppPresenter } from "./AppPresenter";
 import { NavigationComponent } from "./Navigation/NavigationComponent";
-// import { HomeComponent } from './Home/HomeComponent'
-// import { LoginRegisterComponent } from './Authentication/LoginRegisterComponent'
 // import { MessagesRepository } from './Core/Messages/MessagesRepository'
 import LoginRegister from "./Pages/LoginRegister.tsx";
 import Home from "./Pages/Home.tsx";
