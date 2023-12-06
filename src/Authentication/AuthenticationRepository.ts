@@ -13,6 +13,9 @@ export class AuthenticationRepository {
   @inject(Types.IDataGateway)
   dataGateway
 
+  @inject(Types.ILocalStorageGateway)
+  localStorageGateway
+
   @inject(UserModel)
   userModel
 
@@ -31,6 +34,8 @@ export class AuthenticationRepository {
     if (loginDto.success) {
       this.userModel.email = email
       this.userModel.token = loginDto.result.token
+      this.localStorageGateway.set('token', loginDto.result.token)
+      this.localStorageGateway.set('email', loginDto.result.email)
     }
 
     return MessagePacking.unpackServerDtoToPm(loginDto)
@@ -48,5 +53,7 @@ export class AuthenticationRepository {
   logOut = async () => {
     this.userModel.email = ''
     this.userModel.token = ''
+    this.localStorageGateway.remove('token')
+    this.localStorageGateway.remove('email') 
   }
 }

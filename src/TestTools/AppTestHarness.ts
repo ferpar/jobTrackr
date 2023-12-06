@@ -9,6 +9,7 @@ import { FakeHttpGateway } from "../Core/FakeHttpGateway";
 import { UserModel } from "../Authentication/UserModel";
 import { LoginRegisterPresenter } from "../Authentication/LoginRegisterPresenter";
 import { vi } from "vitest";
+import { FakeLocalStorageGateway } from "../Core/LocalStorage/FakeLocalStorageGateway";
 
 export class AppTestHarness {
   container;
@@ -31,6 +32,8 @@ export class AppTestHarness {
     }
 
     this.container.bind(Types.IDataGateway).to(FakeHttpGateway);
+
+    this.container.bind(Types.ILocalStorageGateway).to(FakeLocalStorageGateway);
 
     this.appPresenter = this.container.get(AppPresenter);
     this.router = this.container.get(Router);
