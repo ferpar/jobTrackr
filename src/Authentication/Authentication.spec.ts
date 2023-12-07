@@ -82,9 +82,11 @@ describe("init", () => {
       });
 
       // would start at null route, but not logged in
-      it("should start at home route, when authenticated", async () => {
+      it("should start at home route, when authenticated (and populate the user model)", async () => {
         await testHarness?.setupLogin(GetSuccessfulUserLoginStub);
         expect(routerRepository?.currentRoute.routeId).toBe("homeLink");
+        expect(testHarness?.userModel?.email).toBe("a@b.com");
+        expect(testHarness?.userModel?.token).toBe("a@b1234.com");
       });
     });
   });
