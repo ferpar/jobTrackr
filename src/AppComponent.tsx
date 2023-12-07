@@ -10,11 +10,14 @@ import About from "./Pages/About.tsx";
 import Contact from "./Pages/Contact.tsx";
 import NotFound from "./Pages/NotFound.tsx";
 import Logout from "./Components/Logout.tsx";
+import { useValidation } from "./Core/Providers/Validation.tsx";
 
 export const AppComp = observer(({ presenter }) => {
-  React.useEffect(() => {
-    presenter.load(() => {});
-  }, [presenter]);
+  const [, updateClientValidationMessages] = useValidation();
+
+  const onRouteChange = () => {
+    updateClientValidationMessages([]);
+  };
 
   const renderedComponents = [
     {
@@ -34,6 +37,10 @@ export const AppComp = observer(({ presenter }) => {
       component: <NotFound key="notFound" />,
     },
   ];
+
+  React.useEffect(() => {
+    presenter.load(onRouteChange);
+  }, [presenter]);
 
   return (
     <div className="container">

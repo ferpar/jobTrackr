@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { observer } from 'mobx-react'
 import { MessagesPresenter } from './MessagesPresenter'
 import { withInjection } from '../Providers/Injection'

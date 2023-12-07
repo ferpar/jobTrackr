@@ -2,15 +2,33 @@ import React from "react";
 import { observer } from "mobx-react";
 import { withInjection } from "../Core/Providers/Injection";
 import { LoginRegisterPresenter } from "../Authentication/LoginRegisterPresenter";
+import { MessagesComponent } from "../Core/Messages/MessagesComponent";
+import { useValidation } from "../Core/Providers/Validation";
 
 const LoginRegisterComp = observer(({ presenter }): React.ReactElement => {
+  const [messages, updateClientValidationMessages] = useValidation();
+  const formValid = () => {
+    const clientValidationMessages: Array<string> = [];
+    if (presenter.email === "") {
+      clientValidationMessages.push("Email is required");
+    }
+    if (presenter.password === "") {
+      clientValidationMessages.push("Password is required");
+    }
+    updateClientValidationMessages(clientValidationMessages);
+    return clientValidationMessages.length === 0;
+  }
   const switchOption = () => {
     presenter.option = presenter.option === "register" ? "login" : "register";
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    presenter.option === "register" ? presenter.register() : presenter.login();
+    if (!formValid()) {
+      return;
+    }
+    presenter.option === "register" ? presenter.register() :
+    presenter.login();
   };
 
   // initially clearing the form, setting option to login
@@ -26,7 +44,6 @@ const LoginRegisterComp = observer(({ presenter }): React.ReactElement => {
           <div className="form-group">
             <label htmlFor="email-input">Email address</label>
             <input
-              required={true}
               type="email"
               className="form-control"
               id="email-input"
@@ -38,7 +55,6 @@ const LoginRegisterComp = observer(({ presenter }): React.ReactElement => {
           <div className="form-group">
             <label htmlFor="password-input">Password</label>
             <input
-              required={true}
               type="password"
               className="form-control"
               id="password-input"
@@ -48,6 +64,7 @@ const LoginRegisterComp = observer(({ presenter }): React.ReactElement => {
             />
           </div>
         </fieldset>
+        <MessagesComponent />
         <button type="submit" className="btn btn-primary">
           {presenter.submitButtonTitle}
         </button>

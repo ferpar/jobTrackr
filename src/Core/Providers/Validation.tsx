@@ -1,21 +1,31 @@
-import React from 'react'
+import React from "react";
 
-const ValidationContext = React.createContext<{clientValidationMessages: Array<string>, updateClientValidationMessages: object}>({
+export type ValidationContextType = {
+  clientValidationMessages: Array<string>;
+  updateClientValidationMessages: (message) => void;
+};
+
+
+const ValidationContext = React.createContext<ValidationContextType>({
   clientValidationMessages: [],
-  updateClientValidationMessages: () => {}
-})
+  updateClientValidationMessages: () => {},
+});
 
 export const ValidationProvider = (props) => {
-  const [clientValidationMessages, updateClientValidationMessages] = React.useState([])
+  const [clientValidationMessages, updateClientValidationMessages] =
+    React.useState([]);
 
   return (
-    <ValidationContext.Provider value={{ clientValidationMessages, updateClientValidationMessages }}>
+    <ValidationContext.Provider
+      value={{ clientValidationMessages, updateClientValidationMessages }}
+    >
       {props.children}
     </ValidationContext.Provider>
-  )
-}
+  );
+};
 
-export function useValidation(): [Array<string>, object] {
-  const { clientValidationMessages, updateClientValidationMessages } = React.useContext(ValidationContext)
-  return [clientValidationMessages, updateClientValidationMessages]
+export function useValidation(): [Array<string>, (messages) => void] {
+  const { clientValidationMessages, updateClientValidationMessages } =
+    React.useContext(ValidationContext);
+  return [clientValidationMessages, updateClientValidationMessages];
 }
