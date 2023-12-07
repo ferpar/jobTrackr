@@ -9,12 +9,15 @@ export class MessagesPresenter {
 
   showValidationWarning: boolean | null = null
 
+  id: string
+
   get messages() {
 
     return this.messagesRepository.appMessages
   }
 
   constructor() {
+    this.id = Math.random().toString(36).substr(2, 9)
     makeObservable(this, {
       showValidationWarning: observable,
       messages: computed,

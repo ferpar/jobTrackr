@@ -54,14 +54,28 @@ export class AppTestHarness {
   // 3. login or register to the app
   setupLogin = async (loginStub) => {
     this.loginRegisterPresenter = this.container.get(LoginRegisterPresenter);
-    this.authGateway = this.loginRegisterPresenter.authenticationRepository.dataGateway;
-    this.authGateway.post = vi.fn().mockImplementation( async () => {
-        return await Promise.resolve(loginStub())
-    })
-    this.loginRegisterPresenter.email = "a@b.com"
-    this.loginRegisterPresenter.password = "123"
-    this.loginRegisterPresenter.option = "login"
-    await this.loginRegisterPresenter.login()
-    return this.loginRegisterPresenter
+    this.authGateway =
+      this.loginRegisterPresenter.authenticationRepository.dataGateway;
+    this.authGateway.post = vi.fn().mockImplementation(async () => {
+      return await Promise.resolve(loginStub());
+    });
+    this.loginRegisterPresenter.email = "a@b.com";
+    this.loginRegisterPresenter.password = "1234";
+    this.loginRegisterPresenter.option = "login";
+    await this.loginRegisterPresenter.login();
+    return this.loginRegisterPresenter;
+  };
+
+  setupRegister = async (registerStub) => {
+    this.loginRegisterPresenter = this.container.get(LoginRegisterPresenter);
+    this.authGateway =
+      this.loginRegisterPresenter.authenticationRepository.dataGateway;
+    this.authGateway.post = vi.fn().mockImplementation(async () => {
+      return await Promise.resolve(registerStub());
+    });
+    this.loginRegisterPresenter.email = "a@c.com";
+    this.loginRegisterPresenter.password = "1244";
+    await this.loginRegisterPresenter.register();
+    return this.loginRegisterPresenter;
   };
 }
