@@ -92,4 +92,84 @@ describe("navigation", () => {
     await navigationPresenter.back();
     expect(router.currentRoute.routeId).toEqual("homeLink");
   });
+  it("should navigate down the navigation tree", async () => {
+
+    // anchor at home
+    await router.goToId("homeLink")
+    expect(router.currentRoute.routeId).toEqual("homeLink")
+
+    // pivot to authors, then author policy
+    await router.goToId("authorsLink");
+    expect(router.currentRoute.routeId).toEqual("authorsLink");
+    await router.goToId("authorsLink-authorPolicyLink");
+    expect(router.currentRoute.routeId).toEqual("authorsLink-authorPolicyLink");
+
+    expect(navigationPresenter.viewModel).toEqual({
+      "currentSelectedBackTarget": {
+        "id": "authorsLink",
+        "visible": true,
+      },
+      "currentSelectedVisibleName": "Authors Policy > authorsLink-authorPolicyLink",
+      "menuItems": [],
+      "showBack": true,
+    })
+  })
+  it("should move back twice", async () => {
+    // anchor at authors policy
+    await router.goToId("authorsLink-authorPolicyLink");
+    expect(router.currentRoute.routeId).toEqual("authorsLink-authorPolicyLink");
+
+    // pivot to authors, then home
+    await navigationPresenter.back();
+    expect(router.currentRoute.routeId).toEqual("authorsLink");
+
+    expect(navigationPresenter.viewModel).toEqual({
+      "currentSelectedBackTarget": {
+          "id": "homeLink",
+          "visible": true,
+        },
+      "currentSelectedVisibleName": "Authors > authorsLink",
+      "menuItems": [
+        {
+          "id": "authorsLink-authorPolicyLink",
+          "visibleName": "Authors Policy",
+        },
+        {
+          "id": "authorsLink-maplink",
+          "visibleName": "View Map",
+        },
+      ],
+      "showBack": true,
+    })
+
+    await navigationPresenter.back();
+    expect(router.currentRoute.routeId).toEqual("homeLink");
+
+    expect(navigationPresenter.viewModel).toEqual({
+      "currentSelectedBackTarget": {
+        "id": null,
+        "visible": false,
+      },
+      "currentSelectedVisibleName": "Home > homeLink",
+      "menuItems": [
+        {
+          "id": "aboutLink",
+          "visibleName": "About",
+        },
+        {
+          "id": "contactLink",
+          "visibleName": "Contact",
+        },
+        { 
+          "id": "booksLink",
+          "visibleName": "Books"
+        },
+        {
+          "id": "authorsLink",
+          "visibleName": "Authors",
+        }
+      ],
+      "showBack": false,
+    })
+  })
 });
