@@ -78,16 +78,59 @@ describe("init", () => {
         // this represents the user accessing the app for the first time (no token)
         router?.goToId("homeLink");
         // gets redirected to the login if going to a secure route
-        expect(routerRepository?.currentRoute.routeId).toBe("loginLink");
+        const appPresenter = testHarness?.appPresenter;
+        expect(appPresenter.currentRoute).toBe("loginLink");
       });
 
       // would start at null route, but not logged in
       it("should start at home route, when authenticated (and populate the user model)", async () => {
         await testHarness?.setupLogin(GetSuccessfulUserLoginStub);
-        expect(routerRepository?.currentRoute.routeId).toBe("homeLink");
+        const appPresenter = testHarness?.appPresenter;
+        expect(appPresenter.currentRoute).toBe("homeLink");
         expect(testHarness?.userModel?.email).toBe("a@b.com");
         expect(testHarness?.userModel?.token).toBe("a@b1234.com");
       });
+
+      it("should update the route when successfully logged in", async () => {
+        // about is a private route
+        await testHarness?.setupLogin(GetSuccessfulUserLoginStub);
+        router?.goToId("aboutLink");
+        const appPresenter = testHarness?.appPresenter;
+        expect(appPresenter.currentRoute).toBe("aboutLink");
+      })
+
+      it("should show not update route when failed login", async () => {
+        //start at login
+        router?.goToId("loginLink");
+        // fail login
+        await testHarness?.setupLogin(GetFailedUserLoginStub);
+        // attempt to go to about
+        router?.goToId("aboutLink");
+        const appPresenter = testHarness?.appPresenter;
+        // should still be at login
+        expect(appPresenter.currentRoute).toBe("loginLink");
+      })
+
+      it("should show failed user message on failed login", async () => {
+        const loginRegisterPresenter = await testHarness?.setupLogin(GetFailedUserLoginStub);
+        expect(loginRegisterPresenter?.messages).toEqual([
+          "Failed: no user record.",
+        ]);
+        expect(loginRegisterPresenter?.showValidationWarning).toBe(true);
+      })
+
+      it("should clear messages on route change", async () => {
+        const loginRegisterPresenter = await testHarness?.setupLogin(GetFailedUserLoginStub);
+        expect(loginRegisterPresenter?.messages).toEqual([
+          "Failed: no user record.",
+        ]);
+        expect(loginRegisterPresenter?.showValidationWarning).toBe(true);
+        console.log("before route change");
+        router?.goToId("loginLink");
+        console.log("after route change");
+        expect(loginRegisterPresenter?.messages).toEqual([]);
+        expect(loginRegisterPresenter?.showValidationWarning).toBe(false);
+      })
     });
   });
 });
