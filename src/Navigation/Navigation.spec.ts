@@ -37,6 +37,14 @@ describe("navigation", () => {
           "id": "contactLink",
           "visibleName": "Contact",
         },
+        { 
+          "id": "booksLink",
+          "visibleName": "Books"
+        },
+        {
+          "id": "authorsLink",
+          "visibleName": "Authors",
+        }
       ],
       "showBack": false,
     }
@@ -59,6 +67,14 @@ describe("navigation", () => {
           "id": "contactLink",
           "visibleName": "Contact",
         },
+        { 
+          "id": "booksLink",
+          "visibleName": "Books"
+        },
+        {
+          "id": "authorsLink",
+          "visibleName": "Authors",
+        }
       ],
       "showBack": false,
     }

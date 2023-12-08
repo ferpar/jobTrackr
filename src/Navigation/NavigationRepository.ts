@@ -45,6 +45,31 @@ export class NavigationRepository {
           text: "Contact",
           children: [],
         },
+        {
+          id: "booksLink",
+          type: "link",
+          text: "Books",
+          children: []
+        },
+        {
+          id: "authorsLink",
+          type: "link",
+          text: "Authors",
+          children: [
+            {
+              id: "authorsLink-authorPolicyLink",
+              type: "link",
+              text: "Authors Policy",
+              children: []
+            },
+            {
+              id: "authorsLink-maplink",
+              type: "link",
+              text: "View Map",
+              children: []
+            }
+          ]
+        }
       ],
     });
 

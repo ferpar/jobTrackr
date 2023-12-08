@@ -11,6 +11,8 @@ import Contact from "./Pages/Contact.tsx";
 import NotFound from "./Pages/NotFound.tsx";
 import Logout from "./Components/Logout.tsx";
 import { useValidation } from "./Core/Providers/Validation.tsx";
+import { Books } from "./Pages/Books.tsx";
+import { Authors } from "./Pages/Authors.tsx";
 
 export const AppComp = observer(({ presenter }) => {
   const [, updateClientValidationMessages] = useValidation();
@@ -31,6 +33,14 @@ export const AppComp = observer(({ presenter }) => {
     {
       id: "contactLink",
       component: <Contact key="contactPage" />,
+    },
+    {
+      id: "booksLink",
+      component: <Books key="booksPage" />,
+    },
+    {
+      id: "authorsLink",
+      component: <Authors key="authorsPage" />,
     },
     {
       id: "default",

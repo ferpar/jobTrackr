@@ -2,6 +2,7 @@ import { makeObservable, observable } from "mobx";
 import { inject, injectable } from "inversify";
 import type IRouterGateway from "./IRouterGateway";
 import { Types } from "../Core/Types";
+import { BooksRepository } from "../Books/BooksRepository";
 
 type Route = {
   routeId: string;
@@ -10,6 +11,8 @@ type Route = {
     uses?: string;
     isSecure: boolean;
   };
+  onEnter?: () => void;
+  onLeave?: () => void;
 };
 
 type RouteConfig = {
@@ -28,6 +31,9 @@ export class RouterRepository {
 
   @inject(Types.IRouterGateway)
   routerGateway: IRouterGateway;
+
+  @inject(BooksRepository)
+  booksRepository: BooksRepository;
 
   onRouteChanged: (() => Promise<void>) | null = null;
 
@@ -61,12 +67,46 @@ export class RouterRepository {
       },
     },
     {
-        routeId: 'default',
-        routeDef: {
-          path: '*',
-          isSecure: true
-        },
-      }
+      routeId: "booksLink",
+      routeDef: {
+        path: "/books",
+        isSecure: true,
+      },
+      onEnter: () => {
+        this.booksRepository.load()
+      },
+      onLeave: () => {
+        this.booksRepository.reset()
+      },
+    },
+    {
+      routeId: "authorsLink",
+      routeDef: {
+        path: "/authors",
+        isSecure: true,
+      },
+    },
+    {
+      routeId: "authorsLink-authorPolicyLink",
+      routeDef: {
+        path: "/authors/policy",
+        isSecure: false,
+      },
+    },
+    {
+      routeId: "authorsLink-maplink",
+      routeDef: {
+        path: "/authors/map",
+        isSecure: false,
+      },
+    },
+    {
+      routeId: "default",
+      routeDef: {
+        path: "*",
+        isSecure: false,
+      },
+    },
   ];
 
   constructor() {
@@ -112,7 +152,7 @@ export class RouterRepository {
   async goToId(routeId: string): Promise<void> {
     this.routerGateway.goToId(routeId);
   }
-  
+
   async goToPath(path: string): Promise<void> {
     this.routerGateway.goToPath(path);
   }
