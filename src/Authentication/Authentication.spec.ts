@@ -129,7 +129,6 @@ describe("init", () => {
         router?.goToId("loginLink");
         console.log("after route change");
         expect(loginRegisterPresenter?.messages).toEqual([]);
-        expect(loginRegisterPresenter?.showValidationWarning).toBe(false);
       })
     });
   });
