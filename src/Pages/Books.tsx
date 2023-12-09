@@ -7,6 +7,7 @@ const BooksComp = observer(({ booksPresenter }) => {
     return (
         <div>
             <h1>Books</h1>
+            <p>{booksPresenter.messagePm}</p>
             <ul>
                 {/* {booksPresenter.viewModel.books.map((book) => (
                     <li key={book.id}>{book.name}</li>

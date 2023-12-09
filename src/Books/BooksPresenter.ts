@@ -13,6 +13,10 @@ export class BooksPresenter {
         return this.booksRepository.books
     }
 
+    get messagePm() {
+        return this.booksRepository.messagePm
+    }
+
     constructor () {
         makeObservable(this, {
             newBookTitle: observable,
