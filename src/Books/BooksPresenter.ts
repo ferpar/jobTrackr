@@ -21,6 +21,7 @@ export class BooksPresenter {
         makeObservable(this, {
             newBookTitle: observable,
             viewModel: computed,
+            messagePm: computed
         })
     }
 

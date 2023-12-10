@@ -11,7 +11,7 @@ import Contact from "./Pages/Contact.tsx";
 import NotFound from "./Pages/NotFound.tsx";
 import Logout from "./Components/Logout.tsx";
 import { useValidation } from "./Core/Providers/Validation.tsx";
-import { Books } from "./Pages/Books.tsx";
+import { Books } from "./Books/Books.tsx";
 import { Authors } from "./Pages/Authors.tsx";
 
 export const AppComp = observer(({ presenter }) => {

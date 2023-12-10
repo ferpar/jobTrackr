@@ -47,8 +47,8 @@ export class Router {
       if (protectedOrUnauthenticatedRoute) {
         this.routerRepository.goToId("loginLink");
       } else if (publicOrAuthenticatedRoute) {
-        if (oldRoute.onLeave) oldRoute.onLeave();
-        if (newRoute.onEnter) newRoute.onEnter();
+        if (oldRoute.onLeave) await oldRoute.onLeave();
+        if (newRoute.onEnter) await newRoute.onEnter();
         this.routerRepository.currentRoute.routeId = newRoute.routeId;
         this.routerRepository.currentRoute.routeDef = newRoute.routeDef;
         this.routerRepository.currentRoute.params = params;

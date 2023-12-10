@@ -1,18 +1,15 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { withInjection } from '../Core/Providers/Injection';
-import { BooksPresenter } from '../Books/BooksPresenter';
+import { BooksPresenter } from './BooksPresenter';
+import { BookList } from './BookList/BookList';
 
 const BooksComp = observer(({ booksPresenter }) => {
     return (
         <div>
             <h1>Books</h1>
             <p>{booksPresenter.messagePm}</p>
-            <ul>
-                {/* {booksPresenter.viewModel.books.map((book) => (
-                    <li key={book.id}>{book.name}</li>
-                ))} */}
-            </ul>
+            <BookList />
         </div>
     )
 })
