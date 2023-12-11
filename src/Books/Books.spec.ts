@@ -76,7 +76,7 @@ describe("books feature", () => {
     });
   });
 
-  describe("saving", () => {
+  describe("saving (adding books)", () => {
     beforeEach(async () => {
       dataGateway.get = vi.fn().mockImplementation(async () => {
         return await Promise.resolve(BooksResultStub());
@@ -87,9 +87,11 @@ describe("books feature", () => {
     });
     it("should reload books list", async () => {
       expect(bookListPresenter?.viewModel.length).toBe(0);
+      if (booksPresenter) booksPresenter.newBookTitle = "new book";
       await booksPresenter?.addBook();
-      expect(dataGateway.post).toHaveBeenCalled();
-      expect(booksPresenter?.messagePm).toBe("ADDED");
+      expect(dataGateway.post).toHaveBeenCalledWith(
+        "/books", { title: "new book", emailOwnerId: booksRepository?.userModel.email },
+      );
       expect(booksPresenter?.viewModel).toEqual([
         {
           bookId: 881,
@@ -119,7 +121,11 @@ describe("books feature", () => {
     });
     it('should update books message', async () => {
       expect(booksPresenter?.messagePm).toBe('UNSET')
+      if (booksPresenter) booksPresenter.newBookTitle = "new book";
       await booksPresenter?.addBook();
+      expect(dataGateway.post).toHaveBeenCalledWith(
+        "/books", { title: "new book", emailOwnerId: booksRepository?.userModel.email },
+      );
       expect(booksPresenter?.messagePm).toBe('ADDED')
     })
   });

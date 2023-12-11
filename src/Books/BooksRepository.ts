@@ -40,7 +40,7 @@ export class BooksRepository {
         this.messagePm = 'RESET'
     }
 
-    addBook = async (title) => {
+    addBook = async (title: string) => {
         this.messagePm = 'ADDING'
         await this.dataGateway.post('/books', { 
             title,
