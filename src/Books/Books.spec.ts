@@ -8,6 +8,7 @@ import { BooksPresenter } from "./BooksPresenter";
 import { BookListPresenter } from "./BookList/BookListPresenter";
 import { BooksRepository } from "./BooksRepository";
 import { Router } from "../Routing/Router";
+import { GetSuccessfulBookAddedStub } from "../TestTools/GetSuccessfulBookAddedStub";
 
 let testHarness: AppTestHarness | null = null;
 let dataGateway: any = null;
@@ -75,10 +76,51 @@ describe("books feature", () => {
     });
   });
 
-  //   describe("saving", () => {
-  // beforeEach(async () => {
-  // })
-  // it('should reload books list', async () => {})
-  // it('should update books message', async () => {})
-  //   });
+  describe("saving", () => {
+    beforeEach(async () => {
+      dataGateway.get = vi.fn().mockImplementation(async () => {
+        return await Promise.resolve(BooksResultStub());
+      });
+      dataGateway.post = vi.fn().mockImplementation(async () => {
+        return await Promise.resolve(GetSuccessfulBookAddedStub());
+      });
+    });
+    it("should reload books list", async () => {
+      expect(bookListPresenter?.viewModel.length).toBe(0);
+      await booksPresenter?.addBook();
+      expect(dataGateway.post).toHaveBeenCalled();
+      expect(booksPresenter?.messagePm).toBe("ADDED");
+      expect(booksPresenter?.viewModel).toEqual([
+        {
+          bookId: 881,
+          devOwnerId: "pete@logicroom.co",
+          emailOwnerId: "a@b.com",
+          name: "Wind in the willows",
+        },
+        {
+          bookId: 891,
+          devOwnerId: "pete@logicroom.co",
+          emailOwnerId: "a@b.com",
+          name: "I, Robot",
+        },
+        {
+          bookId: 901,
+          devOwnerId: "pete@logicroom.co",
+          emailOwnerId: "a@b.com",
+          name: "The Hobbit",
+        },
+        {
+          bookId: 911,
+          devOwnerId: "pete@logicroom.co",
+          emailOwnerId: "a@b.com",
+          name: "Wind In The Willows 2",
+        },
+      ]);
+    });
+    it('should update books message', async () => {
+      expect(booksPresenter?.messagePm).toBe('UNSET')
+      await booksPresenter?.addBook();
+      expect(booksPresenter?.messagePm).toBe('ADDED')
+    })
+  });
 });

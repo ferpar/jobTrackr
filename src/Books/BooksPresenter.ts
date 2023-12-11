@@ -29,4 +29,8 @@ export class BooksPresenter {
         this.newBookTitle = ''
     }
 
+    addBook = async () => {
+        await this.booksRepository.addBook(this.newBookTitle)
+    }
+
 }

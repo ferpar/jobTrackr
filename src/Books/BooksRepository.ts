@@ -39,4 +39,14 @@ export class BooksRepository {
     reset = () => {
         this.messagePm = 'RESET'
     }
+
+    addBook = async (title) => {
+        this.messagePm = 'ADDING'
+        await this.dataGateway.post('/books', { 
+            title,
+            emailOwnerId: this.userModel.email,
+        })
+        await this.load()
+        this.messagePm = 'ADDED'
+    }
 }

@@ -1,7 +1,6 @@
-export function GetSuccessfulAuthorAddedStub() {
-    return {
-      success: true,
-      result: { message: 'Author Added', authorId: 7 }
-    }
+export function GetSuccessfulBookAddedStub(dynnamicBookId?: number) {
+  return {
+    success: true,
+    result: { bookId: dynnamicBookId === undefined ? 7 : dynnamicBookId, message: 'Book Added' }
   }
-  
+}
