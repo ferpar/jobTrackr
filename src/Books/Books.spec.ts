@@ -23,7 +23,7 @@ describe("books feature", () => {
     booksPresenter = testHarness.container.get(BooksPresenter);
     bookListPresenter = testHarness.container.get(BookListPresenter);
     booksRepository = testHarness.container.get(BooksRepository);
-    dataGateway = booksRepository?.dataGateway; 
+    dataGateway = booksRepository?.dataGateway;
     router = testHarness.container.get(Router);
 
     testHarness.bootstrap();
@@ -35,7 +35,7 @@ describe("books feature", () => {
     it("should show book list", async () => {
       // stub the dataGateway.get method to force successful response
       dataGateway.get = vi.fn().mockImplementation(async () => {
-        return await Promise.resolve(BooksResultStub);
+        return await Promise.resolve(BooksResultStub());
       });
       // initally the book list is empty
       expect(bookListPresenter?.viewModel.length).toBe(0);
@@ -43,8 +43,35 @@ describe("books feature", () => {
       // move to books route
       await router?.goToId("booksLink");
       expect(booksPresenter?.messagePm).toBe("LOADING");
-      expect(dataGateway.get).toHaveBeenCalled()
-      // expect(booksRepository?.books).toBe("");
+      expect(dataGateway.get).toHaveBeenCalled();
+      await vi.waitUntil(() => booksPresenter?.messagePm === "LOADED");
+      expect(booksPresenter?.messagePm).toBe("LOADED");
+      expect(bookListPresenter?.viewModel).toEqual([
+        {
+          bookId: 881,
+          devOwnerId: "pete@logicroom.co",
+          emailOwnerId: "a@b.com",
+          name: "Wind in the willows",
+        },
+        {
+          bookId: 891,
+          devOwnerId: "pete@logicroom.co",
+          emailOwnerId: "a@b.com",
+          name: "I, Robot",
+        },
+        {
+          bookId: 901,
+          devOwnerId: "pete@logicroom.co",
+          emailOwnerId: "a@b.com",
+          name: "The Hobbit",
+        },
+        {
+          bookId: 911,
+          devOwnerId: "pete@logicroom.co",
+          emailOwnerId: "a@b.com",
+          name: "Wind In The Willows 2",
+        },
+      ]);
     });
   });
 

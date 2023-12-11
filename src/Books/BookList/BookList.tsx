@@ -6,7 +6,6 @@ import { BookListPresenter } from './BookListPresenter';
 const BookListComp = observer( ({presenter}) => {
     return (
         <ul>
-            {console.log(presenter.viewModel)}
             {presenter.viewModel.map((book) => (
                 <li key={book.id}>{book.name}</li>
             )

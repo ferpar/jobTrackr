@@ -125,9 +125,7 @@ describe("init", () => {
           "Failed: no user record.",
         ]);
         expect(loginRegisterPresenter?.showValidationWarning).toBe(true);
-        console.log("before route change");
         router?.goToId("loginLink");
-        console.log("after route change");
         expect(loginRegisterPresenter?.messages).toEqual([]);
       })
     });

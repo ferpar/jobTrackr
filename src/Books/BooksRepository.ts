@@ -32,7 +32,6 @@ export class BooksRepository {
     load = async () => {
         this.messagePm = 'LOADING'
         const bookResponse = await this.dataGateway.get('/books?emailOwnerId=a@b.com')
-        console.log('bookResponse', bookResponse)
         this.books = bookResponse.result
         this.messagePm = 'LOADED'
     }
