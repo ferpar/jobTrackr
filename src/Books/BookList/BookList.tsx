@@ -6,8 +6,8 @@ import { BookListPresenter } from './BookListPresenter';
 const BookListComp = observer( ({presenter}) => {
     return (
         <ul>
-            {presenter.viewModel.map((book) => (
-                <li key={book.id}>{book.name}</li>
+            {presenter.viewModel.map((book, idx) => (
+                <li key={idx}>{book.name}</li>
             )
             )}
         </ul>

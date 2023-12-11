@@ -9,6 +9,8 @@ export class BooksPresenter {
 
     newBookTitle: string | null = null
 
+    lastAddedBook: string | null = null
+
     get viewModel() {
         return this.booksRepository.books
     }
@@ -20,9 +22,11 @@ export class BooksPresenter {
     constructor () {
         makeObservable(this, {
             newBookTitle: observable,
+            lastAddedBook: observable,
             viewModel: computed,
             messagePm: computed
         })
+        this.reset()
     }
 
     reset = () => {
@@ -30,6 +34,7 @@ export class BooksPresenter {
     }
 
     addBook = async () => {
+        this.lastAddedBook = this.newBookTitle
         await this.booksRepository.addBook(this.newBookTitle)
     }
 

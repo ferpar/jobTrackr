@@ -90,7 +90,7 @@ describe("books feature", () => {
       if (booksPresenter) booksPresenter.newBookTitle = "new book";
       await booksPresenter?.addBook();
       expect(dataGateway.post).toHaveBeenCalledWith(
-        "/books", { title: "new book", emailOwnerId: booksRepository?.userModel.email },
+        "/books", { name: "new book", emailOwnerId: booksRepository?.userModel.email },
       );
       expect(booksPresenter?.viewModel).toEqual([
         {
@@ -124,9 +124,15 @@ describe("books feature", () => {
       if (booksPresenter) booksPresenter.newBookTitle = "new book";
       await booksPresenter?.addBook();
       expect(dataGateway.post).toHaveBeenCalledWith(
-        "/books", { title: "new book", emailOwnerId: booksRepository?.userModel.email },
+        "/books", { name: "new book", emailOwnerId: booksRepository?.userModel.email },
       );
       expect(booksPresenter?.messagePm).toBe('ADDED')
+    })
+    it('should update the last added book string', async () => {
+      expect(booksPresenter?.lastAddedBook).toBe(null)
+      if (booksPresenter) booksPresenter.newBookTitle = "new book";
+      await booksPresenter?.addBook();
+      expect(booksPresenter?.lastAddedBook).toBe('new book')
     })
   });
 });

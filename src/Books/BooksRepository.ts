@@ -3,7 +3,7 @@ import { Config } from '../Core/Config'
 import { makeObservable, observable } from 'mobx'
 import { Types } from '../Core/Types'
 import { UserModel } from '../Authentication/UserModel'
-import { MessagePacking } from '../Core/Messages/MessagePacking';
+// import { MessagePacking } from '../Core/Messages/MessagePacking';
 
 @injectable()
 export class BooksRepository {
@@ -31,7 +31,7 @@ export class BooksRepository {
 
     load = async () => {
         this.messagePm = 'LOADING'
-        const bookResponse = await this.dataGateway.get('/books?emailOwnerId=a@b.com')
+        const bookResponse = await this.dataGateway.get('/books?emailOwnerId=' + this.userModel.email)
         this.books = bookResponse.result
         this.messagePm = 'LOADED'
     }
@@ -43,7 +43,7 @@ export class BooksRepository {
     addBook = async (title: string) => {
         this.messagePm = 'ADDING'
         await this.dataGateway.post('/books', { 
-            title,
+            name: title,
             emailOwnerId: this.userModel.email,
         })
         await this.load()
