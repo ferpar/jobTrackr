@@ -12,7 +12,7 @@ import NotFound from "./Pages/NotFound.tsx";
 import Logout from "./Components/Logout.tsx";
 import { useValidation } from "./Core/Providers/Validation.tsx";
 import { Books } from "./Books/Books.tsx";
-import { Authors } from "./Pages/Authors.tsx";
+import { Authors } from "./Authors/Authors.tsx";
 
 export const AppComp = observer(({ presenter }) => {
   const [, updateClientValidationMessages] = useValidation();
