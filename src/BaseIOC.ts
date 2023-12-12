@@ -4,6 +4,7 @@ import { RouterRepository } from './Routing/RouterRepository'
 import { UserModel } from './Authentication/UserModel'
 import { NavigationRepository } from './Navigation/NavigationRepository'
 import { BooksRepository } from './Books/BooksRepository'
+import { AuthorsRepository } from './Authors/AuthorsRepository'
 
 export class BaseIOC {
   container
@@ -16,6 +17,7 @@ export class BaseIOC {
   }
 
   buildBaseTemplate = () => {
+    this.container.bind(AuthorsRepository).to(AuthorsRepository).inSingletonScope()
     this.container.bind(BooksRepository).to(BooksRepository).inSingletonScope()
     this.container.bind(MessagesRepository).to(MessagesRepository).inSingletonScope()
     this.container.bind(RouterRepository).to(RouterRepository).inSingletonScope()

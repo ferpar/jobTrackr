@@ -1,4 +1,5 @@
-import { describe, beforeEach, it, expect, vi } from "../TestTools/JestHelper";
+import "reflect-metadata";
+import { describe, beforeEach, it, expect, vi } from "vitest";
 import { Types } from "../Core/Types";
 import { GetSuccessfulUserLoginStub } from "../TestTools/GetSuccessfulUserLoginStub";
 import { GetSuccessfulBookAddedStub } from "../TestTools/GetSuccessfulBookAddedStub";
@@ -9,7 +10,7 @@ import { AppTestHarness } from "../TestTools/AppTestHarness";
 import { AuthorsPresenter } from "./AuthorsPresenter";
 import { BookListPresenter } from "../Books/BookList/BookListPresenter";
 import { BooksRepository } from "../Books/BooksRepository";
-import { IDataGateway } from "../Core/IDataGateway";
+import IDataGateway from "../Core/IDataGateway";
 
 let testHarness: AppTestHarness | null = null;
 let authorsGateway: IDataGateway | null = null;
