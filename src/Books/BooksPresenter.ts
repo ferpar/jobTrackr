@@ -1,9 +1,10 @@
 import { injectable, inject } from 'inversify'
 import { makeObservable, observable, computed } from 'mobx'
 import { BooksRepository } from './BooksRepository'
+import { MessagesPresenter } from '../Core/Messages/MessagesPresenter'
 
 @injectable()
-export class BooksPresenter {
+export class BooksPresenter extends MessagesPresenter{
     @inject(BooksRepository)
     booksRepository
 
@@ -20,12 +21,14 @@ export class BooksPresenter {
     }
 
     constructor () {
+        super()
         makeObservable(this, {
             newBookTitle: observable,
             lastAddedBook: observable,
             viewModel: computed,
             messagePm: computed
         })
+        this.init()
         this.reset()
     }
 
@@ -35,8 +38,8 @@ export class BooksPresenter {
 
     addBook = async () => {
         this.lastAddedBook = this.newBookTitle
-        console.log('this.lastAddedBook', this.lastAddedBook)
-        await this.booksRepository.addBook(this.newBookTitle)
+        const addBookPm = await this.booksRepository.addBook(this.newBookTitle)
+        this.unpackRepositoryPmToVm(addBookPm, 'Book added')
     }
 
 }
