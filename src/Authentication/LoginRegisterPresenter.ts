@@ -31,6 +31,7 @@ export class LoginRegisterPresenter extends MessagesPresenter {
       submitButtonTitle: computed,
     });
     this.init();
+    this.reset();
   }
 
   reset = () => {
@@ -39,9 +40,7 @@ export class LoginRegisterPresenter extends MessagesPresenter {
     this.option = "login";
   };
 
-
   login = async () => {
-    
     const loginPm = await this.authenticationRepository.login(
       this.email,
       this.password
@@ -68,18 +67,20 @@ export class LoginRegisterPresenter extends MessagesPresenter {
     this.router.goToId("loginLink");
   };
 
-  get title () {
+  get title() {
     if (!this.option) {
       return "uninitialized";
     }
     return this.option === "login" ? "Welcome" : "Create new Account";
   }
 
-  get switchButtonTitle () {
-    return this.option === "login" ? "Have no Account?" : "Already have an Account?";
+  get switchButtonTitle() {
+    return this.option === "login"
+      ? "Have no Account?"
+      : "Already have an Account?";
   }
 
-  get submitButtonTitle () {
+  get submitButtonTitle() {
     return this.option === "login" ? "Login" : "Register";
   }
 }

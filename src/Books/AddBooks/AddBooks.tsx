@@ -1,10 +1,7 @@
-import React from 'react'
 import { observer } from 'mobx-react'
-import { BooksPresenter } from '../BooksPresenter'
-import { withInjection } from '../../Core/Providers/Injection'
 import { useValidation } from '../../Core/Providers/Validation'
 
-export const AddBooksComp = observer(({ presenter }) => {
+export const AddBooks = observer(({ presenter }) => {
     const [, updateClientValidationMessages] = useValidation()
 
     const formValid = () => {
@@ -43,7 +40,3 @@ export const AddBooksComp = observer(({ presenter }) => {
         </div>    
     )
 })
-
-export const AddBooks = withInjection({
-    presenter: BooksPresenter
-})(AddBooksComp)

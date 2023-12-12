@@ -35,6 +35,7 @@ export class BooksPresenter {
 
     addBook = async () => {
         this.lastAddedBook = this.newBookTitle
+        console.log('this.lastAddedBook', this.lastAddedBook)
         await this.booksRepository.addBook(this.newBookTitle)
     }
 
