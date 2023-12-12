@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react'
 import { useValidation } from '../../Core/Providers/Validation'
 
-export const AddBooks = observer(({ presenter }) => {
+export const AddBooks = observer(({ presenter, formValid }) => {
     const [, updateClientValidationMessages] = useValidation()
 
-    const formValid = () => {
+    const defaultFormValid = () => {
         const clientValidationMessages: string[] = []
         if (presenter.newBookTitle === '') {
             clientValidationMessages.push('No book name')
@@ -13,9 +13,11 @@ export const AddBooks = observer(({ presenter }) => {
         return clientValidationMessages.length === 0
     }
 
+    const validateForm = formValid || defaultFormValid
+
     const handleSubmit = (event) => {
         event.preventDefault()
-        if (formValid()) {
+        if (validateForm()) {
             presenter.addBook()
         }
     }
