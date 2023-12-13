@@ -45,7 +45,10 @@ describe("authors", () => {
 
     booksGateway.get = vi.fn().mockImplementation(() => {
       return Promise.resolve(
-        SingleBookResultStub(dynamicBookNamesStack?.pop())
+        SingleBookResultStub(
+          dynamicBookNamesStack?.pop(),
+          dynamicBookIdStack?.pop()
+        )
       );
     });
 
@@ -69,12 +72,34 @@ describe("authors", () => {
           bookIds: [1, 2],
           latLon: "51.4556852, -0.9904706",
           name: "Isaac Asimov",
+          books: [
+            {
+              bookId: 1,
+              devOwnerId: "pete+dnd@logicroom.co",
+              emailOwnerId: "g@b.com",
+              name: "bookC",
+            },
+            {
+              bookId: 2,
+              devOwnerId: "pete+dnd@logicroom.co",
+              emailOwnerId: "g@b.com",
+              name: "bookB",
+            },
+          ],
         },
         {
           authorId: 2,
           bookIds: [3],
           latLon: "9,2",
           name: "Kenneth Graeme",
+          books: [
+            {
+              bookId: 3,
+              devOwnerId: "pete+dnd@logicroom.co",
+              emailOwnerId: "g@b.com",
+              name: "bookA",
+            },
+          ],
         },
       ]);
     });
