@@ -1,5 +1,5 @@
 import { injectable, inject } from 'inversify'
-import { makeObservable, observable, computed } from 'mobx'
+import { makeObservable, observable, computed, action } from 'mobx'
 import { BooksRepository } from '../Books/BooksRepository'
 import { AuthorsRepository } from './AuthorsRepository'
 import { MessagesPresenter } from '../Core/Messages/MessagesPresenter'
@@ -14,7 +14,7 @@ export class AuthorsPresenter extends MessagesPresenter {
 
     newAuthorName: string | null = null
 
-    toggleShowBooks: boolean = true
+    showBooks: boolean = true
 
     get viewModel() {
         return this.authorsRepository.authors
@@ -24,13 +24,17 @@ export class AuthorsPresenter extends MessagesPresenter {
         return this.authorsRepository.messagePm
     }
 
+    id: string
+
     constructor() {
         super()
+        this.id = Math.random().toString(36).substring(7)
         makeObservable(this, {
             newAuthorName: observable,
-            toggleShowBooks: observable,
+            showBooks: observable,
+            toggleShowBooks: action,
             viewModel: computed,
-            messagePm: computed
+            messagePm: computed,
         })
         this.init()
         this.reset()
@@ -42,6 +46,10 @@ export class AuthorsPresenter extends MessagesPresenter {
 
     load = async () => {
         await this.authorsRepository.load()
+    }
+
+    toggleShowBooks = () => {
+        this.showBooks = !this.showBooks
     }
 
     // addAuthor = async () => {}

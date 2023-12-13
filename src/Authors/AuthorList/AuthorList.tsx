@@ -5,12 +5,11 @@ import { AuthorsPresenter } from "../AuthorsPresenter";
 const AuthorsComp = observer(({ presenter }) => {
   return (
     <div>
-      <h1>Authors</h1>
-      <ul>
+      {presenter.showBooks && (<ul>
         {presenter.viewModel.map((author) => (
           <li key={author.id}>{author.name}</li>
         ))}
-      </ul>
+      </ul>)}
     </div>
   );
 });
