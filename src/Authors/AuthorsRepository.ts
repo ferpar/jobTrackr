@@ -1,6 +1,6 @@
 import { injectable, inject } from 'inversify'
 import { Config } from '../Core/Config'
-import { makeObservable, observable } from 'mobx'
+import { action, makeObservable, observable } from 'mobx'
 import { Types } from '../Core/Types'
 import { UserModel } from '../Authentication/UserModel'
 
@@ -24,7 +24,8 @@ export class AuthorsRepository {
     constructor() {
         makeObservable(this, {
             messagePm: observable,
-            authors: observable
+            authors: observable,
+            load: action
         })
     }
 

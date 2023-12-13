@@ -12,7 +12,9 @@ export class AuthorsPresenter extends MessagesPresenter {
     @inject(BooksRepository)
     booksRepository
 
-    newAuthorTitle: string | null = null
+    newAuthorName: string | null = null
+
+    toggleShowBooks: boolean = true
 
     get viewModel() {
         return this.authorsRepository.authors
@@ -25,7 +27,8 @@ export class AuthorsPresenter extends MessagesPresenter {
     constructor() {
         super()
         makeObservable(this, {
-            newAuthorTitle: observable,
+            newAuthorName: observable,
+            toggleShowBooks: observable,
             viewModel: computed,
             messagePm: computed
         })
@@ -34,7 +37,11 @@ export class AuthorsPresenter extends MessagesPresenter {
     }
 
     reset = () => {
-        this.newAuthorTitle = ''
+        this.newAuthorName = ''
+    }
+
+    load = async () => {
+        await this.authorsRepository.load()
     }
 
     // addAuthor = async () => {}
