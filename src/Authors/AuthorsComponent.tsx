@@ -18,8 +18,11 @@ const AuthorsComp = observer( (props) => {
     // }
 
     React.useEffect(() => {
-        props.presenter.load()
-    })
+        async function load() {
+            await props.presenter.load()
+        }
+        load()
+    }, [])
 
     return (
         <>

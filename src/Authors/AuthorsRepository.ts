@@ -6,16 +6,16 @@ import { UserModel } from "../Authentication/UserModel";
 import { BooksRepository } from "../Books/BooksRepository";
 
 interface Author {
-    name: string;
-    emailOwnerId: string;
-    bookIds: number[];
-    books: Book[];
+  name: string;
+  emailOwnerId: string;
+  bookIds: number[];
+  books: Book[];
 }
 
 interface Book {
-    bookId: number;
-    name: string;
-    emailOwnerId: string;
+  bookId: number;
+  name: string;
+  emailOwnerId: string;
 }
 @injectable()
 export class AuthorsRepository {
@@ -33,11 +33,15 @@ export class AuthorsRepository {
   @inject(BooksRepository)
   booksRepository;
 
+  isLoading = false;
+
   messagePm = "UNSET";
 
   authors: Author[] = [];
+  id: string;
 
   constructor() {
+    this.id = Math.random().toString(36).substring(7);
     makeObservable(this, {
       messagePm: observable,
       authors: observable,
@@ -46,27 +50,38 @@ export class AuthorsRepository {
   }
 
   load = async () => {
+    if (this.isLoading) {
+      return;
+    }
+    // do not load if already loading
+    this.isLoading = true;
+
     this.messagePm = "LOADING";
     const authorResponse = await this.dataGateway.get(
       "/authors?emailOwnerId=" + this.userModel.email
     );
     this.authors = authorResponse.result;
-    const bookIds = authorResponse.result.map((author) => author.bookIds).flat();
+    const bookIds = authorResponse.result
+      .map((author) => author.bookIds)
+      .flat();
     const bookPromises = bookIds.map(async (bookId) =>
       this.booksRepository.dataGateway.get(
-        "/books?emailOwnerId=" + this.userModel.email + "&bookId=" + bookId
+        "/book?emailOwnerId=" + this.userModel.email + "&bookId=" + bookId
       )
     );
     const bookResponses = await Promise.all(bookPromises);
     const authorsWithBooks = this.authors.map((author: Author) => {
-        const books = bookResponses
-            .map((bookResponse) => bookResponse.result)
-            .flat()
-            .filter((book) => author.bookIds.includes(book.bookId));
-        return { ...author, books };
-        })
+      const bookArrs = bookResponses.map((bookResponse) => bookResponse.result);
+
+      const books = bookArrs
+        .flat()
+        .filter((book) => author.bookIds.includes(book.bookId));
+      return { ...author, books };
+    });
     this.authors = authorsWithBooks;
     this.messagePm = "LOADED";
+    this.isLoading = false;
+    return authorsWithBooks;
   };
 
   reset = () => {

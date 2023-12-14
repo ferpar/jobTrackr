@@ -8,7 +8,6 @@ import { LastAddedBook } from './LastAddedBook/LastAddedBook';
 import { MessagesComponent } from '../Core/Messages/MessagesComponent';
 
 const BooksComp = observer(({ booksPresenter }) => {
-    console.log('books rerendered', booksPresenter.lastAddedBook)
     return (
         <div>
             <h1>Books</h1>
