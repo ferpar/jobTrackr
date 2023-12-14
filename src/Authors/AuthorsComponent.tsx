@@ -3,8 +3,9 @@ import { observer } from 'mobx-react'
 import { withInjection } from '../Core/Providers/Injection'
 import { AuthorList } from './AuthorList/AuthorList'
 // import { AddAuthorComponent } from './AddAuthorComponent'
-// import { AddBooks } from '../Books/AddBooks/AddBooks'
+import { AddBooks } from '../Books/AddBooks/AddBooks'
 // import { BookList } from '../Books/BookList/BookList'
+import { AuthorBooksList } from './AuthorBooksList/AuthorBooksList'
 import { AuthorsPresenter } from './AuthorsPresenter'
 import { MessagesComponent } from '../Core/Messages/MessagesComponent'
 // import { useValidation } from '../Core/Providers/Validation'
@@ -33,9 +34,9 @@ const AuthorsComp = observer( (props) => {
         <br />
         {/* <AddAuthorComponent formValid={formValid} /> */}
         <br />
-        {/* <AddBooks presenter={props.presenter} formValid={formValid}/> */}
+        <AddBooks presenter={props.presenter}/>
         <br />
-        {/* <BookList /> */}
+        <AuthorBooksList />
         <br />
         <MessagesComponent />
         </>

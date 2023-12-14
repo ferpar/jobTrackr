@@ -1,18 +1,18 @@
 import { observer } from 'mobx-react';
 import { withInjection } from '../../Core/Providers/Injection';
-import { BookListPresenter } from './BookListPresenter';
+import { AuthorsPresenter } from '../AuthorsPresenter';
 
 const BookListComp = observer( ({presenter}) => {
     return (
         <ul>
-            {presenter.viewModel.map((book, idx) => (
-                <li key={idx}>{book.name}</li>
+            {presenter.booksToAdd.map((bookName, idx) => (
+                <li key={idx}>{bookName}</li>
             )
             )}
         </ul>
     )
 })
 
-export const BookList = withInjection({
-    presenter: BookListPresenter
+export const AuthorBooksList = withInjection({
+    presenter: AuthorsPresenter
 })(BookListComp)

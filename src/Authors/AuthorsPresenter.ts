@@ -26,16 +26,24 @@ export class AuthorsPresenter extends MessagesPresenter {
 
   id: string;
 
+  booksToAdd: string[] = [];
+
+  newBookTitle: string | null = null;
+
   constructor() {
     super();
     this.id = Math.random().toString(36).substring(7);
     makeObservable(this, {
       newAuthorName: observable,
       showBooks: observable,
+      booksToAdd: observable,
+      newBookTitle: observable,
       toggleShowBooks: action,
       viewModel: computed,
       messagePm: computed,
       authorStrings: computed,
+      addBook: action,
+      clearBooksToAdd: action,
     });
     this.init();
     this.reset();
@@ -43,6 +51,7 @@ export class AuthorsPresenter extends MessagesPresenter {
 
   reset = () => {
     this.newAuthorName = "";
+    this.newBookTitle = "";
   };
 
   load = async () => {
@@ -64,6 +73,16 @@ export class AuthorsPresenter extends MessagesPresenter {
 
     return authorStrings;
   }
+
+  addBook = () => {
+    if (!this.newBookTitle) return
+    this.booksToAdd.push(this.newBookTitle)
+  }
+
+  clearBooksToAdd = () => {
+    this.booksToAdd = []
+  }
+
 
   // addAuthor = async () => {}
 }
