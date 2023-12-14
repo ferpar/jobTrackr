@@ -6,8 +6,8 @@ const AuthorsComp = observer(({ presenter }) => {
   return (
     <div>
       {presenter.showBooks && (<ul>
-        {presenter.viewModel.map((author, idx) => (
-          <li key={idx}>{author.name}</li>
+        {presenter.authorStrings.map((authorString, idx) => (
+          <li key={idx}>{authorString}</li>
         ))}
       </ul>)}
     </div>

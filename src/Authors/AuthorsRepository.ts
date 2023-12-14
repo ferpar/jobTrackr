@@ -50,10 +50,10 @@ export class AuthorsRepository {
   }
 
   load = async () => {
+    // do not load if already loading // prevent spamming the server
     if (this.isLoading) {
       return;
     }
-    // do not load if already loading
     this.isLoading = true;
 
     this.messagePm = "LOADING";
