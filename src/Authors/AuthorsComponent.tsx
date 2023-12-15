@@ -2,21 +2,14 @@ import React from 'react'
 import { observer } from 'mobx-react'
 import { withInjection } from '../Core/Providers/Injection'
 import { AuthorList } from './AuthorList/AuthorList'
-// import { AddAuthorComponent } from './AddAuthorComponent'
+import { AddAuthor } from './AddAuthor/AddAuthor'
 import { AddBooks } from '../Books/AddBooks/AddBooks'
 // import { BookList } from '../Books/BookList/BookList'
 import { AuthorBooksList } from './AuthorBooksList/AuthorBooksList'
 import { AuthorsPresenter } from './AuthorsPresenter'
 import { MessagesComponent } from '../Core/Messages/MessagesComponent'
-// import { useValidation } from '../Core/Providers/Validation'
 
 const AuthorsComp = observer( (props) => {
-    // const [, updateClientValidationMessages] = useValidation()
-    // const formValid = () => {
-    //     const clientValidationMessages: string[] = []
-    //     if (props.presenter.newAuthorName === '') clientValidationMessages.push('No Author Name')
-    //     updateClientValidationMessages(clientValidationMessages)
-    // }
 
     React.useEffect(() => {
         async function load() {
@@ -32,7 +25,7 @@ const AuthorsComp = observer( (props) => {
         <br />
         <AuthorList />
         <br />
-        {/* <AddAuthorComponent formValid={formValid} /> */}
+        <AddAuthor />
         <br />
         <AddBooks presenter={props.presenter}/>
         <br />

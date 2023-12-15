@@ -129,8 +129,10 @@ describe("authors", () => {
       expect(authorsPresenter?.viewModel.length).toBe(2);
 
       //pivot
+        // safety check
       if (!authorsGateway || !booksGateway)
         throw new Error("gateway not found");
+        // set stub to return new author
       authorsGateway.get = vi.fn().mockImplementation(() => {
         const newStub = SingleAuthorsResultStub();
         newStub.result.push({
@@ -142,30 +144,31 @@ describe("authors", () => {
         return Promise.resolve(newStub);
       });
 
+        // set stub to return new book
       booksGateway.post = vi.fn().mockImplementation(() => {
         return Promise.resolve(GetSuccessfulBookAddedStub(4));
       });
       if (!authorsPresenter) throw new Error("authorsPresenter not found");
+        // set up new author and book
       authorsPresenter.newAuthorName = "new author";
       authorsPresenter.booksToAdd = ["new book"];
 
+        // reset dynamic stacks
       dynamicBookNamesStack = ["new book", "bookA", "bookB", "bookC"];
       dynamicBookIdStack = [5, 4, 3, 2, 1];
 
-      // test after pivot
+      //test after pivot
       await authorsPresenter?.addAuthor();
       expect(authorsPresenter?.viewModel.length).toBe(3);
       expect(authorsPresenter?.viewModel[2]).toEqual({
         authorId: 3,
         bookIds: [4],
-        books: [
-          {
-            bookId: 4,
-            devOwnerId: "pete+dnd@logicroom.co",
-            emailOwnerId: "g@b.com",
-            name: "new book",
-          },
-        ],
+        books: [{
+                  "bookId": 4,
+                  "devOwnerId": "pete+dnd@logicroom.co",
+                  "emailOwnerId": "g@b.com",
+                  "name": "new book",
+                }],
         latLon: "19,22",
         name: "new author",
       });

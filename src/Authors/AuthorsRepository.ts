@@ -93,8 +93,11 @@ export class AuthorsRepository {
     const bookPromises = bookNames.map(async (bookName) => {
       return await this.booksRepository.addBook(bookName);
     });
+    console.log("bookPromises", bookPromises)
     const bookResponses = await Promise.all(bookPromises);
+    console.log("bookResponses", bookResponses)
     const bookIds = bookResponses.map((bookResponse) => bookResponse.result.bookId);
+    console.log("bookIds", bookIds)
     const addedAuthorPm = await this.dataGateway.post("/authors", {
       name: authorName,
       bookIds,

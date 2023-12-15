@@ -1,25 +1,22 @@
 import { observer } from "mobx-react";
 import { useValidation } from "../../Core/Providers/Validation";
+import { withInjection } from "../../Core/Providers/Injection";
+import { AuthorsPresenter } from "../AuthorsPresenter";
 
-export const AddBooks = observer(
+const AddAuthorComp = observer(
   ({
     presenter,
     formValid,
   }: {
-    presenter: {
-      newBookTitle: string;
-      addBook: () => void;
-      clearBooksToAdd: () => void;
-    };
+    presenter: { newAuthorName: string; addAuthor: () => void };
     formValid?: () => boolean;
   }) => {
     const [, updateClientValidationMessages] = useValidation();
 
     const defaultFormValid = () => {
       const clientValidationMessages: string[] = [];
-      if (presenter.newBookTitle === "") {
-        clientValidationMessages.push("No book name");
-      }
+      if (presenter.newAuthorName === "")
+        clientValidationMessages.push("No Author Name");
       updateClientValidationMessages(clientValidationMessages);
       return clientValidationMessages.length === 0;
     };
@@ -29,12 +26,12 @@ export const AddBooks = observer(
     const handleSubmit = (event) => {
       event.preventDefault();
       if (validateForm()) {
-        presenter.addBook();
+        presenter.addAuthor();
       }
     };
 
     const onChange = (event) => {
-      presenter.newBookTitle = event.target.value;
+      presenter.newAuthorName = event.target.value;
     };
 
     return (
@@ -43,17 +40,18 @@ export const AddBooks = observer(
           <label>
             <input
               type="text"
-              value={presenter.newBookTitle}
-              placeholder="Enter book name"
+              value={presenter.newAuthorName}
+              placeholder="Enter author name"
               onChange={onChange}
             />
-            <button type="submit">Add Book</button>
+            <button type="submit">Add Author</button>
           </label>
         </form>
-        {presenter.clearBooksToAdd && (
-          <button onClick={presenter.clearBooksToAdd}>Clear</button>
-        )}
       </div>
     );
   }
 );
+
+export const AddAuthor = withInjection({
+  presenter: AuthorsPresenter,
+})(AddAuthorComp);
