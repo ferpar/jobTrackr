@@ -90,14 +90,22 @@ export class AuthorsRepository {
 
   addAuthor = async (authorName: string, bookNames: string[]) => {
     this.messagePm = "ADDING";
-    const bookPromises = bookNames.map(async (bookName) => {
-      return await this.booksRepository.addBook(bookName);
-    });
-    console.log("bookPromises", bookPromises)
-    const bookResponses = await Promise.all(bookPromises);
-    console.log("bookResponses", bookResponses)
-    const bookIds = bookResponses.map((bookResponse) => bookResponse.result.bookId);
-    console.log("bookIds", bookIds)
+    // const bookPromises = bookNames.map(async (bookName) => {
+    //   return await this.booksRepository.addBook(bookName);
+    // });
+    // console.log("bookPromises", bookPromises)
+    // const bookResponses = await Promise.all(bookPromises);
+    const bookResponses: { success: string; result: { bookId: number } }[] = [];
+    for (const bookName of bookNames) {
+      const bookResponse = await this.booksRepository.addBook(bookName);
+      bookResponses.push(bookResponse);
+    }
+
+    console.log("bookResponses", bookResponses);
+    const bookIds = bookResponses.map(
+      (bookResponse) => bookResponse.result.bookId
+    );
+    console.log("bookIds", bookIds);
     const addedAuthorPm = await this.dataGateway.post("/authors", {
       name: authorName,
       bookIds,

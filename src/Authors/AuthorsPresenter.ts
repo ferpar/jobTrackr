@@ -59,7 +59,7 @@ export class AuthorsPresenter extends MessagesPresenter {
 
   load = async () => {
     const authors = await this.authorsRepository.load();
-    if (authors.length > 0) {
+    if (authors?.length > 0) {
       this.showToggle = true;
     }
   };
