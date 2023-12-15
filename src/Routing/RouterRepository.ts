@@ -3,6 +3,7 @@ import { inject, injectable } from "inversify";
 import type IRouterGateway from "./IRouterGateway";
 import { Types } from "../Core/Types";
 import { BooksRepository } from "../Books/BooksRepository";
+import { AuthorsRepository } from "../Authors/AuthorsRepository";
 
 type Route = {
   routeId: string;
@@ -34,6 +35,9 @@ export class RouterRepository {
 
   @inject(BooksRepository)
   booksRepository: BooksRepository;
+
+  @inject(AuthorsRepository)
+  authorsRepository: AuthorsRepository;
 
   onRouteChanged: (() => Promise<void>) | null = null;
 
@@ -72,7 +76,7 @@ export class RouterRepository {
         path: "/books",
         isSecure: true,
       },
-      onEnter: async() => {
+      onEnter:() => {
         this.booksRepository.load()
       },
       onLeave: () => {
@@ -85,6 +89,8 @@ export class RouterRepository {
         path: "/authors",
         isSecure: true,
       },
+      // onEnter: () => this.authorsRepository.load(),
+      // onLeave: () => this.authorsRepository.reset(),
     },
     {
       routeId: "authorsLink-authorPolicyLink",

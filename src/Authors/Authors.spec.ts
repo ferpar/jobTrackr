@@ -10,6 +10,7 @@ import { AuthorsPresenter } from "./AuthorsPresenter";
 import { BookListPresenter } from "../Books/BookList/BookListPresenter";
 import { BooksRepository } from "../Books/BooksRepository";
 import IDataGateway from "../Core/IDataGateway";
+import { NoAuthorsResultStub } from "../TestTools/NoAuthorsResultStub";
 
 let testHarness: AppTestHarness | null = null;
 let authorsGateway: IDataGateway | null = null;
@@ -104,8 +105,21 @@ describe("authors", () => {
       ]);
     });
 
-    it.skip("should show author list (toggle) when has authors", async () => {});
-    it.skip("should hide author list (toggle) when has no authors", async () => {});
+    it("should show author list (toggle) when has authors", async () => {
+      await authorsPresenter?.load();
+      expect(authorsPresenter?.showToggle).toBe(true);
+    });
+    it("should hide author list (toggle) when has no authors", async () => {
+        // set stub to return no authors
+      if (!authorsGateway) throw new Error("authorsGateway not found");
+      authorsGateway.get = vi.fn().mockImplementation(() => {
+        return Promise.resolve(NoAuthorsResultStub());
+      });
+      // load authors
+      await authorsPresenter?.load();
+      // no authors => no toggle
+      expect(authorsPresenter?.showToggle).toBe(false);
+    });
   });
 
   describe.skip("saving", () => {

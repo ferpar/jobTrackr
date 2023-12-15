@@ -30,6 +30,8 @@ export class AuthorsPresenter extends MessagesPresenter {
 
   newBookTitle: string | null = null;
 
+  showToggle: boolean | null = null;
+
   constructor() {
     super();
     this.id = Math.random().toString(36).substring(7);
@@ -52,15 +54,21 @@ export class AuthorsPresenter extends MessagesPresenter {
   reset = () => {
     this.newAuthorName = "";
     this.newBookTitle = "";
+    this.showToggle = false;
   };
 
   load = async () => {
-    await this.authorsRepository.load();
+    const authors = await this.authorsRepository.load();
+    if (authors.length > 0) {
+      this.showToggle = true;
+    }
   };
 
   toggleShowBooks = () => {
     this.showBooks = !this.showBooks;
   };
+
+
 
   get authorStrings() {
     const authorStrings = this.authorsRepository.authors.map((author) => {
