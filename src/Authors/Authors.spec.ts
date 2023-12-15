@@ -32,7 +32,7 @@ describe("authors", () => {
     booksRepository = testHarness.container.get(BooksRepository);
     booksGateway = booksRepository?.dataGateway;
     authorsGateway = authorsPresenter?.authorsRepository?.dataGateway;
-    dynamicBookNamesStack = ["bookA", "bookB", "bookC"];
+    dynamicBookNamesStack = ["new book", "bookA", "bookB", "bookC"];
     dynamicBookIdStack = [5, 4, 3, 2, 1];
 
     if (!booksGateway || !authorsGateway) {
@@ -110,7 +110,7 @@ describe("authors", () => {
       expect(authorsPresenter?.showToggle).toBe(true);
     });
     it("should hide author list (toggle) when has no authors", async () => {
-        // set stub to return no authors
+      // set stub to return no authors
       if (!authorsGateway) throw new Error("authorsGateway not found");
       authorsGateway.get = vi.fn().mockImplementation(() => {
         return Promise.resolve(NoAuthorsResultStub());
@@ -122,7 +122,53 @@ describe("authors", () => {
     });
   });
 
-  describe.skip("saving", () => {
-    it("should allow single author to be added and will relaod authors list", async () => {});
+  describe("saving", () => {
+    it("should allow single author to be added and will relaod authors list", async () => {
+      await authorsPresenter?.load();
+      //anchor
+      expect(authorsPresenter?.viewModel.length).toBe(2);
+
+      //pivot
+      if (!authorsGateway || !booksGateway)
+        throw new Error("gateway not found");
+      authorsGateway.get = vi.fn().mockImplementation(() => {
+        const newStub = SingleAuthorsResultStub();
+        newStub.result.push({
+          authorId: 3,
+          name: "new author",
+          bookIds: [4],
+          latLon: "19,22",
+        });
+        return Promise.resolve(newStub);
+      });
+
+      booksGateway.post = vi.fn().mockImplementation(() => {
+        return Promise.resolve(GetSuccessfulBookAddedStub(4));
+      });
+      if (!authorsPresenter) throw new Error("authorsPresenter not found");
+      authorsPresenter.newAuthorName = "new author";
+      authorsPresenter.booksToAdd = ["new book"];
+
+      dynamicBookNamesStack = ["new book", "bookA", "bookB", "bookC"];
+      dynamicBookIdStack = [5, 4, 3, 2, 1];
+
+      // test after pivot
+      await authorsPresenter?.addAuthor();
+      expect(authorsPresenter?.viewModel.length).toBe(3);
+      expect(authorsPresenter?.viewModel[2]).toEqual({
+        authorId: 3,
+        bookIds: [4],
+        books: [
+          {
+            bookId: 4,
+            devOwnerId: "pete+dnd@logicroom.co",
+            emailOwnerId: "g@b.com",
+            name: "new book",
+          },
+        ],
+        latLon: "19,22",
+        name: "new author",
+      });
+    });
   });
 });

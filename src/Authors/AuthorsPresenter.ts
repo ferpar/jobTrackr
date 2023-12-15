@@ -92,5 +92,10 @@ export class AuthorsPresenter extends MessagesPresenter {
   }
 
 
-  // addAuthor = async () => {}
+  addAuthor = async () => {
+    if (!this.newAuthorName) return
+    const addAuthorPm = await this.authorsRepository.addAuthor(this.newAuthorName, this.booksToAdd);
+    this.unpackRepositoryPmToVm(addAuthorPm, "Author added");
+    this.clearBooksToAdd()
+  }
 }

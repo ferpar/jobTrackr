@@ -88,14 +88,20 @@ export class AuthorsRepository {
     this.messagePm = "RESET";
   };
 
-  // addAuthor = async (title: string) => {
-  //     this.messagePm = 'ADDING'
-  //     const addAuthorPm = await this.dataGateway.post('/authors', {
-  //         name: title,
-  //         emailOwnerId: this.userModel.email,
-  //     })
-  //     await this.load()
-  //     this.messagePm = 'ADDED'
-  //     return addAuthorPm
-  // }
+  addAuthor = async (authorName: string, bookNames: string[]) => {
+    this.messagePm = "ADDING";
+    const bookPromises = bookNames.map(async (bookName) => {
+      return await this.booksRepository.addBook(bookName);
+    });
+    const bookResponses = await Promise.all(bookPromises);
+    const bookIds = bookResponses.map((bookResponse) => bookResponse.result.bookId);
+    const addedAuthorPm = await this.dataGateway.post("/authors", {
+      name: authorName,
+      bookIds,
+      emailOwnerId: this.userModel.email,
+    });
+    await this.load();
+    this.messagePm = "ADDED";
+    return addedAuthorPm;
+  };
 }
