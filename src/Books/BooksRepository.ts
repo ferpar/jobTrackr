@@ -1,8 +1,9 @@
 import { injectable, inject } from  'inversify';
 import { Config } from '../Core/Config'
 import { makeObservable, observable } from 'mobx'
-import { Types } from '../Core/Types'
+import { Types, Book } from '../Core/Types'
 import { UserModel } from '../Authentication/UserModel'
+
 // import { MessagePacking } from '../Core/Messages/MessagePacking';
 
 @injectable()
@@ -20,12 +21,14 @@ export class BooksRepository {
 
     messagePm = 'UNSET'
 
-    books = []
+    // also acts as book buffer when adding authors w/ books
+    // only doing this to keep using BookListPresenter as instructed
+    books: Book[] = []
 
     constructor() {
         makeObservable(this, {
             messagePm: observable,
-            books: observable
+            books: observable,
         })
     }
 
@@ -50,4 +53,17 @@ export class BooksRepository {
         this.messagePm = 'ADDED'
         return addBookPm
     }
+
+    addBookToBuffer = (title: string) => {
+        this.books.push({
+            id: 0,
+            name: title,
+            emailOwnerId: this.userModel.email,
+        })
+    }
+
+    clearBooksBuffer = () => {
+        this.books = []
+    }
+    
 }

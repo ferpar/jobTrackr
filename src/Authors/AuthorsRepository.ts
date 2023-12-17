@@ -4,19 +4,8 @@ import { action, makeObservable, observable } from "mobx";
 import { Types } from "../Core/Types";
 import { UserModel } from "../Authentication/UserModel";
 import { BooksRepository } from "../Books/BooksRepository";
+import { Author } from "../Core/Types";
 
-interface Author {
-  name: string;
-  emailOwnerId: string;
-  bookIds: number[];
-  books: Book[];
-}
-
-interface Book {
-  bookId: number;
-  name: string;
-  emailOwnerId: string;
-}
 @injectable()
 export class AuthorsRepository {
   baseUrl: string | null = null;

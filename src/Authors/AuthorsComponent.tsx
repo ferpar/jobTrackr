@@ -4,7 +4,7 @@ import { withInjection } from '../Core/Providers/Injection'
 import { AuthorList } from './AuthorList/AuthorList'
 import { AddAuthor } from './AddAuthor/AddAuthor'
 import { AddBooks } from '../Books/AddBooks/AddBooks'
-// import { BookList } from '../Books/BookList/BookList'
+import { BookList } from '../Books/BookList/BookList'
 import { AuthorBooksList } from './AuthorBooksList/AuthorBooksList'
 import { AuthorsPresenter } from './AuthorsPresenter'
 import { MessagesComponent } from '../Core/Messages/MessagesComponent'
@@ -29,7 +29,8 @@ const AuthorsComp = observer( (props) => {
         <br />
         <AddBooks presenter={props.presenter}/>
         <br />
-        <AuthorBooksList />
+        {/* <AuthorBooksList /> */}
+        <BookList />
         <br />
         <MessagesComponent />
         </>

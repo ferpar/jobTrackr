@@ -26,8 +26,6 @@ export class AuthorsPresenter extends MessagesPresenter {
 
   id: string;
 
-  booksToAdd: string[] = [];
-
   newBookTitle: string | null = null;
 
   showToggle: boolean | null = null;
@@ -38,7 +36,6 @@ export class AuthorsPresenter extends MessagesPresenter {
     makeObservable(this, {
       newAuthorName: observable,
       showBooks: observable,
-      booksToAdd: observable,
       newBookTitle: observable,
       toggleShowBooks: action,
       viewModel: computed,
@@ -84,17 +81,18 @@ export class AuthorsPresenter extends MessagesPresenter {
 
   addBook = () => {
     if (!this.newBookTitle) return
-    this.booksToAdd.push(this.newBookTitle)
+    this.booksRepository.addBookToBuffer(this.newBookTitle);
   }
 
   clearBooksToAdd = () => {
-    this.booksToAdd = []
+    this.booksRepository.clearBooksBuffer();
   }
 
 
   addAuthor = async () => {
     if (!this.newAuthorName) return
-    const addAuthorPm = await this.authorsRepository.addAuthor(this.newAuthorName, this.booksToAdd);
+    const bookNames = this.booksRepository.books.map(book => book.name)
+    const addAuthorPm = await this.authorsRepository.addAuthor(this.newAuthorName, bookNames);
     this.unpackRepositoryPmToVm(addAuthorPm, "Author added");
     this.clearBooksToAdd()
   }
