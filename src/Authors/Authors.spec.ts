@@ -120,6 +120,11 @@ describe("authors", () => {
       // no authors => no toggle
       expect(authorsPresenter?.showToggle).toBe(false);
     });
+
+    it("should set buffer mode to true, so the in-memory books list is read", async () => {
+      await authorsPresenter?.load();
+      expect(booksRepository?.bufferMode).toBe(true);
+    })
   });
 
   describe("saving", () => {
@@ -151,10 +156,12 @@ describe("authors", () => {
       if (!authorsPresenter) throw new Error("authorsPresenter not found");
         // set up new author and book
       authorsPresenter.newAuthorName = "new author";
-      authorsPresenter.booksToAdd = ["new book"];
+      authorsPresenter.newBookTitle = "new book";
+      authorsPresenter.addBook();
 
         // reset dynamic stacks
-      dynamicBookNamesStack = ["new book", "bookA", "bookB", "bookC"];
+      const addedBook: string = booksRepository?.bookBuffer[0].name as string;
+      dynamicBookNamesStack = [addedBook, "bookA", "bookB", "bookC"];
       dynamicBookIdStack = [5, 4, 3, 2, 1];
 
       //test after pivot
