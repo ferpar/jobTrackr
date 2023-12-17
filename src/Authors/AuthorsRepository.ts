@@ -101,11 +101,9 @@ export class AuthorsRepository {
       bookResponses.push(bookResponse);
     }
 
-    console.log("bookResponses", bookResponses);
     const bookIds = bookResponses.map(
       (bookResponse) => bookResponse.result.bookId
     );
-    console.log("bookIds", bookIds);
     const addedAuthorPm = await this.dataGateway.post("/authors", {
       name: authorName,
       bookIds,
