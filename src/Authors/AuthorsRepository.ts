@@ -82,7 +82,6 @@ export class AuthorsRepository {
     // const bookPromises = bookNames.map(async (bookName) => {
     //   return await this.booksRepository.addBook(bookName);
     // });
-    // console.log("bookPromises", bookPromises)
     // const bookResponses = await Promise.all(bookPromises);
     const bookResponses: { success: string; result: { bookId: number } }[] = [];
     for (const bookName of bookNames) {

@@ -16,7 +16,11 @@ const AuthorsComp = observer( (props) => {
             await props.presenter.load()
         }
         load()
-    }, [])
+
+        return () => {
+            props.presenter.reset()
+        }
+    }, [props.presenter])
 
     return (
         <>

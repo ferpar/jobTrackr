@@ -21,14 +21,17 @@ export class BooksRepository {
 
     messagePm = 'UNSET'
 
-    // also acts as book buffer when adding authors w/ books
-    // only doing this to keep using BookListPresenter as instructed
     books: Book[] = []
+
+    bufferMode = false
+    bookBuffer: Book[] = [] // for adding authors w/ books
 
     constructor() {
         makeObservable(this, {
             messagePm: observable,
             books: observable,
+            bookBuffer: observable,
+            bufferMode: observable,
         })
     }
 
@@ -41,6 +44,7 @@ export class BooksRepository {
 
     reset = () => {
         this.messagePm = 'RESET'
+        this.books = []
     }
 
     addBook = async (title: string) => {
@@ -55,7 +59,7 @@ export class BooksRepository {
     }
 
     addBookToBuffer = (title: string) => {
-        this.books.push({
+        this.bookBuffer.push({
             id: 0,
             name: title,
             emailOwnerId: this.userModel.email,
@@ -63,7 +67,7 @@ export class BooksRepository {
     }
 
     clearBooksBuffer = () => {
-        this.books = []
+        this.bookBuffer = []
     }
     
 }

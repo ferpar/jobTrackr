@@ -42,16 +42,19 @@ export class AuthorsPresenter extends MessagesPresenter {
       messagePm: computed,
       authorStrings: computed,
       addBook: action,
-      clearBooksToAdd: action,
+      clearInputs: action,
     });
     this.init();
-    this.reset();
+    this.newAuthorName = "";
+    this.newBookTitle = "";
+    this.showToggle = false;
   }
 
   reset = () => {
     this.newAuthorName = "";
     this.newBookTitle = "";
     this.showToggle = false;
+    this.booksRepository.bufferMode = false;
   };
 
   load = async () => {
@@ -59,6 +62,7 @@ export class AuthorsPresenter extends MessagesPresenter {
     if (authors?.length > 0) {
       this.showToggle = true;
     }
+    this.booksRepository.bufferMode = true;
   };
 
   toggleShowBooks = () => {
@@ -84,16 +88,18 @@ export class AuthorsPresenter extends MessagesPresenter {
     this.booksRepository.addBookToBuffer(this.newBookTitle);
   }
 
-  clearBooksToAdd = () => {
+  clearInputs = () => {
     this.booksRepository.clearBooksBuffer();
+    this.newAuthorName = "";
+    this.newBookTitle = "";
   }
 
 
   addAuthor = async () => {
     if (!this.newAuthorName) return
-    const bookNames = this.booksRepository.books.map(book => book.name)
+    const bookNames = this.booksRepository.bookBuffer.map(book => book.name)
     const addAuthorPm = await this.authorsRepository.addAuthor(this.newAuthorName, bookNames);
     this.unpackRepositoryPmToVm(addAuthorPm, "Author added");
-    this.clearBooksToAdd()
+    this.clearInputs()
   }
 }
