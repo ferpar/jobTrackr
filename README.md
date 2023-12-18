@@ -36,5 +36,8 @@ afterwards:
 - The Authors Repository and Presenter are being loaded / reset via React.useEffect as instructed on the exercise. Personally, I would rather keep doing this in the Router
 - The "before" hook provided by Navigo has been used instead of the "uses" property. But this currently has no effect because we are not "awaiting" for it to end before switching the route. This was intentional, for the matter of not overcomplicating the exercise, but the purpose is to explore the possibility of making sure some processes are finished before we switch a route. To see this in action it will suffice to set async/await on the chain of actions related to the before hook, and its contents.
 
+### Authentication
+- The token is being stored in LocalStorage so that there's no need to log back in after refresh, a new Gateway was created for this. ```./Core/LocalStorage/LocalStorageGateway.ts```
+
 ### CSS and components
 Since the exercise is not about CSS/HTML I took the liberty not to follow the same CSS template provided.
