@@ -29,14 +29,6 @@ describe("navigation", () => {
       },
       "currentSelectedVisibleName": "Home > homeLink",
       "menuItems":[
-        {
-          "id": "aboutLink",
-          "visibleName": "About",
-        },
-        {
-          "id": "contactLink",
-          "visibleName": "Contact",
-        },
         { 
           "id": "booksLink",
           "visibleName": "Books"
@@ -44,7 +36,15 @@ describe("navigation", () => {
         {
           "id": "authorsLink",
           "visibleName": "Authors",
-        }
+        },
+        {
+          "id": "contactLink",
+          "visibleName": "Contact",
+        },
+        {
+          "id": "aboutLink",
+          "visibleName": "About",
+        },
       ],
       "showBack": false,
     }
@@ -59,14 +59,6 @@ describe("navigation", () => {
       },
       "currentSelectedVisibleName": "Home > homeLink",
       "menuItems": [
-        {
-          "id": "aboutLink",
-          "visibleName": "About",
-        },
-        {
-          "id": "contactLink",
-          "visibleName": "Contact",
-        },
         { 
           "id": "booksLink",
           "visibleName": "Books"
@@ -74,7 +66,15 @@ describe("navigation", () => {
         {
           "id": "authorsLink",
           "visibleName": "Authors",
-        }
+        },
+        {
+          "id": "contactLink",
+          "visibleName": "Contact",
+        },
+        {
+          "id": "aboutLink",
+          "visibleName": "About",
+        },
       ],
       "showBack": false,
     }
@@ -152,14 +152,6 @@ describe("navigation", () => {
       },
       "currentSelectedVisibleName": "Home > homeLink",
       "menuItems": [
-        {
-          "id": "aboutLink",
-          "visibleName": "About",
-        },
-        {
-          "id": "contactLink",
-          "visibleName": "Contact",
-        },
         { 
           "id": "booksLink",
           "visibleName": "Books"
@@ -167,7 +159,15 @@ describe("navigation", () => {
         {
           "id": "authorsLink",
           "visibleName": "Authors",
-        }
+        },
+        {
+          "id": "contactLink",
+          "visibleName": "Contact",
+        },
+        {
+          "id": "aboutLink",
+          "visibleName": "About",
+        },
       ],
       "showBack": false,
     })

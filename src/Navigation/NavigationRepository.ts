@@ -34,18 +34,6 @@ export class NavigationRepository {
       text: "Home",
       children: [
         {
-          id: "aboutLink",
-          type: "link",
-          text: "About",
-          children: [],
-        },
-        {
-          id: "contactLink",
-          type: "link",
-          text: "Contact",
-          children: [],
-        },
-        {
           id: "booksLink",
           type: "link",
           text: "Books",
@@ -69,7 +57,19 @@ export class NavigationRepository {
               children: []
             }
           ]
-        }
+        },
+        {
+          id: "contactLink",
+          type: "link",
+          text: "Contact",
+          children: [],
+        },
+        {
+          id: "aboutLink",
+          type: "link",
+          text: "About",
+          children: [],
+        },
       ],
     });
 

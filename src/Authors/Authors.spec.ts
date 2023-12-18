@@ -166,6 +166,7 @@ describe("authors", () => {
       dynamicBookIdStack = [5, 4, 3, 2, 1];
 
       //test after pivot
+      //book list presenter should have new book
       expect(bookListPresenter?.viewModel).toEqual([
         {
           emailOwnerId: "a@b.com",
