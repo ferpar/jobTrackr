@@ -11,6 +11,7 @@ import { BookListPresenter } from "../Books/BookList/BookListPresenter";
 import { BooksRepository } from "../Books/BooksRepository";
 import IDataGateway from "../Core/IDataGateway";
 import { NoAuthorsResultStub } from "../TestTools/NoAuthorsResultStub";
+import { AuthorTestHarness } from "../TestTools/AuthorTestHarness";
 
 let testHarness: AppTestHarness | null = null;
 let authorsGateway: IDataGateway | null = null;
@@ -128,45 +129,68 @@ describe("authors", () => {
   });
 
   describe("saving", () => {
-    it("should allow single author to be added and will relaod authors list", async () => {
-      await authorsPresenter?.load();
-      //anchor
-      expect(authorsPresenter?.viewModel.length).toBe(2);
-
-      //pivot
-      // safety check
-      if (!authorsGateway || !booksGateway)
-        throw new Error("gateway not found");
-      // set stub to return new author
-      authorsGateway.get = vi.fn().mockImplementation(() => {
-        const newStub = SingleAuthorsResultStub();
-        newStub.result.push({
-          authorId: 3,
-          name: "new author",
-          bookIds: [4],
-          latLon: "19,22",
-        });
-        return Promise.resolve(newStub);
-      });
-
-      // set stub to return new book
-      booksGateway.post = vi.fn().mockImplementation(() => {
-        return Promise.resolve(GetSuccessfulBookAddedStub(4));
-      });
+    it("should add a book to the list of books to be added", async () => {
       if (!authorsPresenter) throw new Error("authorsPresenter not found");
+      await authorsPresenter?.load();
+
       // set up new author and book
       authorsPresenter.newAuthorName = "new author";
       authorsPresenter.newBookTitle = "new book";
       authorsPresenter.addBook();
 
+      //book list presenter should have new book,
+      expect(bookListPresenter?.viewModel).toEqual([
+        {
+          emailOwnerId: "a@b.com",
+          id: 0,
+          name: "new book",
+        },
+      ]);
+    });
 
-      // reset dynamic stacks
-      const addedBook: string = booksRepository?.bookBuffer[0].name as string;
-      dynamicBookNamesStack = [addedBook, "bookA", "bookB", "bookC"];
-      dynamicBookIdStack = [5, 4, 3, 2, 1];
+    it("should add multiple books to the list of books to be added", async () => {
+      if (!authorsPresenter) throw new Error("authorsPresenter not found");
+      await authorsPresenter?.load();
 
-      //test after pivot
-      //book list presenter should have new book
+      // set up new author and book
+      authorsPresenter.newAuthorName = "new author";
+      authorsPresenter.newBookTitle = "new book";
+      authorsPresenter.addBook();
+      authorsPresenter.newBookTitle = "new book 2";
+      authorsPresenter.addBook();
+      authorsPresenter.newBookTitle = "new book 3";
+      authorsPresenter.addBook();
+
+      //book list presenter should have new book,
+      expect(bookListPresenter?.viewModel).toEqual([
+        {
+          emailOwnerId: "a@b.com",
+          id: 0,
+          name: "new book",
+        },
+        {
+          emailOwnerId: "a@b.com",
+          id: 0,
+          name: "new book 2",
+        },
+        {
+          emailOwnerId: "a@b.com",
+          id: 0,
+          name: "new book 3",
+        },
+      ]);
+    });
+
+    it("should clear the books buffer", async () => {
+      if (!authorsPresenter) throw new Error("authorsPresenter not found");
+      await authorsPresenter?.load();
+
+      // set up new author and book
+      authorsPresenter.newAuthorName = "new author";
+      authorsPresenter.newBookTitle = "new book";
+      authorsPresenter.addBook();
+
+      //book list presenter should have new book,
       expect(bookListPresenter?.viewModel).toEqual([
         {
           emailOwnerId: "a@b.com",
@@ -175,7 +199,22 @@ describe("authors", () => {
         },
       ]);
 
-      await authorsPresenter?.addAuthor();
+      //clear inputs
+      authorsPresenter.clearInputs();
+
+      // book list should be empty
+      expect(bookListPresenter?.viewModel).toEqual([]);
+    });
+
+    it("should allow single author to be added and will reload authors list", async () => {
+      await authorsPresenter?.load();
+      //anchor
+      expect(authorsPresenter?.viewModel.length).toBe(2);
+      //pivot - add one author w/ one book
+      const authorTestHarness = new AuthorTestHarness(testHarness);
+      await authorTestHarness.addAuthorWithBook();
+
+      //test after pivot
       expect(authorsPresenter?.viewModel.length).toBe(3);
       expect(authorsPresenter?.viewModel[2]).toEqual({
         authorId: 3,
@@ -186,6 +225,38 @@ describe("authors", () => {
             devOwnerId: "pete+dnd@logicroom.co",
             emailOwnerId: "g@b.com",
             name: "new book",
+          },
+        ],
+        latLon: "19,22",
+        name: "new author",
+      });
+    });
+
+    it("correctly add author with two books", async () => {
+      await authorsPresenter?.load();
+      //anchor
+      expect(authorsPresenter?.viewModel.length).toBe(2);
+      //pivot - add one author w/ one book
+      const authorTestHarness = new AuthorTestHarness(testHarness);
+      await authorTestHarness.addAuthorWithTwoBooks();
+
+      //test after pivot
+      expect(authorsPresenter?.viewModel.length).toBe(3);
+      expect(authorsPresenter?.viewModel[2]).toEqual({
+        authorId: 3,
+        bookIds: [4, 5],
+        books: [
+          {
+            bookId: 4,
+            devOwnerId: "pete+dnd@logicroom.co",
+            emailOwnerId: "g@b.com",
+            name: "second book",
+          },
+          {
+            bookId: 5,
+            devOwnerId: "pete+dnd@logicroom.co",
+            emailOwnerId: "g@b.com",
+            name: "first book",
           },
         ],
         latLon: "19,22",
