@@ -4,6 +4,7 @@ import { BooksRepository } from "../Books/BooksRepository";
 import { AuthorsRepository } from "./AuthorsRepository";
 import { MessagesPresenter } from "../Core/Messages/MessagesPresenter";
 
+const maxAuthors = 5;
 @injectable()
 export class AuthorsPresenter extends MessagesPresenter {
   @inject(AuthorsRepository)
@@ -14,7 +15,7 @@ export class AuthorsPresenter extends MessagesPresenter {
 
   newAuthorName: string | null = null;
 
-  showBooks: boolean = true;
+  showAuthors: boolean | null = null;
 
   get viewModel() {
     return this.authorsRepository.authors;
@@ -35,7 +36,7 @@ export class AuthorsPresenter extends MessagesPresenter {
     this.id = Math.random().toString(36).substring(7);
     makeObservable(this, {
       newAuthorName: observable,
-      showBooks: observable,
+      showAuthors: observable,
       newBookTitle: observable,
       toggleShowBooks: action,
       viewModel: computed,
@@ -43,6 +44,7 @@ export class AuthorsPresenter extends MessagesPresenter {
       authorStrings: computed,
       addBook: action,
       clearInputs: action,
+      shouldShowAuthors: computed,
     });
     this.init();
     this.newAuthorName = "";
@@ -66,10 +68,17 @@ export class AuthorsPresenter extends MessagesPresenter {
   };
 
   toggleShowBooks = () => {
-    this.showBooks = !this.showBooks;
+    this.showAuthors = !this.showAuthors;
   };
 
-
+  get shouldShowAuthors() {
+    if (this.showAuthors === null && this.authorsRepository.authors.length >= maxAuthors) {
+      console.log("shouldShowAuthors: false")
+      return false
+    }
+    console.log("shouldShowAuthors: true")
+    return this.showAuthors
+  }
 
   get authorStrings() {
     const authorStrings = this.authorsRepository.authors.map((author) => {
@@ -97,9 +106,21 @@ export class AuthorsPresenter extends MessagesPresenter {
 
   addAuthor = async () => {
     if (!this.newAuthorName) return
+    // reset showAuthors so that the list is hidden after adding an author
+    this.showAuthors = null;
     const bookNames = this.booksRepository.bookBuffer.map(book => book.name)
     const addAuthorPm = await this.authorsRepository.addAuthor(this.newAuthorName, bookNames);
     this.unpackRepositoryPmToVm(addAuthorPm, "Author added");
     this.clearInputs()
+  }
+
+  get authorsSummary() {
+    if (this.authorsRepository.authors.length === 0) {
+      return " (No authors)";
+    } else if (this.authorsRepository.authors.length === 1) {
+      return " (1 author)";
+    } else {
+      return ` (${this.authorsRepository.authors.length} authors)`;
+    }
   }
 }

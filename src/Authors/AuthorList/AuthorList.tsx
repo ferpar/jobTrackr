@@ -5,7 +5,7 @@ import { AuthorsPresenter } from "../AuthorsPresenter";
 const AuthorsComp = observer(({ presenter }) => {
   return (
     <div>
-      {presenter.showBooks && (<ul>
+      {presenter.shouldShowAuthors && (<ul>
         {presenter.authorStrings.map((authorString, idx) => (
           <li key={idx}>{authorString}</li>
         ))}
