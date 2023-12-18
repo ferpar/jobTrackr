@@ -7,7 +7,7 @@ import { AddBooks } from "../Books/AddBooks/AddBooks";
 import { BookList } from "../Books/BookList/BookList";
 import { AuthorsPresenter } from "./AuthorsPresenter";
 import { MessagesComponent } from "../Core/Messages/MessagesComponent";
-import { useValidation } from "../Core/Providers/Validation";
+import { useValidation } from "../Core/Providers/useValidation";
 
 const AuthorsComp = observer((props) => {
   const [, updateClientValidationMessages] = useValidation();

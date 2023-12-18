@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react'
 import { MessagesPresenter } from './MessagesPresenter'
 import { withInjection } from '../Providers/Injection'
-import { useValidation } from '../Providers/Validation'
+import { useValidation } from '../Providers/useValidation'
 
 export const MessagesComp = observer((props) => {
   const [uiMessages] = useValidation()

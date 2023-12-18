@@ -5,8 +5,7 @@ export type ValidationContextType = {
   updateClientValidationMessages: (message) => void;
 };
 
-
-const ValidationContext = React.createContext<ValidationContextType>({
+export const ValidationContext = React.createContext<ValidationContextType>({
   clientValidationMessages: [],
   updateClientValidationMessages: () => {},
 });
@@ -24,8 +23,3 @@ export const ValidationProvider = (props) => {
   );
 };
 
-export function useValidation(): [Array<string>, (messages) => void] {
-  const { clientValidationMessages, updateClientValidationMessages } =
-    React.useContext(ValidationContext);
-  return [clientValidationMessages, updateClientValidationMessages];
-}

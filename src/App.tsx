@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { observer } from "mobx-react";
 import { withInjection } from "./Core/Providers/Injection.tsx";
 import { AppPresenter } from "./AppPresenter.ts";
@@ -9,16 +9,16 @@ import About from "./Pages/About.tsx";
 import Contact from "./Pages/Contact.tsx";
 import NotFound from "./Pages/NotFound.tsx";
 import Logout from "./Components/Logout.tsx";
-import { useValidation } from "./Core/Providers/Validation.tsx";
+import { useValidation } from "./Core/Providers/useValidation.tsx";
 import { Books } from "./Books/Books.tsx";
 import { Authors } from "./Authors/Authors.tsx";
 
 export const AppComp = observer(({ presenter }) => {
   const [, updateClientValidationMessages] = useValidation();
 
-  const onRouteChange = () => {
+  const onRouteChange = React.useCallback(() => {
     updateClientValidationMessages([]);
-  };
+  }, [updateClientValidationMessages]);
 
   const renderedComponents = [
     {
@@ -49,7 +49,7 @@ export const AppComp = observer(({ presenter }) => {
 
   React.useEffect(() => {
     presenter.load(onRouteChange);
-  }, [presenter]);
+  }, [presenter, onRouteChange]);
 
   return (
     <div className="container">
@@ -74,5 +74,4 @@ export const AppComp = observer(({ presenter }) => {
 
 export const App = withInjection({
   presenter: AppPresenter,
-  //   messagesRepository: MessagesRepository
 })(AppComp);

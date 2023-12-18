@@ -3,10 +3,10 @@ import { observer } from "mobx-react";
 import { withInjection } from "../Core/Providers/Injection";
 import { LoginRegisterPresenter } from "../Authentication/LoginRegisterPresenter";
 import { MessagesComponent } from "../Core/Messages/MessagesComponent";
-import { useValidation } from "../Core/Providers/Validation";
+import { useValidation } from "../Core/Providers/useValidation";
 
 const LoginRegisterComp = observer(({ presenter }): React.ReactElement => {
-  const [messages, updateClientValidationMessages] = useValidation();
+  const [, updateClientValidationMessages] = useValidation();
   const formValid = () => {
     const clientValidationMessages: Array<string> = [];
     if (presenter.email === "") {
@@ -34,7 +34,7 @@ const LoginRegisterComp = observer(({ presenter }): React.ReactElement => {
   // initially clearing the form, setting option to login
   React.useEffect(() => {
     presenter.reset();
-  }, []);
+  }, [presenter]);
 
   return (
     <div>
