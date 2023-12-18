@@ -1,30 +1,37 @@
-# React + TypeScript + Vite
+# UI Architecture Final Project
+This is the final project made by student Fernando Pérez de Ayala for the UI Architecture Academy.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## local setup
+The project was built under node version 16.20, therefore please use a version equal or later than that.
 
-Currently, two official plugins are available:
+node version >= 16.20 .
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Don't forget to install the dependencies on the first time ;).
 
-## Expanding the ESLint configuration
+first time:
+```npm install && npm run dev```
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+afterwards:
+```npm run dev```
 
-- Configure the top-level `parserOptions` property like this:
+## running the tests
+```npm run test```
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## additional considerations
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Lifecycle of architectural components (Singletons / Transients)
+- All Gateways are Transients
+- All Repositories are Singletons as it is to be expected
+- The Authors Presenter is a Singleton as instructed
+- Every other Part of the Reactive Core is a Transient by default
+
+### Authors Feature Particularities
+- To reuse the BookListPresenter a separate book-list and a flag variable "bufferMode" was created at the BooksRepository so as to not mix an array storing data from the api, with that of an input from the UI. Whenever the AuthorsPresenter is loaded, we set the variable to true so that the BookListPresenter reads from the "buffer" array instead of the list of books coming from the API.
+
+### Routing and Initialization
+- The Books Repository is being loaded / reset via the Router
+- The Authors Repository and Presenter are being loaded / reset via React.useEffect as instructed on the exercise. Personally, I would rather keep doing this in the Router
+- The "before" hook provided by Navigo has been used instead of the "uses" property. But this currently has no effect because we are not "awaiting" for it to end before switching the route. This was intentional, for the matter of not overcomplicating the exercise, but the purpose is to explore the possibility of making sure some processes are finished before we switch a route. To see this in action it will suffice to set async/await on the chain of actions related to the before hook, and its contents.
+
+### CSS and components
+Since the exercise is not about CSS/HTML I took the liberty not to follow the same CSS template provided.
