@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import { useValidation } from "../../Core/Providers/useValidation";
-import { useInjection } from "../../Core/Providers/Injection";
+import { useInjection } from "../../Core/Providers/useInjection";
 import { AuthorsPresenter } from "../AuthorsPresenter";
 
 export const AddAuthor = observer(

@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import { withInjection } from '../../Core/Providers/Injection';
+import { withInjection } from '../../Core/Providers/withInjection';
 import { BookListPresenter } from './BookListPresenter';
 
 const BookListComp = observer( ({presenter}) => {

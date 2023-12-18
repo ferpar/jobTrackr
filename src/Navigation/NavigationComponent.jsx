@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { withInjection } from "../Core/Providers/Injection";
+import { withInjection } from "../Core/Providers/withInjection";
 import { Router } from "../Routing/Router";
 import { NavigationPresenter } from "./NavigationPresenter";
 
