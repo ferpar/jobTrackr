@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import { describe, beforeEach, it, expect, vi } from "vitest";
-import { Types } from "../Core/Types";
 import { AppTestHarness } from "../TestTools/AppTestHarness";
 import { GetSuccessfulUserLoginStub } from "../TestTools/GetSuccessfulUserLoginStub";
 import { BooksResultStub } from "../TestTools/BooksResultStub";
@@ -9,9 +8,10 @@ import { BookListPresenter } from "./BookList/BookListPresenter";
 import { BooksRepository } from "./BooksRepository";
 import { Router } from "../Routing/Router";
 import { GetSuccessfulBookAddedStub } from "../TestTools/GetSuccessfulBookAddedStub";
+import IDataGateway from "../Core/IDataGateway";
 
 let testHarness: AppTestHarness | null = null;
-let dataGateway: any = null;
+let dataGateway: IDataGateway | null = null;
 let booksPresenter: BooksPresenter | null = null;
 let bookListPresenter: BookListPresenter | null = null;
 let booksRepository: BooksRepository | null = null;
@@ -35,6 +35,7 @@ describe("books feature", () => {
   describe("loading", () => {
     it("should show book list", async () => {
       // stub the dataGateway.get method to force successful response
+      if (!dataGateway) throw new Error("dataGateway not found");
       dataGateway.get = vi.fn().mockImplementation(async () => {
         return await Promise.resolve(BooksResultStub());
       });
@@ -78,6 +79,7 @@ describe("books feature", () => {
 
   describe("saving (adding books)", () => {
     beforeEach(async () => {
+      if (!dataGateway) throw new Error("dataGateway not found");
       dataGateway.get = vi.fn().mockImplementation(async () => {
         return await Promise.resolve(BooksResultStub());
       });
@@ -86,12 +88,14 @@ describe("books feature", () => {
       });
     });
     it("should reload books list", async () => {
+      if (!dataGateway) throw new Error("dataGateway not found");
       expect(bookListPresenter?.viewModel.length).toBe(0);
       if (booksPresenter) booksPresenter.newBookTitle = "new book";
       await booksPresenter?.addBook();
-      expect(dataGateway.post).toHaveBeenCalledWith(
-        "/books", { name: "new book", emailOwnerId: booksRepository?.userModel.email },
-      );
+      expect(dataGateway.post).toHaveBeenCalledWith("/books", {
+        name: "new book",
+        emailOwnerId: booksRepository?.userModel.email,
+      });
       expect(booksPresenter?.viewModel).toEqual([
         {
           bookId: 881,
@@ -119,20 +123,22 @@ describe("books feature", () => {
         },
       ]);
     });
-    it('should update books message', async () => {
-      expect(booksPresenter?.messagePm).toBe('UNSET')
+    it("should update books message", async () => {
+      if (!dataGateway) throw new Error("dataGateway not found");
+      expect(booksPresenter?.messagePm).toBe("UNSET");
       if (booksPresenter) booksPresenter.newBookTitle = "new book";
       await booksPresenter?.addBook();
-      expect(dataGateway.post).toHaveBeenCalledWith(
-        "/books", { name: "new book", emailOwnerId: booksRepository?.userModel.email },
-      );
-      expect(booksPresenter?.messagePm).toBe('ADDED')
-    })
-    it('should update the last added book string', async () => {
-      expect(booksPresenter?.lastAddedBook).toBe(null)
+      expect(dataGateway.post).toHaveBeenCalledWith("/books", {
+        name: "new book",
+        emailOwnerId: booksRepository?.userModel.email,
+      });
+      expect(booksPresenter?.messagePm).toBe("ADDED");
+    });
+    it("should update the last added book string", async () => {
+      expect(booksPresenter?.lastAddedBook).toBe(null);
       if (booksPresenter) booksPresenter.newBookTitle = "new book";
       await booksPresenter?.addBook();
-      expect(booksPresenter?.lastAddedBook).toBe('new book')
-    })
+      expect(booksPresenter?.lastAddedBook).toBe("new book");
+    });
   });
 });
