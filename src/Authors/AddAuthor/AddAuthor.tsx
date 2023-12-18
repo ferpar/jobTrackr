@@ -1,22 +1,19 @@
 import { observer } from "mobx-react";
 import { useValidation } from "../../Core/Providers/Validation";
-import { withInjection } from "../../Core/Providers/Injection";
+import { useInjection } from "../../Core/Providers/Injection";
 import { AuthorsPresenter } from "../AuthorsPresenter";
 
-const AddAuthorComp = observer(
-  ({
-    presenter,
-    formValid,
-  }: {
-    presenter: { newAuthorName: string; addAuthor: () => void };
-    formValid?: () => boolean;
-  }) => {
+export const AddAuthor = observer(
+  ({ formValid }: { formValid?: () => boolean }) => {
+    const presenter: AuthorsPresenter = useInjection(
+      AuthorsPresenter
+    ) as AuthorsPresenter;
     const [, updateClientValidationMessages] = useValidation();
 
     const defaultFormValid = () => {
       const clientValidationMessages: string[] = [];
       if (presenter.newAuthorName === "")
-        clientValidationMessages.push("No Author Name");
+        clientValidationMessages.push("Please enter a Name");
       updateClientValidationMessages(clientValidationMessages);
       return clientValidationMessages.length === 0;
     };
@@ -40,7 +37,7 @@ const AddAuthorComp = observer(
           <label>
             <input
               type="text"
-              value={presenter.newAuthorName}
+              value={presenter.newAuthorName || ""}
               placeholder="Enter author name"
               onChange={onChange}
             />
@@ -51,7 +48,3 @@ const AddAuthorComp = observer(
     );
   }
 );
-
-export const AddAuthor = withInjection({
-  presenter: AuthorsPresenter,
-})(AddAuthorComp);
