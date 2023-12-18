@@ -124,7 +124,7 @@ describe("authors", () => {
     it("should set buffer mode to true, so the in-memory books list is read", async () => {
       await authorsPresenter?.load();
       expect(booksRepository?.bufferMode).toBe(true);
-    })
+    });
   });
 
   describe("saving", () => {
@@ -134,10 +134,10 @@ describe("authors", () => {
       expect(authorsPresenter?.viewModel.length).toBe(2);
 
       //pivot
-        // safety check
+      // safety check
       if (!authorsGateway || !booksGateway)
         throw new Error("gateway not found");
-        // set stub to return new author
+      // set stub to return new author
       authorsGateway.get = vi.fn().mockImplementation(() => {
         const newStub = SingleAuthorsResultStub();
         newStub.result.push({
@@ -149,33 +149,44 @@ describe("authors", () => {
         return Promise.resolve(newStub);
       });
 
-        // set stub to return new book
+      // set stub to return new book
       booksGateway.post = vi.fn().mockImplementation(() => {
         return Promise.resolve(GetSuccessfulBookAddedStub(4));
       });
       if (!authorsPresenter) throw new Error("authorsPresenter not found");
-        // set up new author and book
+      // set up new author and book
       authorsPresenter.newAuthorName = "new author";
       authorsPresenter.newBookTitle = "new book";
       authorsPresenter.addBook();
 
-        // reset dynamic stacks
+
+      // reset dynamic stacks
       const addedBook: string = booksRepository?.bookBuffer[0].name as string;
       dynamicBookNamesStack = [addedBook, "bookA", "bookB", "bookC"];
       dynamicBookIdStack = [5, 4, 3, 2, 1];
 
       //test after pivot
+      expect(bookListPresenter?.viewModel).toEqual([
+        {
+          emailOwnerId: "a@b.com",
+          id: 0,
+          name: "new book",
+        },
+      ]);
+
       await authorsPresenter?.addAuthor();
       expect(authorsPresenter?.viewModel.length).toBe(3);
       expect(authorsPresenter?.viewModel[2]).toEqual({
         authorId: 3,
         bookIds: [4],
-        books: [{
-                  "bookId": 4,
-                  "devOwnerId": "pete+dnd@logicroom.co",
-                  "emailOwnerId": "g@b.com",
-                  "name": "new book",
-                }],
+        books: [
+          {
+            bookId: 4,
+            devOwnerId: "pete+dnd@logicroom.co",
+            emailOwnerId: "g@b.com",
+            name: "new book",
+          },
+        ],
         latLon: "19,22",
         name: "new author",
       });
