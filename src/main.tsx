@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { AppComponent } from "./AppComponent.tsx";
+import { App } from "./App.tsx";
 import { ValidationProvider } from "./Core/Providers/Validation.tsx";
 import "./index.css";
 import { InjectionProvider } from "./Core/Providers/Injection.tsx";
@@ -20,7 +20,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <InjectionProvider container={container}>
       <ValidationProvider>
-        <AppComponent />
+        <App />
       </ValidationProvider>
     </InjectionProvider>
   </React.StrictMode>

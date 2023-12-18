@@ -25,6 +25,9 @@ afterwards:
 - The Authors Presenter is a Singleton as instructed
 - Every other Part of the Reactive Core is a Transient by default
 
+### Naming Convention
+- The "Component" surname is being removed from the React Components (i.e.: AuthorsComponent => Authors)
+
 ### Authors Feature Particularities
 - To reuse the BookListPresenter a separate book-list and a flag variable "bufferMode" was created at the BooksRepository so as to not mix an array storing data from the api, with that of an input from the UI. Whenever the AuthorsPresenter is loaded, we set the variable to true so that the BookListPresenter reads from the "buffer" array instead of the list of books coming from the API.
 
