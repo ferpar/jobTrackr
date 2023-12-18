@@ -129,6 +129,14 @@ describe("authors", () => {
   });
 
   describe("saving", () => {
+    it("should be using a buffer for the new books input list", async () => {
+      // we are using a separate buffer instead of the books list from the api
+      // we use a flag variable (bufferMode) to track whether we are using the buffer or not
+      if (!authorsPresenter) throw new Error("authorsPresenter not found");
+      await authorsPresenter?.load();
+
+      expect(bookListPresenter?.booksRepository.bufferMode).toBe(true);
+    });
     it("should add a book to the list of books to be added", async () => {
       if (!authorsPresenter) throw new Error("authorsPresenter not found");
       await authorsPresenter?.load();
@@ -236,7 +244,7 @@ describe("authors", () => {
       await authorsPresenter?.load();
       //anchor
       expect(authorsPresenter?.viewModel.length).toBe(2);
-      //pivot - add one author w/ one book
+      //pivot - add one author w/ two books
       const authorTestHarness = new AuthorTestHarness(testHarness);
       await authorTestHarness.addAuthorWithTwoBooks();
 
