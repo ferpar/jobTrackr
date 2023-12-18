@@ -73,10 +73,8 @@ export class AuthorsPresenter extends MessagesPresenter {
 
   get shouldShowAuthors() {
     if (this.showAuthors === null && this.authorsRepository.authors.length >= maxAuthors) {
-      console.log("shouldShowAuthors: false")
       return false
     }
-    console.log("shouldShowAuthors: true")
     return this.showAuthors
   }
 
