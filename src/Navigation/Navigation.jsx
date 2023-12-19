@@ -6,18 +6,18 @@ import { NavigationPresenter } from "./NavigationPresenter";
 
 const NavigationComp = observer(({ router, presenter }) => {
   return (
-    <div>
+    <div className="nav-menu">
       {presenter.viewModel.menuItems.map( item => {
         return (
-          <button key={item.id} onClick={() => router.goToId(item.id)}>{item.visibleName}</button>
+          <a key={item.id} onClick={() => router.goToId(item.id)}><h2>{item.visibleName}</h2></a>
         );
       })}
-      {presenter.viewModel.showBack && <button onClick={() => presenter.back()}>Back</button>}
+      {presenter.viewModel.showBack && <a onClick={() => presenter.back()}><h2>Back</h2></a>}
     </div>
   );
 });
 
-export const NavigationComponent = withInjection({
+export const Navigation = withInjection({
   presenter: NavigationPresenter,
   router: Router,
 })(NavigationComp);

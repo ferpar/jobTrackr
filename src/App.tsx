@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { withInjection } from "./Core/Providers/withInjection.tsx";
 import { AppPresenter } from "./AppPresenter.ts";
-import { NavigationComponent } from "./Navigation/NavigationComponent.jsx";
+import { Navigation } from "./Navigation/Navigation.jsx";
 import LoginRegister from "./Pages/LoginRegister.tsx";
 import Home from "./Pages/Home.tsx";
 import About from "./Pages/About.tsx";
@@ -56,16 +56,22 @@ export const AppComp = observer(({ presenter }) => {
       {presenter.currentRoute === "loginLink" ? (
         <LoginRegister />
       ) : (
-        <div className="w3-row">
-          <div className="w3-col s4 w3-center">
-            <NavigationComponent />
+        <div className="app-wrapper">
+          <div>
+            <Logout />
           </div>
-          <div className="w3-col s8 w3-left">
-            {renderedComponents.map((current) => {
-              return presenter.currentRoute === current.id && current.component;
-            })}
+          <div className="main-content">
+            <div className="nav-column">
+              <Navigation />
+            </div>
+            <div className="page-content">
+              {renderedComponents.map((current) => {
+                return (
+                  presenter.currentRoute === current.id && current.component
+                );
+              })}
+            </div>
           </div>
-          <Logout />
         </div>
       )}
     </div>

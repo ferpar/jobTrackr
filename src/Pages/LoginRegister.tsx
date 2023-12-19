@@ -37,7 +37,7 @@ const LoginRegisterComp = observer(({ presenter }): React.ReactElement => {
   }, [presenter]);
 
   return (
-    <div>
+    <div className="login-register">
       <h2>{presenter.title}</h2>
       <form onSubmit={handleSubmit}>
         <fieldset>

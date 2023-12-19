@@ -3,7 +3,7 @@ import { withInjection } from "../Core/Providers/withInjection";
 import { LoginRegisterPresenter } from "../Authentication/LoginRegisterPresenter";
 
 const LogoutComp = observer(({ presenter }) => {
-  return <button onClick={presenter.logOut}>Logout</button>;
+  return <button className="logout-btn" onClick={presenter.logOut}>Logout</button>;
 });
 
 const Logout = withInjection({
