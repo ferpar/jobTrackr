@@ -5,12 +5,14 @@ import { GetSuccessfulBookAddedStub } from "../TestTools/GetSuccessfulBookAddedS
 import { GetSuccessfulAuthorAddedStub } from "../TestTools/GetSuccessfulAuthorAddedStub";
 import { SingleBookResultStub } from "../TestTools/SingleBookResultStub";
 import { SingleAuthorsResultStub } from "../TestTools/SingleAuthorResultStub";
+import { FiveAuthorsResultStub } from "../TestTools/FiveAuthorsResultStub";
+import { NoAuthorsResultStub } from "../TestTools/NoAuthorsResultStub";
+import { SixBooksResultStub } from "../TestTools/SixBooksResultStub";
 import { AppTestHarness } from "../TestTools/AppTestHarness";
 import { AuthorsPresenter } from "./AuthorsPresenter";
 import { BookListPresenter } from "../Books/BookList/BookListPresenter";
 import { BooksRepository } from "../Books/BooksRepository";
 import IDataGateway from "../Core/IDataGateway";
-import { NoAuthorsResultStub } from "../TestTools/NoAuthorsResultStub";
 import { AuthorTestHarness } from "../TestTools/AuthorTestHarness";
 
 let testHarness: AppTestHarness | null = null;
@@ -240,7 +242,7 @@ describe("authors", () => {
       });
     });
 
-    it("correctly add author with two books", async () => {
+    it("should correctly add author with two books", async () => {
       await authorsPresenter?.load();
       //anchor
       expect(authorsPresenter?.viewModel.length).toBe(2);
@@ -271,5 +273,67 @@ describe("authors", () => {
         name: "new author",
       });
     });
+
+    it("should show the authors list by default, if there are less than the defined max authors (5)", async () => {
+      await authorsPresenter?.load();
+      //anchor
+      expect(authorsPresenter?.viewModel.length).toBe(2);
+      expect(authorsPresenter?.shouldShowAuthors).toBe(true);
+    })
+
+    it("should not show the authors list by default, if there are more than the defined max authors (5)", async () => {
+      if(!authorsGateway || !booksGateway) throw new Error("authorsGateway not found");
+      authorsGateway.get = vi.fn().mockImplementation(() => {
+        return Promise.resolve(FiveAuthorsResultStub());
+      })
+      booksGateway.get = vi.fn().mockImplementation(() => {
+        return Promise.resolve(SixBooksResultStub());
+      })
+      await authorsPresenter?.load();
+      expect(authorsPresenter?.viewModel.length).toBe(5);
+      expect(authorsPresenter?.shouldShowAuthors).toBe(false)
+    })
+
+    it("should hide the authors list after storing a new author, if there are more than the defined max authors (5)", async () => {
+      const authorsStub = FiveAuthorsResultStub();
+      const first4Authors = {...authorsStub, result: authorsStub.result.slice(0, 4)};
+      const lastAuthor = authorsStub.result.slice(4, 5);
+
+      if(!authorsGateway || !booksGateway) throw new Error("authorsGateway not found");
+      authorsGateway.get = vi.fn().mockImplementation(() => {
+        return Promise.resolve(first4Authors);
+      })
+      booksGateway.get = vi.fn().mockImplementation(() => {
+        return Promise.resolve(SixBooksResultStub());
+      })
+
+      await authorsPresenter?.load();
+      // anchor
+      expect(authorsPresenter?.viewModel.length).toBe(4);
+      expect(authorsPresenter?.shouldShowAuthors).toBe(true)
+
+      // pivot - add one book
+      authorsGateway.get = vi.fn().mockImplementation(() => {
+        return Promise.resolve(FiveAuthorsResultStub());
+      })
+
+      if (!authorsPresenter) throw new Error("authorsPresenter not found");
+      authorsPresenter.newAuthorName = lastAuthor[0].name;
+      authorsPresenter.newBookTitle = "new book";
+      authorsPresenter.addBook();
+      dynamicBookNamesStack = ["new book"];
+      dynamicBookIdStack = [6];
+      await authorsPresenter.addAuthor();
+
+      // test after pivot
+      expect(authorsGateway.post).toHaveBeenCalledWith("/authors", {
+        name: lastAuthor[0].name,
+        bookIds: [6],
+        emailOwnerId: "a@b.com"})
+      expect(authorsPresenter?.viewModel.length).toBe(5);
+      // finally, the list should be hidden
+      expect(authorsPresenter?.shouldShowAuthors).toBe(false)
+    })
+
   });
 });
