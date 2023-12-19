@@ -6,6 +6,7 @@ const Contact = (): React.ReactElement => {
 <p>You may contact me @:</p>
 <ul>
   <li><a href="mailto:ferp@protonmail.ch">ferp@protonmail.ch</a></li>
+  <li><a href="https://www.linkedin.com/in/fernando-perez-de-ayala/">linkedIn Profile</a></li>
 </ul>
   </>
 }

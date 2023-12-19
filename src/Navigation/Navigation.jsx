@@ -9,10 +9,10 @@ const NavigationComp = observer(({ router, presenter }) => {
     <div className="nav-menu">
       {presenter.viewModel.menuItems.map( item => {
         return (
-          <a key={item.id} onClick={() => router.goToId(item.id)}><h2>{item.visibleName}</h2></a>
+          <button key={item.id} onClick={() => router.goToId(item.id)}><h2>{item.visibleName}</h2></button>
         );
       })}
-      {presenter.viewModel.showBack && <a onClick={() => presenter.back()}><h2>Back</h2></a>}
+      {presenter.viewModel.showBack && <button onClick={() => presenter.back()}><h2>Back</h2></button>}
     </div>
   );
 });
