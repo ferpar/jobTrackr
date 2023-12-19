@@ -5,15 +5,14 @@ import { useValidation } from '../Providers/useValidation'
 
 export const MessagesComp = observer((props) => {
   const [uiMessages] = useValidation()
-
   return (
     <>
       {props.presenter.messages &&
         props.presenter.messages.map((item, i) => {
           return (
-            <div style={{ backgroundColor: 'red' }} key={i}>
+            <div style={{ backgroundColor: !item.success ?'red' : 'green' }} key={i}>
               {' - '}
-              {item}
+              {item.message}
             </div>
           )
         })}

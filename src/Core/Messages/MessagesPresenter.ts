@@ -28,7 +28,7 @@ export class MessagesPresenter {
   unpackRepositoryPmToVm = (pm, userMessage) => {
     this.showValidationWarning = !pm.success;
     this.messagesRepository.appMessages = pm.success
-      ? [userMessage]
-      : [pm.serverMessage];
+      ? [{message: userMessage, success: true}]
+      : [{message: pm.serverMessage, success: false}];
   };
 }

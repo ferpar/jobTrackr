@@ -61,17 +61,31 @@ describe("init", () => {
     describe("register", () => {
       it("should show successful user message on successful register", async () => {
         // get the loginRegisterPresenter from the function call to make sure it's the same one (transient)
-        const loginRegisterPresenter = await testHarness?.setupRegister(GetSuccessfulRegistrationStub);
+        const loginRegisterPresenter = await testHarness?.setupRegister(
+          GetSuccessfulRegistrationStub
+        );
         expect(loginRegisterPresenter?.showValidationWarning).toBe(false);
-        expect(loginRegisterPresenter?.messages).toEqual(["User registered"]);
+        expect(loginRegisterPresenter?.messages).toEqual([
+          {
+            message: "User registered",
+            success: true,
+          },
+        ]);
       });
       it("should show failed user message on failed register", async () => {
-        const loginRegisterPresenter = await testHarness?.setupRegister(GetFailedRegistrationStub);
+        const loginRegisterPresenter = await testHarness?.setupRegister(
+          GetFailedRegistrationStub
+        );
         expect(loginRegisterPresenter?.messages).toEqual([
-          "Failed: credentials not valid must be (email and >3 chars on password).",
+          {
+            message:
+              "Failed: credentials not valid must be (email and >3 chars on password).",
+            success: false,
+          },
         ]);
+
         expect(loginRegisterPresenter?.showValidationWarning).toBe(true);
-      })
+      });
     });
     describe("login", () => {
       it("should start at loginLink if not logged in", () => {
@@ -97,7 +111,7 @@ describe("init", () => {
         router?.goToId("aboutLink");
         const appPresenter = testHarness?.appPresenter;
         expect(appPresenter.currentRoute).toBe("aboutLink");
-      })
+      });
 
       it("should show not update route when failed login", async () => {
         //start at login
@@ -109,25 +123,35 @@ describe("init", () => {
         const appPresenter = testHarness?.appPresenter;
         // should still be at login
         expect(appPresenter.currentRoute).toBe("loginLink");
-      })
+      });
 
       it("should show failed user message on failed login", async () => {
-        const loginRegisterPresenter = await testHarness?.setupLogin(GetFailedUserLoginStub);
+        const loginRegisterPresenter = await testHarness?.setupLogin(
+          GetFailedUserLoginStub
+        );
         expect(loginRegisterPresenter?.messages).toEqual([
-          "Failed: no user record.",
+          {
+            message: "Failed: no user record.",
+            success: false,
+          },
         ]);
         expect(loginRegisterPresenter?.showValidationWarning).toBe(true);
-      })
+      });
 
       it("should clear messages on route change", async () => {
-        const loginRegisterPresenter = await testHarness?.setupLogin(GetFailedUserLoginStub);
+        const loginRegisterPresenter = await testHarness?.setupLogin(
+          GetFailedUserLoginStub
+        );
         expect(loginRegisterPresenter?.messages).toEqual([
-          "Failed: no user record.",
+          {
+            message: "Failed: no user record.",
+            success: false,
+          },
         ]);
         expect(loginRegisterPresenter?.showValidationWarning).toBe(true);
         router?.goToId("loginLink");
         expect(loginRegisterPresenter?.messages).toEqual([]);
-      })
+      });
     });
   });
 });
