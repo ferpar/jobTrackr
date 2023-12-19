@@ -57,7 +57,7 @@ export const AppComp = observer(({ presenter }) => {
         <LoginRegister />
       ) : (
         <div className="app-wrapper">
-          <div>
+          <div className="top-actions">
             <Logout />
           </div>
           <div className="main-content">
