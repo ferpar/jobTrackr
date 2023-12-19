@@ -29,10 +29,7 @@ export class Router {
   updateCurrentRoute = async (newRouteId, params, query) => {
     const oldRoute = this.routerRepository.findRoute(this.currentRoute.routeId);
     const newRoute = this.routerRepository.findRoute(newRouteId);
-    console.log("oldRoute", oldRoute);
-    console.log("newRoute", newRoute);
     const hasToken = !!this.userModel.token;
-    console.log("hasToken", hasToken);
     const routeChanged = oldRoute.routeId !== newRoute.routeId;
     const protectedOrUnauthenticatedRoute =
       (newRoute.routeDef.isSecure && hasToken === false) ||
@@ -40,12 +37,6 @@ export class Router {
     const publicOrAuthenticatedRoute =
       (newRoute.routeDef.isSecure && hasToken === true) ||
       newRoute.routeDef.isSecure === false;
-    console.log("routeChanged", routeChanged);
-    console.log(
-      "protectedOrUnauthenticatedRoute",
-      protectedOrUnauthenticatedRoute
-    );
-    console.log("publicOrAuthenticatedRoute", publicOrAuthenticatedRoute);
 
     if (routeChanged) {
       // if user is authenticated and the route is not found, redirect to home
@@ -54,6 +45,7 @@ export class Router {
         return;
       }
 
+      // if user is authenticated and tries to go to login, redirect to home
       if (newRoute.routeDef.path === "/login" && hasToken === true) {
         this.routerRepository.goToId("homeLink");
         return;
