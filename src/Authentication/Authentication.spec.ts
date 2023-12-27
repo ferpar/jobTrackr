@@ -140,7 +140,7 @@ describe("init", () => {
         expect(appPresenter.currentRoute).toBe("aboutLink");
       });
 
-      it("should show not update route when failed login", async () => {
+      it("should prevent access when not logged in", async () => {
         //start at login
         router?.goToId("loginLink");
         // fail login
