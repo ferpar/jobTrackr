@@ -86,6 +86,12 @@ describe("init", () => {
 
         expect(loginRegisterPresenter?.showValidationWarning).toBe(true);
       });
+      it("should set the presenter to login mode on successful register", async () => {
+        const loginRegisterPresenter = await testHarness?.setupRegister(
+          GetSuccessfulRegistrationStub
+        );
+        expect(loginRegisterPresenter?.option).toBe("login");
+      })
     });
     describe("login", () => {
       it("should start at loginLink if not logged in", () => {

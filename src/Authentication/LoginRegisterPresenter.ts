@@ -60,6 +60,7 @@ export class LoginRegisterPresenter extends MessagesPresenter {
     );
 
     this.unpackRepositoryPmToVm(registerPm, "User registered");
+    this.option = "login";
   };
 
   logOut = async () => {
