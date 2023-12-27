@@ -223,7 +223,7 @@ describe("authors", () => {
       ]);
     });
 
-    it("should clear the books buffer", async () => {
+    it("should have a method to clear the books buffer", async () => {
       if (!authorsPresenter) throw new Error("authorsPresenter not found");
       await authorsPresenter?.load();
 
@@ -248,7 +248,7 @@ describe("authors", () => {
       expect(bookListPresenter?.viewModel).toEqual([]);
     });
 
-    it("should allow single author to be added and will reload authors list", async () => {
+    it("should allow single author to be added, will reload authors list", async () => {
       await authorsPresenter?.load();
       //anchor
       expect(authorsPresenter?.viewModel.length).toBe(2);
@@ -257,6 +257,7 @@ describe("authors", () => {
       await authorTestHarness.addAuthorWithBook();
 
       //test after pivot
+      // author was added
       expect(authorsPresenter?.viewModel.length).toBe(3);
       expect(authorsPresenter?.viewModel[2]).toEqual({
         authorId: 3,
@@ -272,6 +273,28 @@ describe("authors", () => {
         latLon: "19,22",
         name: "new author",
       });
+    });
+
+    it("it should clear the buffer and inputs and display a success message, after adding a new author", async () => {
+      await authorsPresenter?.load();
+      //anchor
+      expect(authorsPresenter?.viewModel.length).toBe(2);
+      //pivot - add one author w/ one book
+      const authorTestHarness = new AuthorTestHarness(testHarness);
+      await authorTestHarness.addAuthorWithBook();
+
+      //test after pivot
+      // book buffer is cleared, as well as inputs
+      expect(bookListPresenter?.viewModel).toEqual([]);
+      expect(authorsPresenter?.newAuthorName).toEqual("");
+      expect(authorsPresenter?.newBookTitle).toEqual("");
+      // success message is displayed
+      expect(authorsPresenter?.messages).toEqual([
+        {
+          message: "Author added",
+          success: true,
+        },
+      ]);
     });
 
     it("should correctly add author with two books", async () => {
