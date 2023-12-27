@@ -34,7 +34,7 @@ const AuthorsComp = observer((props) => {
     <>
       <h1>Authors</h1>
       <input
-        value="show author list"
+        value={props.presenter.listButtonTitle}
         type="button"
         onClick={props.presenter.toggleShowBooks}
       /><span>{props.presenter.authorsSummary}</span>

@@ -45,6 +45,8 @@ export class AuthorsPresenter extends MessagesPresenter {
       addBook: action,
       clearInputs: action,
       shouldShowAuthors: computed,
+      authorsSummary: computed,
+      listButtonTitle: computed,
     });
     this.init();
     this.newAuthorName = "";
@@ -68,9 +70,19 @@ export class AuthorsPresenter extends MessagesPresenter {
   };
 
   toggleShowBooks = () => {
+    if (this.showAuthors === null) {
+      if (this.shouldShowAuthors) {
+        this.showAuthors = false;
+        return
+      }
+      this.showAuthors = true;
+      return
+    }
+    
     this.showAuthors = !this.showAuthors;
   };
 
+  // extends showAuthors to include authors.length when it is null
   get shouldShowAuthors() {
     if (this.showAuthors === null && this.authorsRepository.authors.length >= maxAuthors) {
       return false
@@ -92,6 +104,14 @@ export class AuthorsPresenter extends MessagesPresenter {
     });
 
     return authorStrings;
+  }
+
+  get listButtonTitle() {
+    if (this.shouldShowAuthors) {
+      return "Hide authors";
+    } else {
+      return "Show authors";
+    }
   }
 
   addBook = () => {

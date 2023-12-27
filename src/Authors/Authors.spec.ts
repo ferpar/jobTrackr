@@ -72,7 +72,7 @@ describe("authors", () => {
   });
 
   describe("loading", async () => {
-    it("should load list author and books into ViewModel", async () => {
+    it("should load authors and books into ViewModel", async () => {
       await authorsPresenter?.load();
 
       expect(authorsPresenter?.viewModel.length > 0).toBe(true);
@@ -135,6 +135,19 @@ describe("authors", () => {
       expect(booksRepository?.bufferMode).toBe(true);
     });
   });
+
+  describe("author list toggle", () => {
+    it("should have the corresponding title when showing authors", async () => {
+      await authorsPresenter?.load();
+      expect(authorsPresenter?.listButtonTitle).toBe("Hide authors");
+    })
+    it("should have the corresponding title when hiding authors", async () => {
+      await authorsPresenter?.load();
+      authorsPresenter?.toggleShowBooks();
+      expect(authorsPresenter?.shouldShowAuthors).toBe(false);
+      expect(authorsPresenter?.listButtonTitle).toBe("Show authors");
+    })
+  })
 
   describe("saving", () => {
     it("should be using a buffer for the new books input list", async () => {
