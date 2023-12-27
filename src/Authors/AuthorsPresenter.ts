@@ -97,6 +97,8 @@ export class AuthorsPresenter extends MessagesPresenter {
   addBook = () => {
     if (!this.newBookTitle) return
     this.booksRepository.addBookToBuffer(this.newBookTitle);
+    // clear books input
+    this.newBookTitle = "";
   }
 
   clearInputs = () => {

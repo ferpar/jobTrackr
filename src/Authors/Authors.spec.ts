@@ -164,6 +164,19 @@ describe("authors", () => {
       ]);
     });
 
+    it("should clear the books input after adding a book", async () => {
+      if (!authorsPresenter) throw new Error("authorsPresenter not found");
+      await authorsPresenter?.load();
+
+      // set up new author and book
+      authorsPresenter.newAuthorName = "new author";
+      authorsPresenter.newBookTitle = "new book";
+      authorsPresenter.addBook();
+
+      //book list presenter should have new book,
+      expect(authorsPresenter.newBookTitle).toEqual("");
+    })
+
     it("should add multiple books to the list of books to be added", async () => {
       if (!authorsPresenter) throw new Error("authorsPresenter not found");
       await authorsPresenter?.load();
