@@ -40,6 +40,7 @@ export class BooksPresenter extends MessagesPresenter{
         this.lastAddedBook = this.newBookTitle
         const addBookPm = await this.booksRepository.addBook(this.newBookTitle)
         this.unpackRepositoryPmToVm(addBookPm, 'Book added')
+        this.newBookTitle = ''
     }
 
 }

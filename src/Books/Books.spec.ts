@@ -140,5 +140,10 @@ describe("books feature", () => {
       await booksPresenter?.addBook();
       expect(booksPresenter?.lastAddedBook).toBe("new book");
     });
+    it("should clear the new book title", async () => {
+      if (booksPresenter) booksPresenter.newBookTitle = "new book";
+      await booksPresenter?.addBook();
+      expect(booksPresenter?.newBookTitle).toBe("");
+    });
   });
 });
