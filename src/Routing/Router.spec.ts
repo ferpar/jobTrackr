@@ -11,10 +11,16 @@ let router;
 describe("routing in isolation", () => {
   beforeEach(async () => {
     // instantiate IOC container w/ common bindings
-		const testHarness = new AppTestHarness();
-		testHarness.init();
-    await testHarness.setupLogin(GetSuccessfulUserLoginStub);
-		testHarness.bootstrap();
+    const testHarness = new AppTestHarness();
+    testHarness.init();
+    const loginRegisterPresenter = await testHarness.setupLogin(
+      GetSuccessfulUserLoginStub
+    );
+    loginRegisterPresenter.email = "a@b.com";
+    loginRegisterPresenter.password = "1234";
+    loginRegisterPresenter.option = "login";
+    await loginRegisterPresenter.login();
+    testHarness.bootstrap();
     router = testHarness.container.get(Router);
     appPresenter = testHarness.container.get(AppPresenter);
   });
@@ -35,10 +41,16 @@ describe("routing in isolation", () => {
 describe("routing - integrated with navigo", () => {
   beforeEach(async () => {
     // instantiate IOC container w/ common bindings
-		const testHarness = new AppTestHarness();
-		testHarness.init("integration-test");
-    await testHarness.setupLogin(GetSuccessfulUserLoginStub);
-		testHarness.bootstrap();
+    const testHarness = new AppTestHarness();
+    testHarness.init("integration-test");
+    const loginRegisterPresenter = await testHarness.setupLogin(
+      GetSuccessfulUserLoginStub
+    );
+    loginRegisterPresenter.email = "a@b.com";
+    loginRegisterPresenter.password = "1234";
+    loginRegisterPresenter.option = "login";
+    await loginRegisterPresenter.login();
+    testHarness.bootstrap();
     router = testHarness.container.get(Router);
     appPresenter = testHarness.container.get(AppPresenter);
   });

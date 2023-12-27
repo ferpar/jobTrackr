@@ -29,7 +29,13 @@ describe("authors", () => {
     testHarness = new AppTestHarness();
     testHarness.init();
     testHarness.bootstrap();
-    await testHarness.setupLogin(GetSuccessfulUserLoginStub);
+    const loginRegisterPresenter = await testHarness.setupLogin(
+      GetSuccessfulUserLoginStub
+    );
+    loginRegisterPresenter.email = "a@b.com";
+    loginRegisterPresenter.password = "1234";
+    loginRegisterPresenter.option = "login";
+    await loginRegisterPresenter.login();
     authorsPresenter = testHarness.container.get(AuthorsPresenter);
     bookListPresenter = testHarness.container.get(BookListPresenter);
     booksRepository = testHarness.container.get(BooksRepository);
@@ -279,43 +285,48 @@ describe("authors", () => {
       //anchor
       expect(authorsPresenter?.viewModel.length).toBe(2);
       expect(authorsPresenter?.shouldShowAuthors).toBe(true);
-    })
+    });
 
     it("should not show the authors list by default, if there are more than the defined max authors (5)", async () => {
-      if(!authorsGateway || !booksGateway) throw new Error("authorsGateway not found");
+      if (!authorsGateway || !booksGateway)
+        throw new Error("authorsGateway not found");
       authorsGateway.get = vi.fn().mockImplementation(() => {
         return Promise.resolve(FiveAuthorsResultStub());
-      })
+      });
       booksGateway.get = vi.fn().mockImplementation(() => {
         return Promise.resolve(SixBooksResultStub());
-      })
+      });
       await authorsPresenter?.load();
       expect(authorsPresenter?.viewModel.length).toBe(5);
-      expect(authorsPresenter?.shouldShowAuthors).toBe(false)
-    })
+      expect(authorsPresenter?.shouldShowAuthors).toBe(false);
+    });
 
     it("should hide the authors list after storing a new author, if there are more than the defined max authors (5)", async () => {
       const authorsStub = FiveAuthorsResultStub();
-      const first4Authors = {...authorsStub, result: authorsStub.result.slice(0, 4)};
+      const first4Authors = {
+        ...authorsStub,
+        result: authorsStub.result.slice(0, 4),
+      };
       const lastAuthor = authorsStub.result.slice(4, 5);
 
-      if(!authorsGateway || !booksGateway) throw new Error("authorsGateway not found");
+      if (!authorsGateway || !booksGateway)
+        throw new Error("authorsGateway not found");
       authorsGateway.get = vi.fn().mockImplementation(() => {
         return Promise.resolve(first4Authors);
-      })
+      });
       booksGateway.get = vi.fn().mockImplementation(() => {
         return Promise.resolve(SixBooksResultStub());
-      })
+      });
 
       await authorsPresenter?.load();
       // anchor
       expect(authorsPresenter?.viewModel.length).toBe(4);
-      expect(authorsPresenter?.shouldShowAuthors).toBe(true)
+      expect(authorsPresenter?.shouldShowAuthors).toBe(true);
 
       // pivot - add one book
       authorsGateway.get = vi.fn().mockImplementation(() => {
         return Promise.resolve(FiveAuthorsResultStub());
-      })
+      });
 
       if (!authorsPresenter) throw new Error("authorsPresenter not found");
       authorsPresenter.newAuthorName = lastAuthor[0].name;
@@ -329,11 +340,11 @@ describe("authors", () => {
       expect(authorsGateway.post).toHaveBeenCalledWith("/authors", {
         name: lastAuthor[0].name,
         bookIds: [6],
-        emailOwnerId: "a@b.com"})
+        emailOwnerId: "a@b.com",
+      });
       expect(authorsPresenter?.viewModel.length).toBe(5);
       // finally, the list should be hidden
-      expect(authorsPresenter?.shouldShowAuthors).toBe(false)
-    })
-
+      expect(authorsPresenter?.shouldShowAuthors).toBe(false);
+    });
   });
 });

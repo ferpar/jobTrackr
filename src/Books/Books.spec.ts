@@ -28,7 +28,13 @@ describe("books feature", () => {
     router = testHarness.container.get(Router);
 
     testHarness.bootstrap();
-    await testHarness.setupLogin(GetSuccessfulUserLoginStub);
+    const loginRegisterPresenter = await testHarness.setupLogin(
+      GetSuccessfulUserLoginStub
+    );
+    loginRegisterPresenter.email = "a@b.com";
+    loginRegisterPresenter.password = "1234";
+    loginRegisterPresenter.option = "login";
+    await loginRegisterPresenter.login();
     ``;
   });
 

@@ -64,6 +64,9 @@ describe("init", () => {
         const loginRegisterPresenter = await testHarness?.setupRegister(
           GetSuccessfulRegistrationStub
         );
+        loginRegisterPresenter.email = "a@c.com";
+        loginRegisterPresenter.password = "1244";
+        await loginRegisterPresenter.register();
         expect(loginRegisterPresenter?.showValidationWarning).toBe(false);
         expect(loginRegisterPresenter?.messages).toEqual([
           {
@@ -76,6 +79,9 @@ describe("init", () => {
         const loginRegisterPresenter = await testHarness?.setupRegister(
           GetFailedRegistrationStub
         );
+        loginRegisterPresenter.email = "a@c.com";
+        loginRegisterPresenter.password = "1244";
+        await loginRegisterPresenter.register();
         expect(loginRegisterPresenter?.messages).toEqual([
           {
             message:
@@ -90,8 +96,11 @@ describe("init", () => {
         const loginRegisterPresenter = await testHarness?.setupRegister(
           GetSuccessfulRegistrationStub
         );
+        loginRegisterPresenter.email = "a@c.com";
+        loginRegisterPresenter.password = "1244";
+        await loginRegisterPresenter.register();
         expect(loginRegisterPresenter?.option).toBe("login");
-      })
+      });
     });
     describe("login", () => {
       it("should start at loginLink if not logged in", () => {
@@ -104,7 +113,13 @@ describe("init", () => {
 
       // would start at null route, but not logged in
       it("should start at home route, when authenticated (and populate the user model)", async () => {
-        await testHarness?.setupLogin(GetSuccessfulUserLoginStub);
+        const loginRegisterPresenter = await testHarness?.setupLogin(
+          GetSuccessfulUserLoginStub
+        );
+        loginRegisterPresenter.email = "a@b.com";
+        loginRegisterPresenter.password = "1234";
+        loginRegisterPresenter.option = "login";
+        await loginRegisterPresenter.login();
         const appPresenter = testHarness?.appPresenter;
         expect(appPresenter.currentRoute).toBe("homeLink");
         expect(testHarness?.userModel?.email).toBe("a@b.com");
@@ -113,7 +128,13 @@ describe("init", () => {
 
       it("should update the route when successfully logged in", async () => {
         // about is a private route
-        await testHarness?.setupLogin(GetSuccessfulUserLoginStub);
+        const loginRegisterPresenter = await testHarness?.setupLogin(
+          GetSuccessfulUserLoginStub
+        );
+        loginRegisterPresenter.email = "a@b.com";
+        loginRegisterPresenter.password = "1234";
+        loginRegisterPresenter.option = "login";
+        await loginRegisterPresenter.login();
         router?.goToId("aboutLink");
         const appPresenter = testHarness?.appPresenter;
         expect(appPresenter.currentRoute).toBe("aboutLink");
@@ -123,7 +144,13 @@ describe("init", () => {
         //start at login
         router?.goToId("loginLink");
         // fail login
-        await testHarness?.setupLogin(GetFailedUserLoginStub);
+        const loginRegisterPresenter = await testHarness?.setupLogin(
+          GetFailedUserLoginStub
+        );
+        loginRegisterPresenter.email = "a@b.com";
+        loginRegisterPresenter.password = "1234";
+        loginRegisterPresenter.option = "login";
+        await loginRegisterPresenter.login();
         // attempt to go to about
         router?.goToId("aboutLink");
         const appPresenter = testHarness?.appPresenter;
@@ -135,6 +162,10 @@ describe("init", () => {
         const loginRegisterPresenter = await testHarness?.setupLogin(
           GetFailedUserLoginStub
         );
+        loginRegisterPresenter.email = "a@b.com";
+        loginRegisterPresenter.password = "1234";
+        loginRegisterPresenter.option = "login";
+        await loginRegisterPresenter.login();
         expect(loginRegisterPresenter?.messages).toEqual([
           {
             message: "Failed: no user record.",
@@ -148,6 +179,10 @@ describe("init", () => {
         const loginRegisterPresenter = await testHarness?.setupLogin(
           GetFailedUserLoginStub
         );
+        loginRegisterPresenter.email = "a@b.com";
+        loginRegisterPresenter.password = "1234";
+        loginRegisterPresenter.option = "login";
+        await loginRegisterPresenter.login();
         expect(loginRegisterPresenter?.messages).toEqual([
           {
             message: "Failed: no user record.",
