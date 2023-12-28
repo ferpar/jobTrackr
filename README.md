@@ -2,9 +2,9 @@
 This is the final project made by student Fernando Pérez de Ayala for the UI Architecture Academy. Its been built using TypeScript, though allowing for it to infer most of the types, hence the ```"noImplicitAny": false``` that can be found in the tsconfig.json.
 
 ## local setup
-The project was built under node version 16.20, therefore please use a version equal or later than that.
+We recommend to use node 20 when running this repo. This was the latest LTS version when this projects packages were first installed.
 
-node version >= 16.20 .
+node >= 20
 
 Don't forget to install the dependencies on the first time ;).
 
