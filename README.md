@@ -1,7 +1,10 @@
-# UI Architecture Final Project
-This is the final project made by student Fernando Pérez de Ayala for the UI Architecture Academy. Its been built using TypeScript, though allowing for it to infer most of the types, hence the ```"noImplicitAny": false``` that can be found in the tsconfig.json.
+# jobTracker
+Track your applications with ease. 
+
+Its been built using TypeScript, though allowing for it to infer most of the types, hence the ```"noImplicitAny": false``` that can be found in the tsconfig.json.
 
 ## local setup
+### client setup
 We recommend to use node 20 when running this repo. This was the latest LTS version when this projects packages were first installed.
 
 node >= 20
@@ -13,6 +16,9 @@ first time:
 
 afterwards:
 ```npm run dev```
+
+### server setup
+Temporarily using a server residing on a different repo: ferpar/express-auth-starter
 
 ## running the tests
 ```npm run test```
