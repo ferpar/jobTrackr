@@ -6,4 +6,9 @@ export default defineConfig({
   plugins: [react({
     tsDecorators: true,
   })],
+  optimizeDeps: {
+    esbuildOptions: {
+      tsconfig: './tsconfig.json',
+    }
+  }
 })
