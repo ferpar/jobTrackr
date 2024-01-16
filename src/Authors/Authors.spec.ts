@@ -29,13 +29,13 @@ describe("authors", () => {
     testHarness = new AppTestHarness();
     testHarness.init();
     testHarness.bootstrap();
-    const loginRegisterPresenter = await testHarness.setupLogin(
+    const authenticationPresenter = await testHarness.setupLogin(
       GetSuccessfulUserLoginStub
     );
-    loginRegisterPresenter.email = "a@b.com";
-    loginRegisterPresenter.password = "1234";
-    loginRegisterPresenter.option = "login";
-    await loginRegisterPresenter.login();
+    authenticationPresenter.email = "a@b.com";
+    authenticationPresenter.password = "1234";
+    authenticationPresenter.option = "login";
+    await authenticationPresenter.login();
     authorsPresenter = testHarness.container.get(AuthorsPresenter);
     bookListPresenter = testHarness.container.get(BookListPresenter);
     booksRepository = testHarness.container.get(BooksRepository);

@@ -5,7 +5,7 @@ import { MessagesPresenter } from "../Core/Messages/MessagesPresenter";
 import { Router } from "../Routing/Router";
 
 @injectable()
-export class LoginRegisterPresenter extends MessagesPresenter {
+export class AuthenticationPresenter extends MessagesPresenter {
   @inject(AuthenticationRepository)
   authenticationRepository;
 

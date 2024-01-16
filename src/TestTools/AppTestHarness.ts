@@ -8,7 +8,7 @@ import { RouterGateway } from "../Routing/RouterGateway";
 import { FakeHttpGateway } from "../Core/FakeHttpGateway";
 import { FakeAuthGateway } from "../Core/FakeAuthGateway";
 import { UserModel } from "../Authentication/UserModel";
-import { LoginRegisterPresenter } from "../Authentication/AuthenticationPresenter";
+import { AuthenticationPresenter } from "../Authentication/AuthenticationPresenter";
 import { vi } from "vitest";
 import { FakeLocalStorageGateway } from "../Core/LocalStorage/FakeLocalStorageGateway";
 
@@ -55,7 +55,7 @@ export class AppTestHarness {
 
   // 3. login or register to the app
   setupLogin = async (loginStub) => {
-    this.authenticationPresenter = this.container.get(LoginRegisterPresenter);
+    this.authenticationPresenter = this.container.get(AuthenticationPresenter);
     this.authGateway =
       this.authenticationPresenter.authenticationRepository.authGateway;
     this.authGateway.post = vi.fn().mockImplementation(async () => {
@@ -65,7 +65,7 @@ export class AppTestHarness {
   };
 
   setupRegister = async (registerStub) => {
-    this.authenticationPresenter = this.container.get(LoginRegisterPresenter);
+    this.authenticationPresenter = this.container.get(AuthenticationPresenter);
     this.authGateway =
       this.authenticationPresenter.authenticationRepository.authGateway;
     this.authGateway.post = vi.fn().mockImplementation(async () => {

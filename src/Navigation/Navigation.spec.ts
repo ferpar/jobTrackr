@@ -15,13 +15,13 @@ describe("navigation", () => {
     // instantiate IOC container w/ common bindings
     const testHarness = new AppTestHarness();
     testHarness.init();
-    const loginRegisterPresenter = await testHarness.setupLogin(
+    const authenticationPresenter = await testHarness.setupLogin(
       GetSuccessfulUserLoginStub
     );
-    loginRegisterPresenter.email = "a@b.com";
-    loginRegisterPresenter.password = "1234";
-    loginRegisterPresenter.option = "login";
-    await loginRegisterPresenter.login();
+    authenticationPresenter.email = "a@b.com";
+    authenticationPresenter.password = "1234";
+    authenticationPresenter.option = "login";
+    await authenticationPresenter.login();
     testHarness.bootstrap();
     // load the navigation presenter via ioc container (transient dependency)
     router = testHarness.container.get(Router);
