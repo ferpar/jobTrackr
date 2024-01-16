@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { withInjection } from "../Core/Providers/withInjection";
-import { LoginRegisterPresenter } from "../Authentication/LoginRegisterPresenter";
+import { LoginRegisterPresenter } from "../Authentication/AuthenticationPresenter";
 import { MessagesComponent } from "../Core/Messages/MessagesComponent";
 import { useValidation } from "../Core/Providers/useValidation";
 

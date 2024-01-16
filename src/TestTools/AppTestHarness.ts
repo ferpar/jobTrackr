@@ -7,7 +7,7 @@ import { FakeRouterGateway } from "../Routing/FakeRouterGateway";
 import { RouterGateway } from "../Routing/RouterGateway";
 import { FakeHttpGateway } from "../Core/FakeHttpGateway";
 import { UserModel } from "../Authentication/UserModel";
-import { LoginRegisterPresenter } from "../Authentication/LoginRegisterPresenter";
+import { LoginRegisterPresenter } from "../Authentication/AuthenticationPresenter";
 import { vi } from "vitest";
 import { FakeLocalStorageGateway } from "../Core/LocalStorage/FakeLocalStorageGateway";
 

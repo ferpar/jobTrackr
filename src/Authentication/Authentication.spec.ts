@@ -4,7 +4,7 @@ import { AppTestHarness } from "../TestTools/AppTestHarness";
 import { Router } from "../Routing/Router";
 import { RouterRepository } from "../Routing/RouterRepository";
 import { RouterGateway } from "../Routing/RouterGateway";
-import { LoginRegisterPresenter } from "./LoginRegisterPresenter";
+import { LoginRegisterPresenter } from "./AuthenticationPresenter";
 import { GetSuccessfulUserLoginStub } from "../TestTools/GetSuccessfulUserLoginStub";
 import { GetFailedUserLoginStub } from "../TestTools/GetFailedUserLoginStub";
 import { GetSuccessfulRegistrationStub } from "../TestTools/GetSuccessfulRegistrationStub";
