@@ -10,8 +10,8 @@ export class AuthenticationRepository {
   @inject(Router)
   router
 
-  @inject(Types.IDataGateway)
-  dataGateway
+  @inject(Types.IAuthGateway)
+  authGateway
 
   @inject(Types.ILocalStorageGateway)
   localStorageGateway
@@ -26,7 +26,7 @@ export class AuthenticationRepository {
   }
 
   login = async (email, password) => {
-    const loginDto = await this.dataGateway.post('/login', {
+    const loginDto = await this.authGateway.post('/login', {
       email: email,
       password: password
     })
@@ -42,7 +42,7 @@ export class AuthenticationRepository {
   }
 
   register = async (email, password) => {
-    const registerDto = await this.dataGateway.post('/register', {
+    const registerDto = await this.authGateway.post('/register', {
       email: email,
       password: password
     })

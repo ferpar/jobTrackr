@@ -6,6 +6,7 @@ import { Router } from "../Routing/Router";
 import { FakeRouterGateway } from "../Routing/FakeRouterGateway";
 import { RouterGateway } from "../Routing/RouterGateway";
 import { FakeHttpGateway } from "../Core/FakeHttpGateway";
+import { FakeAuthGateway } from "../Core/FakeAuthGateway";
 import { UserModel } from "../Authentication/UserModel";
 import { LoginRegisterPresenter } from "../Authentication/AuthenticationPresenter";
 import { vi } from "vitest";
@@ -14,7 +15,7 @@ import { FakeLocalStorageGateway } from "../Core/LocalStorage/FakeLocalStorageGa
 export class AppTestHarness {
   container;
   authGateway;
-  loginRegisterPresenter;
+  authenticationPresenter;
   appPresenter;
   router;
   navigationPresenter;
@@ -32,6 +33,7 @@ export class AppTestHarness {
     }
 
     this.container.bind(Types.IDataGateway).to(FakeHttpGateway);
+    this.container.bind(Types.IAuthGateway).to(FakeAuthGateway);
 
     this.container.bind(Types.ILocalStorageGateway).to(FakeLocalStorageGateway);
 
@@ -53,22 +55,22 @@ export class AppTestHarness {
 
   // 3. login or register to the app
   setupLogin = async (loginStub) => {
-    this.loginRegisterPresenter = this.container.get(LoginRegisterPresenter);
+    this.authenticationPresenter = this.container.get(LoginRegisterPresenter);
     this.authGateway =
-      this.loginRegisterPresenter.authenticationRepository.dataGateway;
+      this.authenticationPresenter.authenticationRepository.authGateway;
     this.authGateway.post = vi.fn().mockImplementation(async () => {
       return await Promise.resolve(loginStub());
     });
-    return this.loginRegisterPresenter;
+    return this.authenticationPresenter;
   };
 
   setupRegister = async (registerStub) => {
-    this.loginRegisterPresenter = this.container.get(LoginRegisterPresenter);
+    this.authenticationPresenter = this.container.get(LoginRegisterPresenter);
     this.authGateway =
-      this.loginRegisterPresenter.authenticationRepository.dataGateway;
+      this.authenticationPresenter.authenticationRepository.authGateway;
     this.authGateway.post = vi.fn().mockImplementation(async () => {
       return await Promise.resolve(registerStub());
     });
-    return this.loginRegisterPresenter;
+    return this.authenticationPresenter;
   };
 }
