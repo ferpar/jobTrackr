@@ -36,6 +36,10 @@ describe("navigation", () => {
       currentSelectedVisibleName: "Home > homeLink",
       menuItems: [
         {
+          id: "applications",
+          visibleName: "Applications",
+        },
+        {
           id: "booksLink",
           visibleName: "Books",
         },
@@ -64,6 +68,10 @@ describe("navigation", () => {
       },
       currentSelectedVisibleName: "Home > homeLink",
       menuItems: [
+        {
+          id: "applications",
+          visibleName: "Applications",
+        },
         {
           id: "booksLink",
           visibleName: "Books",
@@ -156,6 +164,10 @@ describe("navigation", () => {
       },
       currentSelectedVisibleName: "Home > homeLink",
       menuItems: [
+        {
+          id: "applications",
+          visibleName: "Applications",
+        },
         {
           id: "booksLink",
           visibleName: "Books",

@@ -8,6 +8,7 @@ import Home from "./Pages/Home.tsx";
 import About from "./Pages/About.tsx";
 import Contact from "./Pages/Contact.tsx";
 import NotFound from "./Pages/NotFound.tsx";
+import Applications from "./Applications/Applications.tsx";
 import Logout from "./Components/Logout.tsx";
 import { useValidation } from "./Core/Providers/useValidation.tsx";
 import { Books } from "./Books/Books.tsx";
@@ -32,6 +33,10 @@ export const AppComp = observer(({ presenter }) => {
     {
       id: "contactLink",
       component: <Contact key="contactPage" />,
+    },
+    {
+      id: "applications",
+      component: <Applications key="applicationsPage" />
     },
     {
       id: "booksLink",

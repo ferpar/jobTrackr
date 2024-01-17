@@ -71,6 +71,13 @@ export class RouterRepository {
       },
     },
     {
+      routeId: "applications",
+      routeDef: {
+        path: "/applications",
+        isSecure: true,
+      },
+    },
+    {
       routeId: "booksLink",
       routeDef: {
         path: "/books",

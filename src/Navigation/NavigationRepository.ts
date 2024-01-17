@@ -34,10 +34,16 @@ export class NavigationRepository {
       text: "Home",
       children: [
         {
+          id: "applications",
+          type: "link",
+          text: "Applications",
+          children: [],
+        },
+        {
           id: "booksLink",
           type: "link",
           text: "Books",
-          children: []
+          children: [],
         },
         {
           id: "authorsLink",
@@ -48,15 +54,15 @@ export class NavigationRepository {
               id: "authorsLink-authorPolicyLink",
               type: "link",
               text: "Authors Policy",
-              children: []
+              children: [],
             },
             {
               id: "authorsLink-maplink",
               type: "link",
               text: "View Map",
-              children: []
-            }
-          ]
+              children: [],
+            },
+          ],
         },
         {
           id: "contactLink",
@@ -80,5 +86,4 @@ export class NavigationRepository {
     const currentNode = this.currentNode;
     this.router.goToId(currentNode.parent.model.id);
   };
-
 }
