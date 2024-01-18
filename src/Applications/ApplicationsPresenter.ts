@@ -2,13 +2,27 @@ import { injectable, inject } from 'inversify'
 import { makeObservable, observable, computed } from 'mobx'
 import { ApplicationsRepository } from './ApplicationsRepository'
 import { MessagesPresenter } from '../Core/Messages/MessagesPresenter'
+import { JobApplication } from '../Core/Types'
+
+const defaultApplication: JobApplication = {
+    jobTitle: '',
+    company: '',
+    location: '',
+    appliedDate: new Date().toISOString(),
+    contactPerson: '',
+    contactEmail: '',
+    notes: '',
+    resumeLink: '',
+    jobDescriptionLink: '',
+    statuses: []
+}
 
 @injectable()
 export class ApplicationsPresenter extends MessagesPresenter{
     @inject(ApplicationsRepository)
     applicationsRepository
 
-    newApplication: string | null = null
+    newApplication: JobApplication 
 
     get viewModel() {
         return this.applicationsRepository.applications
@@ -28,10 +42,11 @@ export class ApplicationsPresenter extends MessagesPresenter{
         // init is inherited from MessagesPresenter
         this.init()
         this.reset()
+        console.log('ApplicationsPresenter instantiated')
     }
 
     reset = () => {
-        this.newApplication = ''
+        this.newApplication = defaultApplication
     }
 
     load = async () => {
@@ -40,9 +55,10 @@ export class ApplicationsPresenter extends MessagesPresenter{
     }
 
     addApplication = async () => {
-        const addApplicationPm = await this.applicationsRepository.addApplication(this.newApplication)
-        this.unpackRepositoryPmToVm(addApplicationPm, 'Application added')
-        this.newApplication = ''
+        console.log('addApplication executed', this.newApplication)
+        // const addApplicationPm = await this.applicationsRepository.addApplication(this.newApplication)
+        // this.unpackRepositoryPmToVm(addApplicationPm, 'Application added')
+        // this.newApplication = defaultApplication
     }
 
 }

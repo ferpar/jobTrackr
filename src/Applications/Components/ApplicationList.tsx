@@ -1,8 +1,6 @@
 import { observer } from 'mobx-react';
-import { withInjection } from '../../Core/Providers/withInjection';
-import { ApplicationsPresenter } from '../ApplicationsPresenter';
 
-const ApplicationListComp = observer( ({presenter}) => {
+export const ApplicationList = observer( ({presenter}) => {
     return (
         <ul>
             {presenter.viewModel.map((application, idx) => (
@@ -20,7 +18,3 @@ const ApplicationListComp = observer( ({presenter}) => {
         </ul>
     )
 })
-
-export const ApplicationList = withInjection({
-    presenter: ApplicationsPresenter
-})(ApplicationListComp)

@@ -28,8 +28,8 @@ export type JobApplicationStatus = {
 }
 
 export type JobApplication = {
-  id: string;
-  userId: string;
+  id?: string;
+  userId?: string;
   jobTitle: string;
   company: string;
   location: string;
