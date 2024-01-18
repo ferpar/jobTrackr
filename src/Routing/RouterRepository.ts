@@ -4,6 +4,7 @@ import type IRouterGateway from "./IRouterGateway";
 import { Types } from "../Core/Types";
 import { BooksRepository } from "../Books/BooksRepository";
 import { AuthorsRepository } from "../Authors/AuthorsRepository";
+import { ApplicationsRepository } from "../Applications/ApplicationsRepository";
 
 type Route = {
   routeId: string;
@@ -38,6 +39,9 @@ export class RouterRepository {
 
   @inject(AuthorsRepository)
   authorsRepository: AuthorsRepository;
+
+  @inject(ApplicationsRepository)
+  applicationsRepository: ApplicationsRepository;
 
   onRouteChanged: (() => Promise<void>) | null = null;
 
@@ -76,6 +80,12 @@ export class RouterRepository {
         path: "/applications",
         isSecure: true,
       },
+      onEnter: () => {
+        this.applicationsRepository.load();
+      },
+      onLeave: () => {
+        this.applicationsRepository.reset();
+      }
     },
     {
       routeId: "booksLink",

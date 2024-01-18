@@ -6,6 +6,7 @@ import { NavigationRepository } from './Navigation/NavigationRepository'
 import { BooksRepository } from './Books/BooksRepository'
 import { AuthorsRepository } from './Authors/AuthorsRepository'
 import { AuthorsPresenter } from './Authors/AuthorsPresenter'
+import { ApplicationsRepository } from './Applications/ApplicationsRepository'
 
 export class BaseIOC {
   container
@@ -21,6 +22,7 @@ export class BaseIOC {
     this.container.bind(AuthorsPresenter).to(AuthorsPresenter).inSingletonScope()
     this.container.bind(AuthorsRepository).to(AuthorsRepository).inSingletonScope()
     this.container.bind(BooksRepository).to(BooksRepository).inSingletonScope()
+    this.container.bind(ApplicationsRepository).to(ApplicationsRepository).inSingletonScope()
     this.container.bind(MessagesRepository).to(MessagesRepository).inSingletonScope()
     this.container.bind(RouterRepository).to(RouterRepository).inSingletonScope()
     this.container.bind(NavigationRepository).to(NavigationRepository).inSingletonScope()
