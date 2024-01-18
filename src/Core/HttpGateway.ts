@@ -16,7 +16,7 @@ export class HttpGateway implements IDataGateway{
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: this.userModel.token
+        Authorization: 'Bearer ' +this.userModel.token
       }
     })
     const dto = response.json()
@@ -29,7 +29,7 @@ export class HttpGateway implements IDataGateway{
       body: JSON.stringify(requestDto),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: this.userModel.token
+        Authorization: 'Bearer ' + this.userModel.token
       }
     })
     const dto = response.json()
@@ -41,7 +41,7 @@ export class HttpGateway implements IDataGateway{
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: this.userModel.token
+        Authorization: 'Bearer ' + this.userModel.token
       }
     })
     const dto = response.json()
