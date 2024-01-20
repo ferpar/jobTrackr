@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 
-export const AddApplication = observer(({presenter}) => {
+export const AddApplication = observer(({ presenter }) => {
   const handleOnSubmit = (event) => {
     event.preventDefault();
     presenter.addApplication();
@@ -11,10 +11,9 @@ export const AddApplication = observer(({presenter}) => {
         type="text"
         placeholder="Job Title"
         value={presenter.newApplication.jobTitle}
-        onChange={(event) =>{
-          (presenter.newApplication.jobTitle = event.target.value)
-        }
-        }
+        onChange={(event) => {
+          presenter.newApplication.jobTitle = event.target.value;
+        }}
       />
       <input
         type="text"
@@ -36,12 +35,14 @@ export const AddApplication = observer(({presenter}) => {
         type="date"
         value={presenter.formattedDate}
         onChange={(event) =>
-          (presenter.newApplication.appliedDate = new Date(event.target.value).toISOString())
+          (presenter.newApplication.appliedDate = new Date(
+            event.target.value
+          ).toISOString())
         }
       />
       <input
         type="text"
-        placeholder="description link"
+        placeholder="job description link"
         value={presenter.newApplication.jobDescriptionLink}
         onChange={(event) => {
           presenter.newApplication.jobDescriptionLink = event.target.value;
@@ -53,6 +54,30 @@ export const AddApplication = observer(({presenter}) => {
         value={presenter.newApplication.notes}
         onChange={(event) =>
           (presenter.newApplication.notes = event.target.value)
+        }
+      />
+      <input
+        type="text"
+        placeholder="resume link"
+        value={presenter.newApplication.resumeLink}
+        onChange={(event) =>
+          (presenter.newApplication.resumeLink = event.target.value)
+        }
+      />
+      <input
+        type="text"
+        placeholder="contact person"
+        value={presenter.newApplication.contactPerson}
+        onChange={(event) =>
+          (presenter.newApplication.contactPerson = event.target.value)
+        }
+      />
+      <input
+        type="text"
+        placeholder="contact email"
+        value={presenter.newApplication.contactEmail}
+        onChange={(event) =>
+          (presenter.newApplication.contactEmail = event.target.value)
         }
       />
 
