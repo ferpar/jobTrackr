@@ -32,6 +32,14 @@ export class ApplicationsPresenter extends MessagesPresenter{
         return this.applicationsRepository.messagePm
     }
 
+    get formattedDate() {
+        const year = this.newApplication.appliedDate.slice(0, 4)
+        const month = this.newApplication.appliedDate.slice(5, 7)
+        const day = this.newApplication.appliedDate.slice(8, 10)
+
+        return `${year}-${month}-${day}`
+    }
+
     constructor () {
         super()
         makeObservable(this, {
@@ -56,9 +64,9 @@ export class ApplicationsPresenter extends MessagesPresenter{
 
     addApplication = async () => {
         console.log('addApplication executed', this.newApplication)
-        // const addApplicationPm = await this.applicationsRepository.addApplication(this.newApplication)
-        // this.unpackRepositoryPmToVm(addApplicationPm, 'Application added')
-        // this.newApplication = defaultApplication
+        const addApplicationPm = await this.applicationsRepository.addApplication(this.newApplication)
+        this.unpackRepositoryPmToVm(addApplicationPm, 'Application added')
+        this.newApplication = defaultApplication
     }
 
 }

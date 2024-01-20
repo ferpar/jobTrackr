@@ -34,9 +34,9 @@ export const AddApplication = observer(({presenter}) => {
       />
       <input
         type="date"
-        value={presenter.newApplication.appliedDate}
+        value={presenter.formattedDate}
         onChange={(event) =>
-          (presenter.newApplication.appliedDate = event.target.value)
+          (presenter.newApplication.appliedDate = new Date(event.target.value).toISOString())
         }
       />
       <input
