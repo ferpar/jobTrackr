@@ -1,0 +1,63 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 800px;
+}
+
+.formContainer > input {
+  margin-bottom: 20px;
+  min-width: 200px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+.inputGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.inputGroup > input {
+  margin: 10px;
+  flex: 1;
+}
+
+.dateInput {
+  margin: 10px;
+  min-width: 100px;
+  max-width: 260px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+.notesGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: center;
+}
+
+.jobDescriptionLink {
+  margin:  0 10px;
+  flex: 1;
+}
+
+.notes {
+  flex: 2;
+  min-height: 100px;
+  max-height: 200px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin: 0 10px;
+}
