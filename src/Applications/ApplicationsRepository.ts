@@ -1,56 +1,77 @@
-import { injectable, inject } from  'inversify';
-import { Config } from '../Core/Config'
-import { makeObservable, observable } from 'mobx'
-import { Types, JobApplication } from '../Core/Types'
-import { UserModel } from '../Authentication/UserModel'
+import { injectable, inject } from "inversify";
+import { Config } from "../Core/Config";
+import { makeObservable, observable } from "mobx";
+import { Types, JobApplication } from "../Core/Types";
+import { UserModel } from "../Authentication/UserModel";
 
 @injectable()
 export class ApplicationsRepository {
-    @inject(Types.IDataGateway)
-    dataGateway
+  @inject(Types.IDataGateway)
+  dataGateway;
 
-    @inject(UserModel)
-    userModel
+  @inject(UserModel)
+  userModel;
 
-    @inject(Config)
-    config
+  @inject(Config)
+  config;
 
-    messagePm = 'UNSET'
+  messagePm = "UNSET";
 
-    applications: JobApplication[] = []
+  applications: JobApplication[] = [];
 
-    constructor() {
-        makeObservable(this, {
-            messagePm: observable,
-            applications: observable,
-        })
-    }
+  constructor() {
+    makeObservable(this, {
+      messagePm: observable,
+      applications: observable,
+    });
+  }
 
-    load = async () => {
-        this.messagePm = 'LOADING'
-        const applicationsResponse = await this.dataGateway.get('/applications')
-        this.applications = applicationsResponse.result.data
-        this.messagePm = 'LOADED'
-    }
+  load = async () => {
+    this.messagePm = "LOADING";
+    const applicationsResponse = await this.dataGateway.get("/applications");
+    this.applications = applicationsResponse.result.data;
+    this.messagePm = "LOADED";
+  };
 
-    reset = () => {
-        this.messagePm = 'RESET'
-        this.applications = []
-    }
+  reset = () => {
+    this.messagePm = "RESET";
+    this.applications = [];
+  };
 
-    addApplication = async (application: object) => {
-        this.messagePm = 'ADDING'
-        const addApplicationPm = await this.dataGateway.post('/applications', application)
-        this.messagePm = 'ADDED'
-        await this.load()
-        return addApplicationPm
-    }
+  addApplication = async (application: object) => {
+    this.messagePm = "ADDING";
+    const addApplicationPm = await this.dataGateway.post(
+      "/applications",
+      application
+    );
+    this.messagePm = "ADDED";
+    await this.load();
+    return addApplicationPm;
+  };
 
-    removeApplication = async (applicationId: number) => {
-        this.messagePm = 'DELETING'
-        const removeApplicationPm = await this.dataGateway.delete('/applications/' + String(applicationId) )
-        this.messagePm = 'DELETED'
-        await this.load()
-        return removeApplicationPm
-    }
+  removeApplication = async (applicationId: number) => {
+    this.messagePm = "DELETING";
+    const removeApplicationPm = await this.dataGateway.delete(
+      "/applications/" + String(applicationId)
+    );
+    this.messagePm = "DELETED";
+    await this.load();
+    return removeApplicationPm;
+  };
+
+  saveStatus = async (statusData: {
+    applicationId: number;
+    status: string;
+  }) => {
+    const { applicationId, status } = statusData;
+    this.messagePm = "SAVING";
+    const saveStatusPm = await this.dataGateway.post(
+      "/applications/" + String(applicationId) + "/status",
+      { status, statusDate: new Date().toISOString() }
+    );
+    this.messagePm = "SAVED";
+    await this.load();
+    console.log("applications", this.applications)
+    return saveStatusPm;
+  };
 }

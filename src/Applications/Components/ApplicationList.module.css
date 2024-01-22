@@ -30,3 +30,8 @@
 .buttonGroup button:first-child {
     margin-left: 0;
 }
+
+.selectWithButton {
+    display: flex;
+    flex-direction: row;
+}

@@ -5,6 +5,9 @@ export const ApplicationList = observer(({ presenter }) => {
   const handleRemove = (id) => {
     presenter.removeApplication(id);
   };
+  const handleSaveStatus = (id) => {
+    presenter.saveStatus(id);
+  }
   return (
     <div className={classes.applicationsGrid}>
       {presenter.viewModel.map((application, idx) => {
@@ -15,13 +18,32 @@ export const ApplicationList = observer(({ presenter }) => {
             </p>
             <p>
               status:{" "}
-              {application.statuses[application.statuses.length - 1]?.status}
+              {application.statuses.slice(-1)[0]?.status}
             </p>
-            <p></p>
             <p>
               {new Date(application.applieddate).toLocaleDateString()} - id:{" "}
               {application.id}
             </p>
+            <div>
+              <label htmlFor={"status"+application.id}>Change status:</label>
+              <div className={classes.selectWithButton}>
+              <select
+                name="status"
+                id={"status"+application.id}
+                onChange={(e) =>
+                  presenter.changeStatus(application.id, e.target.value)
+                }
+                value={presenter.getBufferedStatus(application.id)}
+              >
+                {presenter.statuses.map((status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </select>
+              <button onClick={() => handleSaveStatus(application.id)}>Save</button>
+              </div>
+            </div>
             <div className={classes.buttonGroup}>
               <button onClick={() => handleRemove(application.id)}>
                 {presenter.getDeleteButtonText(application.id)}
