@@ -97,7 +97,7 @@ export class ApplicationsPresenter extends MessagesPresenter {
       (application) => application.id === applicationId
     );
     if (!application) return '';
-    return application.statuses.slice(-1)[0].status;
+    return application.statuses.slice(-1)[0]?.status;
   }
 
   getBufferedStatus = (applicationId: number) => {
