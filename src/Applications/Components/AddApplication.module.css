@@ -61,3 +61,7 @@
   border: 1px solid #ccc;
   margin: 0 10px;
 }
+
+.cancelAdd {
+    margin-left: 1rem;
+}

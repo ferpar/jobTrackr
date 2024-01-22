@@ -45,6 +45,8 @@ export class ApplicationsPresenter extends MessagesPresenter {
     "Accepted",
   ];
 
+  showApplicationForm: boolean = false;
+
   get viewModel() {
     return this.applicationsRepository.applications;
   }
@@ -67,6 +69,7 @@ export class ApplicationsPresenter extends MessagesPresenter {
       newApplication: observable,
       preDeleteBuffer: observable,
       statusBuffer: observable,
+      showApplicationForm: observable,
       viewModel: computed,
       messagePm: computed,
       formattedDate: computed,
@@ -149,5 +152,9 @@ export class ApplicationsPresenter extends MessagesPresenter {
     this.preDeleteBuffer = this.preDeleteBuffer.filter(
       (preDeletedId) => preDeletedId !== id
     );
+  }
+
+  toggleApplicationForm = () => {
+    this.showApplicationForm = !this.showApplicationForm;
   }
 }

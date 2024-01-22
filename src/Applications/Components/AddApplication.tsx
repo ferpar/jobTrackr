@@ -6,7 +6,7 @@ export const AddApplication = observer(({ presenter }) => {
     event.preventDefault();
     presenter.addApplication();
   };
-  return (
+  return presenter.showApplicationForm ? (
     <form className={classes.formContainer} onSubmit={handleOnSubmit}>
       <div className={classes.inputGroup}>
         <input
@@ -56,7 +56,7 @@ export const AddApplication = observer(({ presenter }) => {
           }}
         />
         <textarea
-        className={classes.notes}
+          className={classes.notes}
           placeholder="Notes"
           value={presenter.newApplication.notes}
           onChange={(event) =>
@@ -91,7 +91,16 @@ export const AddApplication = observer(({ presenter }) => {
         />
       </div>
 
-      <button type="submit">Add Application</button>
+      <div className={classes.inputGroup}>
+        <button type="submit">Add Application</button>
+        <button className={classes.cancelAdd} onClick={() => presenter.toggleApplicationForm()}>
+          Cancel
+        </button>
+      </div>
     </form>
+  ) : (
+    <button onClick={() => presenter.toggleApplicationForm()}>
+      Add Application
+    </button>
   );
 });
