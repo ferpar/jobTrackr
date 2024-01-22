@@ -24,6 +24,8 @@ export class ApplicationsPresenter extends MessagesPresenter{
 
     newApplication: JobApplication 
 
+    preDeleteBuffer: number[] = []
+
     get viewModel() {
         return this.applicationsRepository.applications
     }
@@ -44,13 +46,14 @@ export class ApplicationsPresenter extends MessagesPresenter{
         super()
         makeObservable(this, {
             newApplication: observable,
+            preDeleteBuffer: observable,
             viewModel: computed,
-            messagePm: computed
+            messagePm: computed,
+            formattedDate: computed,
         })
         // init is inherited from MessagesPresenter
         this.init()
         this.reset()
-        console.log('ApplicationsPresenter instantiated')
     }
 
     reset = () => {
@@ -63,10 +66,30 @@ export class ApplicationsPresenter extends MessagesPresenter{
     }
 
     addApplication = async () => {
-        console.log('addApplication executed', this.newApplication)
         const addApplicationPm = await this.applicationsRepository.addApplication(this.newApplication)
         this.unpackRepositoryPmToVm(addApplicationPm, 'Application added')
         this.newApplication = defaultApplication
+    }
+
+    removeApplication = async (applicationId: number) => {
+        if (!this.preDeleteBuffer.includes(applicationId)) {
+            this.preDeleteBuffer.push(applicationId)
+            return
+        }
+        const removeApplicationPm = await this.applicationsRepository.removeApplication(applicationId)
+        this.unpackRepositoryPmToVm(removeApplicationPm, 'Application removed')
+    }
+
+    isPredeleted(id: number) {
+        return this.preDeleteBuffer.includes(id)
+    }
+
+    getDeleteButtonText(id: number): string {
+        return this.isPredeleted(id) ? 'Confirm' : 'Delete'
+    }
+
+    restorePredeleted(id: number) {
+        this.preDeleteBuffer = this.preDeleteBuffer.filter((preDeletedId) => preDeletedId !== id)
     }
 
 }

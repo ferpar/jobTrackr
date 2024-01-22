@@ -41,8 +41,16 @@ export class ApplicationsRepository {
     addApplication = async (application: object) => {
         this.messagePm = 'ADDING'
         const addApplicationPm = await this.dataGateway.post('/applications', application)
-        await this.load()
         this.messagePm = 'ADDED'
+        await this.load()
         return addApplicationPm
+    }
+
+    removeApplication = async (applicationId: number) => {
+        this.messagePm = 'DELETING'
+        const removeApplicationPm = await this.dataGateway.delete('/applications/' + String(applicationId) )
+        this.messagePm = 'DELETED'
+        await this.load()
+        return removeApplicationPm
     }
 }
