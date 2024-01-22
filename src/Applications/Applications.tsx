@@ -11,8 +11,8 @@ const Applications = (): React.ReactElement => {
   return (
     <>
       <h1>Applications</h1>
-      <ApplicationList presenter={presenter}/>
       <AddApplication presenter={presenter} />
+      <ApplicationList presenter={presenter}/>
     </>
   );
 };

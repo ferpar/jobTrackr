@@ -62,6 +62,10 @@
   margin: 0 10px;
 }
 
+.addApplicationContainer {
+  text-align: end;
+}
+
 .cancelAdd {
     margin-left: 1rem;
 }

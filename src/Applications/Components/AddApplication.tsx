@@ -93,14 +93,19 @@ export const AddApplication = observer(({ presenter }) => {
 
       <div className={classes.inputGroup}>
         <button type="submit">Add Application</button>
-        <button className={classes.cancelAdd} onClick={() => presenter.toggleApplicationForm()}>
+        <button
+          className={classes.cancelAdd}
+          onClick={() => presenter.toggleApplicationForm()}
+        >
           Cancel
         </button>
       </div>
     </form>
   ) : (
-    <button onClick={() => presenter.toggleApplicationForm()}>
-      Add Application
-    </button>
+    <div className={classes.addApplicationContainer}>
+      <button onClick={() => presenter.toggleApplicationForm()}>
+        Add Application
+      </button>
+    </div>
   );
 });
