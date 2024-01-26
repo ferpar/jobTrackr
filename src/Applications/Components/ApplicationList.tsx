@@ -7,7 +7,7 @@ export const ApplicationList = observer(({ presenter }) => {
   };
   const handleSaveStatus = (id) => {
     presenter.saveStatus(id);
-  }
+  };
   return (
     <div className={classes.applicationsGrid}>
       {presenter.viewModel.map((application, idx) => {
@@ -16,32 +16,33 @@ export const ApplicationList = observer(({ presenter }) => {
             <p>
               {application.jobtitle} @ {application.company}
             </p>
-            <p>
-              status:{" "}
-              {application.statuses.slice(-1)[0]?.status}
-            </p>
+            <p>status: {application.statuses.slice(-1)[0]?.status}</p>
+            <p>{application.location}</p>
+            <a href={application.jobdescriptionlink}>Job description</a>
             <p>
               {new Date(application.applieddate).toLocaleDateString()} - id:{" "}
               {application.id}
             </p>
             <div>
-              <label htmlFor={"status"+application.id}>Change status:</label>
+              <label htmlFor={"status" + application.id}>Change status:</label>
               <div className={classes.selectWithButton}>
-              <select
-                name="status"
-                id={"status"+application.id}
-                onChange={(e) =>
-                  presenter.changeStatus(application.id, e.target.value)
-                }
-                value={presenter.getBufferedStatus(application.id)}
-              >
-                {presenter.statuses.map((status) => (
-                  <option key={status} value={status}>
-                    {status}
-                  </option>
-                ))}
-              </select>
-              <button onClick={() => handleSaveStatus(application.id)}>Save</button>
+                <select
+                  name="status"
+                  id={"status" + application.id}
+                  onChange={(e) =>
+                    presenter.changeStatus(application.id, e.target.value)
+                  }
+                  value={presenter.getBufferedStatus(application.id)}
+                >
+                  {presenter.statuses.map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+                <button onClick={() => handleSaveStatus(application.id)}>
+                  Save
+                </button>
               </div>
             </div>
             <div className={classes.buttonGroup}>

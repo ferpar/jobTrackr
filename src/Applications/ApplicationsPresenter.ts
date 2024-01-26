@@ -30,7 +30,9 @@ export class ApplicationsPresenter extends MessagesPresenter {
 
   statuses = [
     "",
+    "Easy Applied",
     "Applied",
+    "Viewed",
     "Phone Screen",
     "HR",
     "Coding Challenge",
