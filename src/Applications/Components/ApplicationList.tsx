@@ -9,6 +9,10 @@ export const ApplicationList = observer(({ presenter }) => {
     presenter.saveStatus(id);
   };
   return (
+    <>
+    <div className={classes.summary}>
+    <p>Total applications: {presenter.totalApplications}</p>
+    </div>
     <div className={classes.applicationsGrid}>
       {presenter.viewModel.map((application, idx) => {
         return (
@@ -61,5 +65,6 @@ export const ApplicationList = observer(({ presenter }) => {
         );
       })}
     </div>
+    </>
   );
 });

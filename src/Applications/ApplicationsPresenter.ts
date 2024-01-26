@@ -65,6 +65,10 @@ export class ApplicationsPresenter extends MessagesPresenter {
     return `${year}-${month}-${day}`;
   }
 
+  get totalApplications() {
+    return this.applicationsRepository.applications.length;
+  }
+
   constructor() {
     super();
     makeObservable(this, {
@@ -75,6 +79,7 @@ export class ApplicationsPresenter extends MessagesPresenter {
       viewModel: computed,
       messagePm: computed,
       formattedDate: computed,
+      totalApplications: computed,
     });
     // init is inherited from MessagesPresenter
     this.init();
