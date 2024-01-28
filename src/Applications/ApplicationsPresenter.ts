@@ -175,7 +175,6 @@ export class ApplicationsPresenter extends MessagesPresenter {
   }
 
   openModal = () => {
-  console.log('open modal', this.isModalOpen)            
     this.isModalOpen = true;
   }
 
@@ -194,7 +193,6 @@ export class ApplicationsPresenter extends MessagesPresenter {
 
   openModalWithNotes = (applicationId: number) => {
     this.notesBuffer = this.getApplicationNotes(applicationId);
-    console.log('notes', this.notesBuffer)
     this.openModal();
   }
 
