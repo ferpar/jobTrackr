@@ -1,6 +1,6 @@
 import React from "react";
 import { ApplicationList } from "./SubComponents/ApplicationList/ApplicationList";
-import { AddApplication } from "./SubComponents/ApplicationList/AddApplication";
+import { AddApplication } from "./SubComponents/AddApplication/AddApplication";
 import { useInjection } from "../Core/Providers/useInjection";
 import { ApplicationsPresenter } from "./ApplicationsPresenter";
 
