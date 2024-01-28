@@ -49,6 +49,10 @@ export class ApplicationsPresenter extends MessagesPresenter {
 
   showApplicationForm: boolean = false;
 
+  isModalOpen: boolean = false;
+
+  notesBuffer: string = '';
+
   get viewModel() {
     return this.applicationsRepository.applications;
   }
@@ -76,6 +80,8 @@ export class ApplicationsPresenter extends MessagesPresenter {
       preDeleteBuffer: observable,
       statusBuffer: observable,
       showApplicationForm: observable,
+      isModalOpen: observable,
+      notesBuffer: observable,
       viewModel: computed,
       messagePm: computed,
       formattedDate: computed,
@@ -88,6 +94,9 @@ export class ApplicationsPresenter extends MessagesPresenter {
 
   reset = () => {
     this.newApplication = defaultApplication;
+    this.showApplicationForm = false;
+    this.isModalOpen = false;
+    this.notesBuffer = '';
   };
 
   load = async () => {
@@ -164,4 +173,30 @@ export class ApplicationsPresenter extends MessagesPresenter {
   toggleApplicationForm = () => {
     this.showApplicationForm = !this.showApplicationForm;
   }
+
+  openModal = () => {
+  console.log('open modal', this.isModalOpen)            
+    this.isModalOpen = true;
+  }
+
+  closeModal = () => {
+    this.isModalOpen = false;
+  }
+
+  getApplicationNotes = (applicationId: number) => {
+    const application = this.applicationsRepository.applications.find(
+      (application) => application.id === applicationId
+    );
+    if (!application) return '';
+    if (!application.notes) return 'no notes';
+    return application.notes;
+  }
+
+  openModalWithNotes = (applicationId: number) => {
+    this.notesBuffer = this.getApplicationNotes(applicationId);
+    console.log('notes', this.notesBuffer)
+    this.openModal();
+  }
+
+
 }

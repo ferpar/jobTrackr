@@ -1,17 +1,25 @@
-import './Modal.css';
+import { observer } from "mobx-react";
+import classes from "./Modal.module.css";
 
-const Modal = ({ isOpen, onClose, children }) => {
+const Modal = observer(({ presenter }) => {
+  if (!presenter) {
+    console.error("Modal component must be passed a presenter prop");
+    return
+  } 
+  const { isModalOpen: isOpen, closeModal: onClose } = presenter; 
   const modalStyle = {
-    display: isOpen ? 'block' : 'none', // Or use visibility and opacity for transitions
+    display: isOpen ? 'flex' : 'none', // Or use visibility and opacity for transitions
   };
 
+  console.log('notes', presenter.notesBuffer)
+
   return (
-    <div className="modal-overlay" style={modalStyle} onClick={onClose}>
-      <div className="modal-content" onClick={e => e.stopPropagation()}>
-        {children}
+    <div className={classes.modalOverlay} style={modalStyle} onClick={onClose}>
+      <div className={classes.modalContent} onClick={e => e.stopPropagation()}>
+        {presenter.notesBuffer}
       </div>
     </div>
   );
-};
+});
 
 export default Modal;

@@ -23,6 +23,7 @@ export const ApplicationList = observer(({ presenter }) => {
             <p>status: {application.statuses.slice(-1)[0]?.status}</p>
             <p>{application.location}</p>
             <a href={application.jobdescriptionlink}>Job description</a>
+            <p onClick={() => presenter.openModalWithNotes(application.id)}>Notes</p>
             <p>
               {new Date(application.applieddate).toLocaleDateString()} - id:{" "}
               {application.id}
