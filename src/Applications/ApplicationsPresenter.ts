@@ -30,7 +30,7 @@ export class ApplicationsPresenter extends MessagesPresenter {
 
   unsuccessfulStatuses = ["Rejected", "Ghosted", "Declined"] as const
 
-  idleStatuses = ["Easy Applied", "Applied", "Viewed"] as const
+  idleStatuses = ["", "Easy Applied", "Applied", "Viewed"] as const
 
   activeStatuses = [
       "Phone Screen",
@@ -224,6 +224,7 @@ export class ApplicationsPresenter extends MessagesPresenter {
   }
 
   get filteredApplications() {
+    if (this.filterStatuses.length === 0) return this.applicationsRepository.applications;
     return this.applicationsRepository.filterApplications(this.filterStatuses);
   }
 

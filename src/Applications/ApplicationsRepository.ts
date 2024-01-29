@@ -82,7 +82,7 @@ export class ApplicationsRepository {
     return this.applications.filter((application: JobApplication) => {
       for (let i = 0; i < filter.length; i++) {
         const lastStatusIndex = application.statuses.length - 1;
-        if (application.statuses[lastStatusIndex].status === filter[i]) {
+        if (application.statuses[lastStatusIndex]?.status === filter[i]) {
           return true;
         }
       }
