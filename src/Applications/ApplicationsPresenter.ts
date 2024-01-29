@@ -28,22 +28,26 @@ export class ApplicationsPresenter extends MessagesPresenter {
 
   statusBuffer: object = {};
 
+  unsuccessfulStatuses = ["Rejected", "Ghosted", "Declined"] as const
+
+  idleStatuses = ["Easy Applied", "Applied", "Viewed"] as const
+
+  activeStatuses = [
+      "Phone Screen",
+      "HR",
+      "Coding Challenge",
+      "Technical Interview",
+      "Onsite Interview",
+      "Final Interview",
+      "Offer Negotiation",
+      "Offer"
+    ];
+
   statuses = [
     "",
-    "Easy Applied",
-    "Applied",
-    "Viewed",
-    "Phone Screen",
-    "HR",
-    "Coding Challenge",
-    "Technical Interview",
-    "Onsite Interview",
-    "Final Interview",
-    "Offer Negotiation",
-    "Offer",
-    "Rejected",
-    "Ghosted",
-    "Declined",
+    ...this.unsuccessfulStatuses,
+    ...this.activeStatuses,
+    ...this.idleStatuses,
     "Accepted",
   ];
 
@@ -53,25 +57,8 @@ export class ApplicationsPresenter extends MessagesPresenter {
 
   notesBuffer: string = '';
 
-  get viewModel() {
-    return this.applicationsRepository.applications;
-  }
+  filterStatuses: string[] = [];
 
-  get messagePm() {
-    return this.applicationsRepository.messagePm;
-  }
-
-  get formattedDate() {
-    const year = this.newApplication.appliedDate.slice(0, 4);
-    const month = this.newApplication.appliedDate.slice(5, 7);
-    const day = this.newApplication.appliedDate.slice(8, 10);
-
-    return `${year}-${month}-${day}`;
-  }
-
-  get totalApplications() {
-    return this.applicationsRepository.applications.length;
-  }
 
   constructor() {
     super();
@@ -86,6 +73,9 @@ export class ApplicationsPresenter extends MessagesPresenter {
       messagePm: computed,
       formattedDate: computed,
       totalApplications: computed,
+      unsuccessfulApplications: computed,
+      idleApplications: computed,
+      activeApplications: computed,
     });
     // init is inherited from MessagesPresenter
     this.init();
@@ -196,5 +186,44 @@ export class ApplicationsPresenter extends MessagesPresenter {
     this.openModal();
   }
 
+  updateFilteredStatuses = (statuses: string[]) => {
+    this.filterStatuses = statuses;
+  }
+
+  get viewModel() {
+    return this.applicationsRepository.applications;
+  }
+
+  get messagePm() {
+    return this.applicationsRepository.messagePm;
+  }
+
+  get formattedDate() {
+    const year = this.newApplication.appliedDate.slice(0, 4);
+    const month = this.newApplication.appliedDate.slice(5, 7);
+    const day = this.newApplication.appliedDate.slice(8, 10);
+
+    return `${year}-${month}-${day}`;
+  }
+
+  get totalApplications() {
+    return this.applicationsRepository.applications.length;
+  }
+
+  get unsuccessfulApplications() {
+    return this.applicationsRepository.filterApplications(this.unsuccessfulStatuses);
+  }
+
+  get idleApplications() {
+    return this.applicationsRepository.filterApplications(this.idleStatuses);
+  }
+
+  get activeApplications() {
+    return this.applicationsRepository.filterApplications(this.activeStatuses);
+  }
+
+  get filteredApplications() {
+    return this.applicationsRepository.filterApplications(this.filterStatuses);
+  }
 
 }

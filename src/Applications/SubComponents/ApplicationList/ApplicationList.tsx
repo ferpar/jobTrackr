@@ -11,7 +11,10 @@ export const ApplicationList = observer(({ presenter }) => {
   return (
     <>
     <div className={classes.summary}>
-    <p>Total applications: {presenter.totalApplications}</p>
+    <p>Total: {presenter.totalApplications}</p>
+    <p>Active: {presenter.activeApplications.length}</p>
+    <p>Archived: {presenter.unsuccessfulApplications.length}</p>
+    <p>Idle: {presenter.idleApplications.length}</p>
     </div>
     <div className={classes.applicationsGrid}>
       {presenter.viewModel.map((application, idx) => {

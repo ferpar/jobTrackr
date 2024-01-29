@@ -3,7 +3,6 @@ import { observer } from "mobx-react";
 import classes from "./Modal.module.css";
 
 const Modal = observer(({ presenter }) => {
-  console.log("rerender modal")
   if (!presenter) {
     console.error("Modal component must be passed a presenter prop");
     return;

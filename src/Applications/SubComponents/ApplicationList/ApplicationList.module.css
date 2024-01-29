@@ -43,3 +43,8 @@
     text-align: left;
     cursor: pointer;
 }
+
+.summary {
+    display: flex;
+    gap: 1rem;
+}

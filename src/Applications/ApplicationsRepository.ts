@@ -74,4 +74,18 @@ export class ApplicationsRepository {
     console.log("applications", this.applications)
     return saveStatusPm;
   };
+
+  filterApplications = (filter: string[]) => {
+    if (filter.length === 0) {
+      return this.applications;
+    }
+    return this.applications.filter((application: JobApplication) => {
+      for (let i = 0; i < filter.length; i++) {
+        const lastStatusIndex = application.statuses.length - 1;
+        if (application.statuses[lastStatusIndex].status === filter[i]) {
+          return true;
+        }
+      }
+    });
+  }
 }
