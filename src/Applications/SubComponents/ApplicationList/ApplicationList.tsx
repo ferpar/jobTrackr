@@ -11,10 +11,10 @@ export const ApplicationList = observer(({ presenter }) => {
   return (
     <>
     <div className={classes.summary}>
-    <button onClick={() => {presenter.updateFilteredStatuses([])}}>Total: {presenter.totalApplications}</button>
     <button onClick={() => {presenter.updateFilteredStatuses(presenter.activeStatuses)}}>Active: {presenter.activeApplications.length}</button>
-    <button onClick={() => {presenter.updateFilteredStatuses(presenter.unsuccessfulStatuses)}}>Archived: {presenter.unsuccessfulApplications.length}</button>
     <button onClick={() => {presenter.updateFilteredStatuses(presenter.idleStatuses)}}>Idle: {presenter.idleApplications.length}</button>
+    <button onClick={() => {presenter.updateFilteredStatuses(presenter.unsuccessfulStatuses)}}>Archived: {presenter.unsuccessfulApplications.length}</button>
+    <button onClick={() => {presenter.updateFilteredStatuses([])}}>Total: {presenter.totalApplications}</button>
     </div>
     <div className={classes.applicationsGrid}>
       {presenter.filteredApplications.map((application, idx) => {
