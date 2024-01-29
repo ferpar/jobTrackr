@@ -11,13 +11,13 @@ export const ApplicationList = observer(({ presenter }) => {
   return (
     <>
     <div className={classes.summary}>
-    <p>Total: {presenter.totalApplications}</p>
-    <p>Active: {presenter.activeApplications.length}</p>
-    <p>Archived: {presenter.unsuccessfulApplications.length}</p>
-    <p>Idle: {presenter.idleApplications.length}</p>
+    <button onClick={() => {presenter.updateFilteredStatuses([])}}>Total: {presenter.totalApplications}</button>
+    <button onClick={() => {presenter.updateFilteredStatuses(presenter.activeStatuses)}}>Active: {presenter.activeApplications.length}</button>
+    <button onClick={() => {presenter.updateFilteredStatuses(presenter.unsuccessfulStatuses)}}>Archived: {presenter.unsuccessfulApplications.length}</button>
+    <button onClick={() => {presenter.updateFilteredStatuses(presenter.idleStatuses)}}>Idle: {presenter.idleApplications.length}</button>
     </div>
     <div className={classes.applicationsGrid}>
-      {presenter.viewModel.map((application, idx) => {
+      {presenter.filteredApplications.map((application, idx) => {
         return (
           <div className={classes.applicationCard} key={idx}>
             <p>

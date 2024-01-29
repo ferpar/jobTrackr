@@ -69,6 +69,7 @@ export class ApplicationsPresenter extends MessagesPresenter {
       showApplicationForm: observable,
       isModalOpen: observable,
       notesBuffer: observable,
+      filterStatuses: observable,
       viewModel: computed,
       messagePm: computed,
       formattedDate: computed,
