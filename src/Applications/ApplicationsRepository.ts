@@ -71,7 +71,6 @@ export class ApplicationsRepository {
     );
     this.messagePm = "SAVED";
     await this.load();
-    console.log("applications", this.applications)
     return saveStatusPm;
   };
 
