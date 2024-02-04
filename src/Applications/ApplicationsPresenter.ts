@@ -20,17 +20,17 @@ const defaultApplication: JobApplication = {
 @injectable()
 export class ApplicationsPresenter extends MessagesPresenter {
   @inject(ApplicationsRepository)
-  applicationsRepository;
+  applicationsRepository: ApplicationsRepository;
 
   newApplication: JobApplication;
 
   preDeleteBuffer: number[] = [];
 
-  statusBuffer: object = {};
+  statusBuffer: Record<string, string> = {};
 
-  unsuccessfulStatuses = ["Rejected", "Ghosted", "Declined"] as const
+  unsuccessfulStatuses = ["Rejected", "Ghosted", "Declined"] 
 
-  idleStatuses = ["", "Easy Applied", "Applied", "Viewed"] as const
+  idleStatuses = ["", "Easy Applied", "Applied", "Viewed"] 
 
   activeStatuses = [
       "Phone Screen",
@@ -92,6 +92,10 @@ export class ApplicationsPresenter extends MessagesPresenter {
 
   load = async () => {
     const applications = await this.applicationsRepository.load();
+    if (applications.success === false) {
+      this.unpackRepositoryPmToVm(applications, "Applications failed to load");
+      return;
+    }
     this.unpackRepositoryPmToVm(applications, "Applications loaded");
   };
 
@@ -121,7 +125,7 @@ export class ApplicationsPresenter extends MessagesPresenter {
     if (this.statusBuffer[applicationId] === '') return;
     const statusData = {
       applicationId: applicationId,
-      status: this.statusBuffer[applicationId]
+      status: this.statusBuffer[applicationId] as string
     };
     const saveStatusPm = await this.applicationsRepository.saveStatus(
       statusData

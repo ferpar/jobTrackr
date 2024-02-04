@@ -6,7 +6,7 @@ import { ApplicationsPresenter } from "./ApplicationsPresenter";
 import { ApplicationsRepository } from "./ApplicationsRepository";
 import { Router } from "../Routing/Router";
 import { ApplicationsResultStub } from "../TestTools/ApplicationsResultStub";
-import { IDataGateway } from "../Core/IDataGateway";
+import IDataGateway from "../Core/IDataGateway";
 
 let testHarness: AppTestHarness | null = null;
 let router: Router | null = null;
@@ -20,7 +20,7 @@ describe("applications feature", () => {
     testHarness.init();
     applicationsPresenter = testHarness.container.get(ApplicationsPresenter);
     applicationsRepository = testHarness.container.get(ApplicationsRepository);
-    dataGateway = applicationsRepository?.dataGateway;
+    dataGateway = applicationsRepository?.dataGateway as IDataGateway;
     router = testHarness.container.get(Router);
 
     testHarness.bootstrap();

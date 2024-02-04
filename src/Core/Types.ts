@@ -28,7 +28,7 @@ export type JobApplicationStatus = {
 }
 
 export type JobApplication = {
-  id?: string;
+  id?: number;
   userId?: string;
   jobTitle: string;
   company: string;
@@ -40,4 +40,20 @@ export type JobApplication = {
   resumeLink?: string;
   jobDescriptionLink?: string;
   statuses: JobApplicationStatus[];
+}
+
+export type JobApplicationDto = {
+  id?: number;
+  userid?: string;
+  jobtitle: string;
+  company: string;
+  location: string;
+  applieddate: string;
+  contactperson?: string;
+  contactemail?: string;
+  notes: string;
+  resumelink?: string;
+  jobdescriptionlink?: string;
+  statuses: JobApplicationStatus[];
+
 }

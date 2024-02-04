@@ -9,7 +9,6 @@ type ModalProps = {
 };
 
 const Modal = observer(({ isOpen, onClose, content }: ModalProps) => {
-  console.log("Modal rendered", content)
   const modalStyle = {
     display: isOpen ? "flex" : "none", // Or use visibility and opacity for transitions
   };

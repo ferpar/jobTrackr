@@ -1,8 +1,9 @@
 import { observer } from "mobx-react";
 import classes from "./AddApplication.module.css";
+import { ApplicationsPresenter } from "../../ApplicationsPresenter";
 
-export const AddApplication = observer(({ presenter }) => {
-  const handleOnSubmit = (event) => {
+export const AddApplication = observer(({ presenter }: { presenter: ApplicationsPresenter}) => {
+  const handleOnSubmit = (event: React.BaseSyntheticEvent) => {
     event.preventDefault();
     presenter.addApplication();
   };

@@ -1,4 +1,3 @@
-
 export default interface IRouterGateway {
     registerRoutes(routeConfig: object): Promise<void>
     unload():void;

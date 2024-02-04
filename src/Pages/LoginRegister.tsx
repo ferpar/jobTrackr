@@ -48,7 +48,7 @@ const LoginRegisterComp = observer(({ presenter }: { presenter: AuthenticationPr
               className="form-control"
               id="email-input"
               placeholder="Enter email"
-              value={presenter.email}
+              value={presenter.email === null ? "" : presenter.email}
               onChange={(e) => (presenter.email = e.target.value)}
             />
           </div>
@@ -59,7 +59,7 @@ const LoginRegisterComp = observer(({ presenter }: { presenter: AuthenticationPr
               className="form-control"
               id="password-input"
               placeholder="Password"
-              value={presenter.password}
+              value={presenter.password === null ? "" : presenter.password}
               onChange={(e) => (presenter.password = e.target.value)}
             />
           </div>

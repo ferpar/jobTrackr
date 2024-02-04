@@ -23,7 +23,7 @@ describe("init", () => {
     testHarness.init();
     router = testHarness.container.get(Router);
     routerRepository = testHarness.container.get(RouterRepository);
-    routerGateway = router?.routerRepository.routerGateway;
+    routerGateway = router?.routerRepository.routerGateway as RouterGateway;
     authenticationPresenter = testHarness.container.get(AuthenticationPresenter);
     onRouteChange = () => {};
 
