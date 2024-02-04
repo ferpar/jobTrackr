@@ -2,12 +2,14 @@ import React from "react";
 import { observer } from "mobx-react";
 import classes from "./Modal.module.css";
 
-const Modal = observer(({ presenter }) => {
-  if (!presenter) {
-    console.error("Modal component must be passed a presenter prop");
-    return;
-  }
-  const { isModalOpen: isOpen, closeModal: onClose } = presenter;
+type ModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  content: string;
+};
+
+const Modal = observer(({ isOpen, onClose, content }: ModalProps) => {
+  console.log("Modal rendered", content)
   const modalStyle = {
     display: isOpen ? "flex" : "none", // Or use visibility and opacity for transitions
   };
@@ -15,7 +17,7 @@ const Modal = observer(({ presenter }) => {
   const closeBtnRef= React.useRef<HTMLButtonElement>(null);
 
   React.useEffect(() => {
-    const handleEsc = (e) => {
+    const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
       }
@@ -42,7 +44,7 @@ const Modal = observer(({ presenter }) => {
         className={classes.modalContent}
         onClick={(e) => e.stopPropagation()}
       >
-        <p>{presenter.notesBuffer}</p>
+        <p>{content}</p>
         <button ref={closeBtnRef} onClick={onClose} className={classes.closeBtn}>
           X
         </button>

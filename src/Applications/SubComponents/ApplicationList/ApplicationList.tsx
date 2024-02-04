@@ -79,8 +79,8 @@ export const ApplicationList = observer(({ presenter }) => {
                     }
                     value={presenter.getBufferedStatus(application.id)}
                   >
-                    {presenter.statuses.map((status) => (
-                      <option key={status} value={status}>
+                    {presenter.statuses.map((status, idx) => (
+                      <option key={status + idx} value={status}>
                         {status}
                       </option>
                     ))}

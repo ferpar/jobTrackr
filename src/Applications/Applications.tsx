@@ -3,7 +3,8 @@ import { ApplicationList } from "./SubComponents/ApplicationList/ApplicationList
 import { AddApplication } from "./SubComponents/AddApplication/AddApplication";
 import { useInjection } from "../Core/Providers/useInjection";
 import { ApplicationsPresenter } from "./ApplicationsPresenter";
-import Modal from "../Components/Modal/Modal";
+import ModalWrapper from "./SubComponents/ModalWrapper/ModalWrapper";
+
 
 const Applications = (): React.ReactElement => {
   const presenter: ApplicationsPresenter = useInjection(
@@ -14,7 +15,7 @@ const Applications = (): React.ReactElement => {
       <h1>Applications</h1>
       <AddApplication presenter={presenter} />
       <ApplicationList presenter={presenter}/>
-      <Modal presenter={presenter} />
+      <ModalWrapper presenter={presenter} />
     </>
   );
 };
