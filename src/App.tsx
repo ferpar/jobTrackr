@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { withInjection } from "./Core/Providers/withInjection.tsx";
 import { AppPresenter } from "./AppPresenter.ts";
-import { Navigation } from "./Navigation/Navigation.jsx";
+import { Navigation } from "./Navigation/Navigation";
 import LoginRegister from "./Pages/LoginRegister.tsx";
 import Home from "./Pages/Home.tsx";
 import About from "./Pages/About.tsx";
@@ -14,10 +14,10 @@ import { useValidation } from "./Core/Providers/useValidation.tsx";
 import { Books } from "./Books/Books.tsx";
 import { Authors } from "./Authors/Authors.tsx";
 
-export const AppComp = observer(({ presenter }) => {
+export const AppComp = observer(({ presenter }: ({presenter: AppPresenter}) ) => {
   const [, updateClientValidationMessages] = useValidation();
 
-  const onRouteChange = React.useCallback(() => {
+  const onRouteChange = React.useCallback(async () => {
     updateClientValidationMessages([]);
   }, [updateClientValidationMessages]);
 

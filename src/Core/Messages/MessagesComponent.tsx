@@ -3,7 +3,7 @@ import { MessagesPresenter } from './MessagesPresenter'
 import { withInjection } from '../Providers/withInjection'
 import { useValidation } from '../Providers/useValidation'
 
-export const MessagesComp = observer((props) => {
+export const MessagesComp = observer((props: {presenter: MessagesPresenter}) => {
   const [uiMessages] = useValidation()
   return (
     <>

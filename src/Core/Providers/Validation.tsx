@@ -2,7 +2,7 @@ import React from "react";
 
 export type ValidationContextType = {
   clientValidationMessages: Array<string>;
-  updateClientValidationMessages: (message) => void;
+  updateClientValidationMessages: React.Dispatch<React.SetStateAction<Array<string>>>;
 };
 
 export const ValidationContext = React.createContext<ValidationContextType>({
@@ -10,9 +10,10 @@ export const ValidationContext = React.createContext<ValidationContextType>({
   updateClientValidationMessages: () => {},
 });
 
-export const ValidationProvider = (props) => {
+export const ValidationProvider = (props: { children: React.ReactNode}) => {
   const [clientValidationMessages, updateClientValidationMessages] =
-    React.useState([]);
+    React.useState<string[]>([]);
+    
 
   return (
     <ValidationContext.Provider

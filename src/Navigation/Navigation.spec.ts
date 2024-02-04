@@ -7,8 +7,8 @@ import { NavigationPresenter } from "./NavigationPresenter";
 import { AppTestHarness } from "../TestTools/AppTestHarness";
 import { GetSuccessfulUserLoginStub } from "../TestTools/GetSuccessfulUserLoginStub";
 
-let router;
-let navigationPresenter;
+let router: Router;
+let navigationPresenter: NavigationPresenter;
 
 describe("navigation", () => {
   beforeEach(async () => {

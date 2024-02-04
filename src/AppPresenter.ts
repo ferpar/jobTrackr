@@ -6,10 +6,10 @@ import { Router } from './Routing/Router'
 @injectable()
 export class AppPresenter {
   @inject(Router)
-  router
+  router: Router
 
   @inject(MessagesRepository)
-  messagesRepository
+  messagesRepository: MessagesRepository
 
   get currentRoute() {
     return this.router.currentRoute.routeId
@@ -21,8 +21,8 @@ export class AppPresenter {
     })
   }
 
-  load = (onRouteChange) => {
-    const onRouteChangeWrapper = () => {
+  load = (onRouteChange: () => Promise<void>) => {
+    const onRouteChangeWrapper: () => Promise<void> = async () => {
       this.messagesRepository.appMessages = []
       onRouteChange()
     }

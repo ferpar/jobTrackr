@@ -6,8 +6,8 @@ import { BooksRepository } from "../Books/BooksRepository";
 import { AuthorsRepository } from "../Authors/AuthorsRepository";
 import { ApplicationsRepository } from "../Applications/ApplicationsRepository";
 
-type Route = {
-  routeId: string;
+export type Route = {
+  routeId: string | null;
   routeDef: {
     path: string;
     uses?: string;
@@ -15,11 +15,17 @@ type Route = {
   };
   onEnter?: () => void;
   onLeave?: () => void;
+  params?: {
+    [key: string]: string;
+  };
+  query?: {
+    [key: string]: string;
+  };
 };
 
 type RouteConfig = {
   [key: string]: {
-    as: string;
+    as: string | null;
     uses?: () => void;
     hooks: {
       before: (done: () => void) => void;
@@ -29,7 +35,7 @@ type RouteConfig = {
 
 @injectable()
 export class RouterRepository {
-  currentRoute: { routeId: string | null } = { routeId: null };
+  currentRoute: Route = { routeId: null, routeDef: { path: "", isSecure: false }};
 
   @inject(Types.IRouterGateway)
   routerGateway: IRouterGateway;
@@ -139,7 +145,11 @@ export class RouterRepository {
   }
 
   async registerRoutes(
-    updateCurrentRoute: (routeId: string) => Promise<void>,
+    updateCurrentRoute: (
+    routeId: Route["routeId"],
+    params?: Route["params"],
+    query?: Route["query"]
+    ) => Promise<void>,
     onRouteChanged: () => Promise<void>
   ): Promise<void> {
     this.onRouteChanged = onRouteChanged;
@@ -161,7 +171,7 @@ export class RouterRepository {
     this.routerGateway.registerRoutes(routeConfig);
   }
 
-  findRoute(routeId: string): Route {
+  findRoute(routeId: string | null): Route {
     const route = this.routes.find((route) => route.routeId === routeId);
 
     return (

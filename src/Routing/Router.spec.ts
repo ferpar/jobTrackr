@@ -5,8 +5,8 @@ import { Router } from "./Router";
 import { AppTestHarness } from "../TestTools/AppTestHarness";
 import { GetSuccessfulUserLoginStub } from "../TestTools/GetSuccessfulUserLoginStub";
 
-let appPresenter;
-let router;
+let appPresenter: AppPresenter;
+let router: Router;
 
 describe("routing in isolation", () => {
   beforeEach(async () => {
@@ -58,7 +58,7 @@ describe("routing - integrated with navigo", () => {
     expect(appPresenter.currentRoute).toEqual("homeLink");
   });
   it("should programmatically change route", () => {
-    router.registerRoutes(() => {});
+    router.registerRoutes(async () => {});
     expect(appPresenter.currentRoute).toEqual("homeLink");
     router.goToId("aboutLink");
     expect(appPresenter.currentRoute).toEqual("aboutLink");

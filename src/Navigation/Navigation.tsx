@@ -4,7 +4,7 @@ import { withInjection } from "../Core/Providers/withInjection";
 import { Router } from "../Routing/Router";
 import { NavigationPresenter } from "./NavigationPresenter";
 
-const NavigationComp = observer(({ router, presenter }) => {
+const NavigationComp = observer(({ router, presenter }: {router: Router, presenter: NavigationPresenter}) => {
   return (
     <div className="nav-menu">
       {presenter.viewModel.menuItems.map( item => {

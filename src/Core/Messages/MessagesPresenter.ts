@@ -1,11 +1,12 @@
 import { injectable, inject } from "inversify";
 import { makeObservable, observable, action, computed } from "mobx";
-import { MessagesRepository } from "./MessagesRepository";
+import { MessagesRepository,  } from "./MessagesRepository";
+import { PackedMessage } from "./MessagePacking";
 
 @injectable()
 export class MessagesPresenter {
   @inject(MessagesRepository)
-  messagesRepository;
+  messagesRepository: MessagesRepository;
 
   showValidationWarning: boolean | null = null;
 
@@ -25,7 +26,7 @@ export class MessagesPresenter {
     this.showValidationWarning = false;
   };
 
-  unpackRepositoryPmToVm = (pm, userMessage) => {
+  unpackRepositoryPmToVm = (pm: PackedMessage, userMessage: string) => {
     this.showValidationWarning = !pm.success;
     this.messagesRepository.appMessages = pm.success
       ? [{message: userMessage, success: true}]

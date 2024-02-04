@@ -6,12 +6,12 @@ import IDataGateway from './IDataGateway'
 @injectable()
 export class AuthGateway implements IDataGateway{
   @inject(Config)
-  config
+  config: Config
 
   @inject(UserModel)
-  userModel
+  userModel: UserModel
 
-  get = async (path) => {
+  get = async (path: string) => {
     const response = await fetch(this.config.authApiUrl + path, {
       method: 'GET',
       headers: {
@@ -23,7 +23,7 @@ export class AuthGateway implements IDataGateway{
     return dto
   }
 
-  post = async (path, requestDto) => {
+  post = async (path: string, requestDto: object) => {
     const response = await fetch(this.config.authApiUrl + path, {
       method: 'POST',
       body: JSON.stringify(requestDto),
@@ -36,7 +36,7 @@ export class AuthGateway implements IDataGateway{
     return dto
   }
 
-  delete = async (path) => {
+  delete = async (path: string) => {
     const response = await fetch(this.config.authApiUrl + path, {
       method: 'DELETE',
       headers: {

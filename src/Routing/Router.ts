@@ -1,21 +1,21 @@
 import { inject, injectable } from "inversify";
 import { makeObservable, computed, action } from "mobx";
 import { MessagesRepository } from "../Core/Messages/MessagesRepository";
-import { RouterRepository } from "./RouterRepository";
+import { RouterRepository, Route } from "./RouterRepository";
 import { UserModel } from "../Authentication/UserModel";
 
 @injectable()
 export class Router {
   @inject(RouterRepository)
-  routerRepository;
+  routerRepository: RouterRepository;
 
   @inject(UserModel)
-  userModel;
+  userModel: UserModel;
 
   @inject(MessagesRepository)
-  messagesRepository;
+  messagesRepository: MessagesRepository;
 
-  get currentRoute() {
+  get currentRoute(): { routeId: string | null } {
     return this.routerRepository.currentRoute;
   }
 
@@ -26,7 +26,11 @@ export class Router {
     });
   }
 
-  updateCurrentRoute = async (newRouteId, params, query) => {
+  updateCurrentRoute = async (
+    newRouteId: Route["routeId"], 
+    params?: Route["params"],
+    query?: Route["query"]
+  ) => {
     const oldRoute = this.routerRepository.findRoute(this.currentRoute.routeId);
     const newRoute = this.routerRepository.findRoute(newRouteId);
     const hasToken = !!this.userModel.token;
@@ -68,7 +72,7 @@ export class Router {
     }
   };
 
-  registerRoutes = (onRouteChange) => {
+  registerRoutes = (onRouteChange: () => Promise<void>) => {
     this.routerRepository.registerRoutes(
       this.updateCurrentRoute,
       onRouteChange
@@ -80,7 +84,7 @@ export class Router {
       this.routerRepository.goToId(routeId);
     };
 
-  goToPath = async (path) => {
+  goToPath = async (path: string) => {
     this.routerRepository.goToPath(path);
   };
 }

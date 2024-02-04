@@ -1,29 +1,34 @@
 import { inject, injectable } from 'inversify'
 import { computed, makeObservable } from 'mobx'
-import { NavigationRepository } from '../Navigation/NavigationRepository'
+import { NavigationRepository, NavigationNode } from '../Navigation/NavigationRepository'
 import { RouterRepository } from '../Routing/RouterRepository'
 
 @injectable()
 export class NavigationPresenter {
   @inject(NavigationRepository)
-  navigationRepository
+  navigationRepository: NavigationRepository
 
   @inject(RouterRepository)
-  routerRepository
+  routerRepository: RouterRepository
 
-  get viewModel() {
+  get viewModel(): {
+    showBack: boolean
+    currentSelectedVisibleName: string
+    currentSelectedBackTarget: { visible: boolean; id: string | null }
+    menuItems: NavigationNode[]
+  } {
     const vm = {
       showBack: false,
       currentSelectedVisibleName: '',
       currentSelectedBackTarget: { visible: false, id: null },
       menuItems: []
-    }
+    } 
 
     const currentNode = this.navigationRepository.currentNode
 
     if (currentNode) {
       vm.currentSelectedVisibleName = this.visibleName(currentNode)
-      vm.menuItems = currentNode.children.map((node) => {
+      vm.menuItems = currentNode.children.map((node: NavigationNode) => {
         return { id: node.model.id, visibleName: node.model.text }
       })
 
@@ -45,7 +50,7 @@ export class NavigationPresenter {
     })
   }
 
-  private visibleName = (node) => {
+  private visibleName = (node: NavigationNode) => {
     return node.model.text + ' > ' + node.model.id
   }
 

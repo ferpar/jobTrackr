@@ -4,15 +4,24 @@ import TreeModel from "tree-model";
 import { Router } from "../Routing/Router";
 import { makeObservable, computed, action } from "mobx";
 
+type NavigationModel = {
+  id: string;
+  type: "root" | "link";
+  text: string;
+  children: NavigationModel[];
+};
+
+export type NavigationNode = TreeModel.Node<NavigationModel>; 
+
 @injectable()
 export class NavigationRepository {
   //   @inject(AuthenticationRepository)
   //   authenticationRepository
 
   @inject(Router)
-  router;
+  router: Router;
 
-  get currentNode() {
+  get currentNode(): NavigationNode {
     return this.getTree().all((node) => {
       return node.model.id === this.router.currentRoute.routeId;
     })[0];

@@ -1,23 +1,23 @@
 import React, { useContext } from "react";
-import {interfaces} from "inversify";
+import { interfaces } from "inversify";
 import { InversifyContext } from "./Injection";
 
-export function withInjection(identifiers: {
-  [key: string]: interfaces.ServiceIdentifier;
-}) {
-  return (Component) => {
-    return React.memo((props) => {
+export function withInjection(
+  identifiers: Record<string, interfaces.ServiceIdentifier>
+) {
+  return <TProps,>(Component: (props: TProps) => React.ReactNode) => {
+    return React.memo((props: TProps) => {
       const { container } = useContext(InversifyContext);
       if (!container) {
         throw new Error();
       }
 
-      const finalProps = { ...props };
-      for (const [key, value] of Object.entries(identifiers)) {
-        finalProps[key] = container.get(value);
-      }
+      const addedProps = Object.keys(identifiers).reduce((acc, key: string) => {
+        acc[key] = container.get(identifiers[key]);
+        return acc;
+      }, {} as Record<string, unknown>);
 
-      return <Component {...finalProps} />;
+      return <Component {...props} {...addedProps} />;
     });
   };
 }
