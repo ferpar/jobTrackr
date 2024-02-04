@@ -11,8 +11,6 @@ import NotFound from "./Pages/NotFound.tsx";
 import Applications from "./Applications/Applications.tsx";
 import Logout from "./Components/Logout.tsx";
 import { useValidation } from "./Core/Providers/useValidation.tsx";
-import { Books } from "./Books/Books.tsx";
-import { Authors } from "./Authors/Authors.tsx";
 
 export const AppComp = observer(({ presenter }: ({presenter: AppPresenter}) ) => {
   const [, updateClientValidationMessages] = useValidation();
@@ -37,14 +35,6 @@ export const AppComp = observer(({ presenter }: ({presenter: AppPresenter}) ) =>
     {
       id: "applications",
       component: <Applications key="applicationsPage" />
-    },
-    {
-      id: "booksLink",
-      component: <Books key="booksPage" />,
-    },
-    {
-      id: "authorsLink",
-      component: <Authors key="authorsPage" />,
     },
     {
       id: "default",

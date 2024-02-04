@@ -2,8 +2,6 @@ import { makeObservable, observable } from "mobx";
 import { inject, injectable } from "inversify";
 import type IRouterGateway from "./IRouterGateway";
 import { Types } from "../Core/Types";
-import { BooksRepository } from "../Books/BooksRepository";
-import { AuthorsRepository } from "../Authors/AuthorsRepository";
 import { ApplicationsRepository } from "../Applications/ApplicationsRepository";
 
 export type Route = {
@@ -39,12 +37,6 @@ export class RouterRepository {
 
   @inject(Types.IRouterGateway)
   routerGateway: IRouterGateway;
-
-  @inject(BooksRepository)
-  booksRepository: BooksRepository;
-
-  @inject(AuthorsRepository)
-  authorsRepository: AuthorsRepository;
 
   @inject(ApplicationsRepository)
   applicationsRepository: ApplicationsRepository;
@@ -92,42 +84,6 @@ export class RouterRepository {
       onLeave: () => {
         this.applicationsRepository.reset();
       }
-    },
-    {
-      routeId: "booksLink",
-      routeDef: {
-        path: "/books",
-        isSecure: true,
-      },
-      onEnter:() => {
-        this.booksRepository.load()
-      },
-      onLeave: () => {
-        this.booksRepository.reset()
-      },
-    },
-    {
-      routeId: "authorsLink",
-      routeDef: {
-        path: "/authors",
-        isSecure: true,
-      },
-      // onEnter: () => this.authorsRepository.load(),
-      // onLeave: () => this.authorsRepository.reset(),
-    },
-    {
-      routeId: "authorsLink-authorPolicyLink",
-      routeDef: {
-        path: "/authors/policy",
-        isSecure: false,
-      },
-    },
-    {
-      routeId: "authorsLink-maplink",
-      routeDef: {
-        path: "/authors/map",
-        isSecure: false,
-      },
     },
     {
       routeId: "default",
