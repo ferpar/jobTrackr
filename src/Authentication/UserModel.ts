@@ -1,6 +1,7 @@
 import { injectable, inject } from 'inversify'
 import { makeObservable, observable } from 'mobx'
 import { Types } from '../Core/Types'
+import type IStorageGateway from '../Core/LocalStorage/IStorageGateway'
 
 @injectable()
 export class UserModel {
@@ -10,7 +11,7 @@ export class UserModel {
   token: string | null = null
 
   constructor(
-  @inject(Types.ILocalStorageGateway) localStorageGateway
+  @inject(Types.ILocalStorageGateway) localStorageGateway: IStorageGateway
   ) {
     // get token from local storage
     this.token = localStorageGateway.get('token')

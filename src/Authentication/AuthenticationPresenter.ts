@@ -7,10 +7,10 @@ import { Router } from "../Routing/Router";
 @injectable()
 export class AuthenticationPresenter extends MessagesPresenter {
   @inject(AuthenticationRepository)
-  authenticationRepository;
+  authenticationRepository: AuthenticationRepository;
 
   @inject(Router)
-  router;
+  router: Router;
 
   email: string | null = null;
   password: string | null = null;
@@ -41,6 +41,10 @@ export class AuthenticationPresenter extends MessagesPresenter {
   };
 
   login = async () => {
+    if (!this.email || !this.password) {
+      console.error("Email and password are required");
+      return;
+    }
     const loginPm = await this.authenticationRepository.login(
       this.email,
       this.password
@@ -54,6 +58,10 @@ export class AuthenticationPresenter extends MessagesPresenter {
   };
 
   register = async () => {
+    if (!this.email || !this.password) {
+      console.error("Email and password are required");
+      return;
+    }
     const registerPm = await this.authenticationRepository.register(
       this.email,
       this.password

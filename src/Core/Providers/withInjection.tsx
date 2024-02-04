@@ -2,11 +2,13 @@ import React, { useContext } from "react";
 import { interfaces } from "inversify";
 import { InversifyContext } from "./Injection";
 
+type Identifiers = Record<string, interfaces.ServiceIdentifier>;
+
 export function withInjection(
-  identifiers: Record<string, interfaces.ServiceIdentifier>
+  identifiers: Identifiers 
 ) {
-  return <TProps,>(Component: (props: TProps) => React.ReactNode) => {
-    return React.memo((props: TProps) => {
+  return <TProps,>(Component: React.ComponentType<TProps>) => {
+    return React.memo((props: Omit<TProps, keyof Partial<Identifiers>>) => {
       const { container } = useContext(InversifyContext);
       if (!container) {
         throw new Error();
@@ -17,7 +19,8 @@ export function withInjection(
         return acc;
       }, {} as Record<string, unknown>);
 
-      return <Component {...props} {...addedProps} />;
+
+      return <Component {...props as TProps} {...addedProps} />;
     });
   };
 }

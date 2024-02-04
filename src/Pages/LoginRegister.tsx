@@ -5,7 +5,7 @@ import { AuthenticationPresenter } from "../Authentication/AuthenticationPresent
 import { MessagesComponent } from "../Core/Messages/MessagesComponent";
 import { useValidation } from "../Core/Providers/useValidation";
 
-const LoginRegisterComp = observer(({ presenter }): React.ReactElement => {
+const LoginRegisterComp = observer(({ presenter }: { presenter: AuthenticationPresenter }): React.ReactNode => {
   const [, updateClientValidationMessages] = useValidation();
   const formValid = () => {
     const clientValidationMessages: Array<string> = [];
